@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tpay/providers/themeProvider.dart';
 import 'package:tpay/screens/others/bankTransfer.dart';
 import 'package:tpay/screens/others/scanner.dart';
 
@@ -8,39 +10,50 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.blue.shade800,
-              Colors.blue.shade500,
-              Colors.blue.shade100,
-            ],
-          ),
+      appBar: AppBar(
+        title: const Text(
+          'Payments',
+          style: TextStyle(fontSize: 30, color: Colors.white),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            _buildHeader(context),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Padding(
+        backgroundColor: Theme.of(context).primaryColor,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: GestureDetector(
+              onTap: () {
+                Provider.of<ThemeProvider>(context, listen: false)
+                    .toggleTheme();
+              },
+              child: CircleAvatar(
+                radius: 15,
+                backgroundColor: Colors.white,
+                child: Icon(Icons.person, color: Colors.blue),
+              ),
+            ),
+          )
+        ],
+      ),
+      body: Expanded(
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Theme.of(context).primaryColor,
+                Theme.of(context).primaryColorDark,
+                Theme.of(context).primaryColorLight,
+              ],
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,34 +82,75 @@ class Dashboard extends StatelessWidget {
                               Icons.account_circle, "Account", () {}),
                         ],
                       ),
-                      // const SizedBox(height: 20),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          // _buildMenuItem(Icons.local_atm, "A/C ATM"),
-                          // _buildMenuItem(Icons.account_balance, "A/C balance"),
-                          // _buildMenuItem(
-                          //     Icons.account_balance_wallet, "A/C wallet"),
-                          // _buildMenuItem(Icons.account_box, "A/C box"),
-                          // _buildMenuItem(Icons.account_tree, "A/C tree"),
-                        ],
-                      )
                     ],
                   ),
                 ),
-              ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20)),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    children: [
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                      Text('1'),
+                    ],
+                  ),
+                ),
+                const Spacer(
+                  flex: 1,
+                ),
+                _buildFooter(),
+              ],
             ),
-            const Spacer(
-              flex: 1,
-            ),
-            _buildFooter(),
-          ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildHeader(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Row(
@@ -108,12 +162,13 @@ class Dashboard extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Scaffold.of(context).openDrawer();
+              Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
             },
-            child: const CircleAvatar(
+            child: CircleAvatar(
               radius: 20,
               backgroundColor: Colors.white,
-              child: Icon(Icons.person, color: Colors.blue),
+              child: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                  color: Colors.blue),
             ),
           )
         ],
@@ -126,12 +181,12 @@ class Dashboard extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          Icon(icon, color: Colors.blue),
+          Icon(icon, color: Colors.white),
           const SizedBox(height: 5),
           Text(
             label,
             style: const TextStyle(
-              color: Colors.blue,
+              color: Colors.white,
               fontSize: 12,
             ),
           ),
