@@ -28,26 +28,37 @@ class _MyScannerState extends State<MyScanner> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          // Camera view or background goes here (not included in the example)
           QRView(
             key: qrKey,
             onQRViewCreated: _onQRViewCreated,
+            overlay: QrScannerOverlayShape(
+              borderColor: Colors.red,
+              borderRadius: 10,
+              borderLength: 30,
+              borderWidth: 10,
+              cutOutSize: 300,
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SizedBox(
+                width: 40,
+                height: 40,
+                child: FloatingActionButton(
+                  backgroundColor: Colors.black54,
+                  child: Icon(Icons.flash_on, color: Colors.white),
+                  onPressed: scanQR,
+                ),
+              ),
+            ),
           ),
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  scannedData,
-                  style: TextStyle(fontSize: 20),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: scanQR,
-                  child: Text('Toggle Flash'),
-                ),
-              ],
+            child: Text(
+              scannedData,
+              style: TextStyle(fontSize: 20, color: Colors.white),
+              textAlign: TextAlign.center,
             ),
           ),
         ],
