@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
             title: 'TPAY',
             theme: themeProvider.getTheme(),
             routes: {
-              '/dashboard': (context) => const Dashboard(),
+              '/dashboard': (context) => Dashboard(),
             },
             home: const Spalashscreen(),
           );

@@ -38,7 +38,7 @@ class _LocalAuthScreenState extends State<LocalAuthScreen> {
       Navigator.pushReplacement(
           // ignore: use_build_context_synchronously
           context,
-          MaterialPageRoute(builder: (context) => const Dashboard()));
+          MaterialPageRoute(builder: (context) => Dashboard()));
     } else {
       print('Authentication Failed');
     }
