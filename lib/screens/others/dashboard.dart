@@ -35,16 +35,36 @@ class _DashboardState extends State<Dashboard> {
   }
 
   final List<User> users = [
-    User(name: 'Alice', avatarUrl: 'https://via.placeholder.com/150'),
-    User(name: 'Bob', avatarUrl: 'https://via.placeholder.com/150'),
-    User(name: 'Charlie', avatarUrl: 'https://via.placeholder.com/150'),
-    User(name: 'David', avatarUrl: 'https://via.placeholder.com/150'),
-    User(name: 'Eve', avatarUrl: 'https://via.placeholder.com/150'),
-    User(name: 'Frank', avatarUrl: 'https://via.placeholder.com/150'),
-    User(name: 'Grace', avatarUrl: 'https://via.placeholder.com/150'),
-    User(name: 'Hannah', avatarUrl: 'https://via.placeholder.com/150'),
-    User(name: 'Ivy', avatarUrl: 'https://via.placeholder.com/150'),
-    User(name: 'Jack', avatarUrl: 'https://via.placeholder.com/150'),
+    User(
+        name: 'Alice',
+        avatarUrl: 'https://randomuser.me/api/portraits/men/1.jpg'),
+    User(
+        name: 'Bob',
+        avatarUrl: 'https://randomuser.me/api/portraits/men/2.jpg'),
+    User(
+        name: 'Charlie',
+        avatarUrl: 'https://randomuser.me/api/portraits/men/3.jpg'),
+    User(
+        name: 'David',
+        avatarUrl: 'https://randomuser.me/api/portraits/men/4.jpg'),
+    User(
+        name: 'Eve',
+        avatarUrl: 'https://randomuser.me/api/portraits/men/5.jpg'),
+    User(
+        name: 'Frank',
+        avatarUrl: 'https://randomuser.me/api/portraits/men/6.jpg'),
+    User(
+        name: 'Grace',
+        avatarUrl: 'https://randomuser.me/api/portraits/men/7.jpg'),
+    User(
+        name: 'Hannah',
+        avatarUrl: 'https://randomuser.me/api/portraits/men/8.jpg'),
+    User(
+        name: 'Ivy',
+        avatarUrl: 'https://randomuser.me/api/portraits/men/9.jpg'),
+    User(
+        name: 'Jack',
+        avatarUrl: 'https://randomuser.me/api/portraits/men/10.jpg'),
   ];
 
   @override
@@ -61,8 +81,8 @@ class _DashboardState extends State<Dashboard> {
             padding: const EdgeInsets.all(12.0),
             child: GestureDetector(
               onTap: () {
-                Provider.of<ThemeProvider>(context, listen: false)
-                    .toggleTheme();
+                // Provider.of<ThemeProvider>(context, listen: false)
+                //     .toggleTheme();
               },
               child: const CircleAvatar(
                 radius: 12,
