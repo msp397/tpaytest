@@ -7,6 +7,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tpay/models/userModel.dart';
 import 'package:tpay/providers/themeProvider.dart';
 import 'package:tpay/screens/others/bankTransfer.dart';
+import 'package:tpay/screens/others/mobileRecharge.dart';
 import 'package:tpay/screens/others/scanner.dart';
 
 class Dashboard extends StatefulWidget {
@@ -183,12 +184,32 @@ class _DashboardState extends State<Dashboard> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 15, bottom: 12),
-                          child: Text(
-                            'Bills & recharges',
-                            style: TextStyle(fontSize: 18),
-                          ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(left: 15, bottom: 12),
+                              child: Text(
+                                'Bills & recharges',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ),
+                            Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 40, bottom: 12),
+                                child: ElevatedButton(
+                                    style: const ButtonStyle(
+                                        backgroundColor: WidgetStatePropertyAll(
+                                            Colors.white),
+                                        elevation: WidgetStatePropertyAll(0)),
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Explore',
+                                      style: TextStyle(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ))),
+                          ],
                         ),
                         const SizedBox(
                           height: 5,
@@ -201,8 +222,13 @@ class _DashboardState extends State<Dashboard> {
                               child: _buildMenuItem(
                                   Theme.of(context).primaryColor,
                                   Icons.send_to_mobile,
-                                  " Mobile \nrecharge",
-                                  () {}),
+                                  " Mobile \nrecharge", () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MobileRecharge()));
+                              }),
                             ),
                             Padding(
                               padding:
@@ -227,8 +253,8 @@ class _DashboardState extends State<Dashboard> {
                                   const EdgeInsets.only(left: 15, bottom: 12),
                               child: _buildMenuItem(
                                   Theme.of(context).primaryColor,
-                                  Icons.tv,
-                                  "DTH / Cable",
+                                  Icons.electric_bolt,
+                                  "Electricity",
                                   () {}),
                             ),
                           ],
@@ -273,6 +299,9 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                           ],
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         const GFListTile(
                           avatar: Icon(
