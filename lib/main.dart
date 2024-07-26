@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tpay/providers/dependemcyInjection.dart';
 import 'package:tpay/providers/themeProvider.dart';
 import 'package:tpay/screens/others/dashboard.dart';
+import 'package:tpay/screens/others/introslider.dart';
 import 'package:tpay/screens/others/scanner.dart';
 import 'package:tpay/screens/spalash/spalashScreen.dart';
 import 'package:tpay/themes/theme.dart';
@@ -23,20 +24,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, _) {
-          return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'TPAY',
-            theme: themeProvider.getTheme(),
-            routes: {
-              '/dashboard': (context) => Dashboard(),
-            },
-            home: const Spalashscreen(),
-          );
-        },
-      ),
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, _) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'TPAY',
+          theme: themeProvider.getTheme(),
+          routes: {
+            '/dashboard': (context) => Dashboard(),
+          },
+          home: const MyIntroSlider(),
+        );
+      },
     );
   }
 }
