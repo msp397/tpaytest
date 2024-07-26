@@ -11,67 +11,104 @@ class MyIntroSlider extends StatelessWidget {
       body: IntroductionScreen(
         pages: [
           PageViewModel(
-            title: "Test",
-            body: "This is the test page.",
-            decoration: const PageDecoration(
-              pageColor: Colors.blue,
-              bodyTextStyle: TextStyle(color: Colors.white, fontSize: 16),
-              titleTextStyle: TextStyle(color: Colors.white, fontSize: 24),
+            titleWidget: const Padding(
+              padding: EdgeInsets.all(40.0),
+              child: Text(
+                'Secure Payments \n       Pay now',
+                style: TextStyle(
+                    fontSize: 30,
+                    fontFamily: 'Arial',
+                    fontWeight: FontWeight.w300),
+              ),
             ),
-            footer: const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "This is the bottom text for the Test slide.",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ],
+            bodyWidget: SizedBox(
+              width: double.infinity,
+              height: 500,
+              child: Image.asset(
+                'assets/images/png/intro_vector.jpg',
+                fit: BoxFit.cover,
               ),
             ),
           ),
           PageViewModel(
-            title: "Phone OTP",
-            body: "Enter your phone number to receive an OTP.",
-            decoration: const PageDecoration(
-              pageColor: Colors.white,
+            titleWidget: const Padding(
+              padding: EdgeInsets.all(40.0),
+              child: Text(
+                'Verify Mobile number',
+                style: TextStyle(
+                    fontSize: 30,
+                    fontFamily: 'Arial',
+                    fontWeight: FontWeight.w300),
+              ),
             ),
-            footer: Padding(
-              padding: const EdgeInsets.all(16.0),
+            bodyWidget: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  InternationalPhoneNumberInput(
-                    onInputChanged: (phoneNumber) {
-                      print(phoneNumber.phoneNumber);
-                    },
-                    onInputValidated: (bool value) {
-                      print(value);
-                    },
-                    selectorConfig: const SelectorConfig(
-                      selectorType: PhoneInputSelectorType.DIALOG,
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 300,
+                    child: Image.asset(
+                      'assets/images/png/mobileNumber.png',
+                      fit: BoxFit.cover,
                     ),
-                    ignoreBlank: false,
-                    autoValidateMode: AutovalidateMode.onUserInteraction,
-                    selectorTextStyle: const TextStyle(color: Colors.black),
-                    initialValue: PhoneNumber(isoCode: 'IN'),
-                    textFieldController: TextEditingController(),
-                    formatInput: false,
-                    keyboardType: TextInputType.numberWithOptions(
-                        signed: true, decimal: true),
-                    inputBorder: const OutlineInputBorder(),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Action for the button
-                    },
-                    child: const Text("Send OTP"),
+                  const SizedBox(
+                    height: 100,
                   ),
-                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          InternationalPhoneNumberInput(
+                            onInputChanged: (phoneNumber) {
+                              print(phoneNumber.phoneNumber);
+                            },
+                            onInputValidated: (bool value) {
+                              print(value);
+                            },
+                            selectorConfig: const SelectorConfig(
+                              selectorType: PhoneInputSelectorType.DIALOG,
+                            ),
+                            ignoreBlank: false,
+                            autoValidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            selectorTextStyle:
+                                const TextStyle(color: Colors.black),
+                            initialValue: PhoneNumber(isoCode: 'IN'),
+                            textFieldController: TextEditingController(),
+                            formatInput: false,
+                            keyboardType: const TextInputType.numberWithOptions(
+                                signed: true, decimal: true),
+                            inputBorder: const OutlineInputBorder(),
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor: WidgetStatePropertyAll(
+                                    Theme.of(context).primaryColor),
+                                foregroundColor: WidgetStatePropertyAll(
+                                    Theme.of(context).cardColor)),
+                            onPressed: () {
+                              // Action for the button
+                            },
+                            child: const Text("Send OTP"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
+            ),
+            decoration: const PageDecoration(
+              pageColor: Colors.white,
             ),
           ),
           PageViewModel(
@@ -87,8 +124,8 @@ class MyIntroSlider extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextField(
-                    decoration: const InputDecoration(
+                  const TextField(
+                    decoration: InputDecoration(
                       labelText: 'OTP',
                       border: OutlineInputBorder(
                         borderSide: BorderSide(),

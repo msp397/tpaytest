@@ -72,6 +72,8 @@ flutter:
   assets:
     - assets/images/gifs/tenor.gif
     - assets/images/gifs/mobile.gif
+    - assets/images/png/intro_vector.jpg
+    - assets/images/png/mobileNumber.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

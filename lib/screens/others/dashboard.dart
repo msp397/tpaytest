@@ -205,7 +205,7 @@ class _DashboardState extends State<Dashboard> {
                           height: 10,
                         ),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Padding(
                               padding: EdgeInsets.only(left: 15, bottom: 12),
@@ -235,52 +235,26 @@ class _DashboardState extends State<Dashboard> {
                           height: 5,
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15, bottom: 12),
-                              child: _buildMenuItem(
-                                  Theme.of(context).primaryColor,
-                                  Icons.send_to_mobile,
-                                  " Mobile \nrecharge", () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const MobileRecharge()));
-                              }),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15, bottom: 12),
-                              child: _buildMenuItem(
-                                  Theme.of(context).primaryColor,
-                                  Icons.credit_card,
-                                  "Credit cards",
-                                  () {}),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15, bottom: 12),
-                              child: _buildMenuItem(
-                                  Theme.of(context).primaryColor,
-                                  Icons.tv,
-                                  "DTH / Cable",
-                                  () {}),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15, bottom: 12),
-                              child: _buildMenuItem(
-                                  Theme.of(context).primaryColor,
-                                  Icons.electric_bolt,
-                                  "Electricity",
-                                  () {}),
-                            ),
+                            _buildMenuItem(Theme.of(context).primaryColor,
+                                Icons.send_to_mobile, " Mobile \nrecharge", () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const MobileRecharge()));
+                            }),
+                            _buildMenuItem(Theme.of(context).primaryColor,
+                                Icons.credit_card, "Credit cards", () {}),
+                            _buildMenuItem(Theme.of(context).primaryColor,
+                                Icons.tv, "DTH / Cable", () {}),
+                            _buildMenuItem(Theme.of(context).primaryColor,
+                                Icons.electric_bolt, "Electricity", () {}),
                           ],
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 20,
                         ),
                         const Padding(
                           padding: EdgeInsets.only(left: 15, bottom: 12),
@@ -292,41 +266,53 @@ class _DashboardState extends State<Dashboard> {
                         const SizedBox(
                           height: 5,
                         ),
-                        const Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 15, bottom: 12),
-                              child: GFAvatar(
-                                size: 25,
-                                shape: GFAvatarShape.standard,
-                                backgroundColor: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50)),
-                                backgroundImage: NetworkImage(
-                                    'https://th.bing.com/th/id/OIP.SgdT7mClMheXgjgx5yEKsAHaHa?rs=1&pid=ImgDetMain'),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 35),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Column(
+                                children: [
+                                  GFAvatar(
+                                    size: 30,
+                                    shape: GFAvatarShape.standard,
+                                    backgroundColor: Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50)),
+                                    backgroundImage: NetworkImage(
+                                        'https://th.bing.com/th/id/OIP.SgdT7mClMheXgjgx5yEKsAHaHa?rs=1&pid=ImgDetMain'),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text('Rewards'),
+                                ],
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15, bottom: 12),
-                              child: GFAvatar(
-                                size: 25,
-                                shape: GFAvatarShape.standard,
-                                backgroundColor: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50)),
-                                backgroundImage: NetworkImage(
-                                    'https://th.bing.com/th/id/OIP.Y-w0TcBFWY4G-gXMEgu3UgHaE8?rs=1&pid=ImgDetMain'),
+                              SizedBox(width: 45),
+                              Column(
+                                children: [
+                                  GFAvatar(
+                                    size: 30,
+                                    shape: GFAvatarShape.standard,
+                                    backgroundColor: Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50)),
+                                    backgroundImage: NetworkImage(
+                                        'https://thumbs.dreamstime.com/b/two-connected-mobile-phones-25729761.jpg'),
+                                  ),
+                                  Text('Refer a \n friend'),
+                                ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 20,
                         ),
                         const GFListTile(
                           avatar: Icon(
                             Icons.account_balance,
-                            size: 15,
+                            size: 20,
                           ),
                           title: Text(
                             'Check bank balance',
@@ -340,7 +326,7 @@ class _DashboardState extends State<Dashboard> {
                         const GFListTile(
                           avatar: Icon(
                             Icons.history,
-                            size: 15,
+                            size: 20,
                           ),
                           title: Text(
                             'See transaction history',

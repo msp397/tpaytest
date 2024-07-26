@@ -1,4 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class Banktransfer extends StatefulWidget {
   const Banktransfer({super.key});
@@ -18,6 +22,9 @@ class _BanktransferState extends State<Banktransfer> {
   @override
   void initState() {
     super.initState();
+    moneyController.text == ""
+        ? moneyController.text = '₹ 0'
+        : moneyController.text;
     accountNumberController.addListener(validateForm);
     ifscCodeController.addListener(validateForm);
     accountHolderController.addListener(validateForm);
@@ -39,9 +46,9 @@ class _BanktransferState extends State<Banktransfer> {
 
     bool isValidAccountNumber =
         accountNumber.length == 16 && int.tryParse(accountNumber) != null;
-    bool isValidIFSC = ifscCode.length == 10;
+    bool isValidIFSC = ifscCode.length == 11;
     bool isValidAccountHolderName =
-        accountHolderName.isNotEmpty && accountHolderName.length <= 15;
+        accountHolderName.isNotEmpty && accountHolderName.length <= 20;
 
     bool formIsValid =
         isValidAccountNumber && isValidIFSC && isValidAccountHolderName;
@@ -51,96 +58,113 @@ class _BanktransferState extends State<Banktransfer> {
     });
   }
 
+  void _updateMoney(double amount) {
+    setState(() {
+      final currentAmount =
+          double.tryParse(moneyController.text.replaceAll('₹ ', '')) ?? 0.0;
+      moneyController.text = '₹ ${currentAmount + amount}';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColorDark,
       ),
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            height: 200,
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColorDark,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                MoneyTextField(
-                  controller: moneyController,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildRoundedBadge('+ 100'),
-                    const SizedBox(width: 8),
-                    _buildRoundedBadge('+ 500'),
-                    const SizedBox(width: 8),
-                    _buildRoundedBadge('+ 1000'),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: TextField(
-              controller: accountNumberController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Bank Account Number',
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: 200,
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColorDark,
               ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: TextField(
-              controller: ifscCodeController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'IFSC Code',
-                  suffix: TextButton(
-                    onPressed: () {},
-                    child: const Text('Search IFSC '),
-                    style: TextButton.styleFrom(
-                      foregroundColor: Theme.of(context).primaryColorDark,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  MoneyTextField(
+                    controller: moneyController,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildRoundedBadge(100),
+                        const SizedBox(width: 8),
+                        _buildRoundedBadge(500),
+                        const SizedBox(width: 8),
+                        _buildRoundedBadge(1000),
+                      ],
                     ),
-                  )),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: TextField(
-              controller: accountHolderController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Account Holder Name',
+                  ),
+                ],
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          // if (accountNumberController.text.isNotEmpty &&
-          //     ifscCodeController.text.isNotEmpty &&
-          //     accountHolderController.text.isNotEmpty)
-          //   ElevatedButton(
-          //     onPressed: () {},
-          //     style: ElevatedButton.styleFrom(
-          //       shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(20),
-          //       ),
-          //       foregroundColor: Colors.white,
-          //       backgroundColor: isFormValid
-          //           ? Theme.of(context).primaryColorLight
-          //           : Theme.of(context).primaryColor,
-          //     ),
-          //     child: const Text('Proceed'),
-          //   ),
-        ],
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: TextField(
+                controller: accountNumberController,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Bank Account Number',
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextField(
+                    controller: ifscCodeController,
+                    textCapitalization: TextCapitalization.characters,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(r'[A-Z0-9]')),
+                    ],
+                    maxLength: 11,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'IFSC Code',
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                        foregroundColor: Theme.of(context).primaryColorDark,
+                        backgroundColor: Theme.of(context).cardColor,
+                        elevation: 0),
+                    child: const Text('Search IFSC '),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: TextField(
+                controller: accountHolderController,
+                textCapitalization: TextCapitalization.characters,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                ],
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Account Holder Name',
+                ),
+              ),
+            ),
+            const SizedBox(height: 100),
+          ],
+        ),
       ),
       floatingActionButton: Center(
         child: Padding(
@@ -151,24 +175,24 @@ class _BanktransferState extends State<Banktransfer> {
               SizedBox(
                 width: 150,
                 height: 50,
-                child: accountNumberController.text.isNotEmpty &&
-                        ifscCodeController.text.isNotEmpty &&
-                        accountHolderController.text.isNotEmpty
-                    ? FloatingActionButton(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        foregroundColor: Theme.of(context).primaryColorLight,
-                        onPressed: () {
-                          print('Recharge button pressed');
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.only(bottom: 2),
-                          child: Text(
-                            'Procedd to Pay',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                        ),
-                      )
-                    : Container(),
+                child: FloatingActionButton(
+                  backgroundColor: isFormValid
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey.shade200,
+                  foregroundColor: isFormValid
+                      ? Theme.of(context).primaryColorLight
+                      : Colors.black,
+                  onPressed: () {
+                    print('proceed button pressed');
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(bottom: 2),
+                    child: Text(
+                      'Proceed to Pay',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -177,7 +201,7 @@ class _BanktransferState extends State<Banktransfer> {
     );
   }
 
-  Widget _buildRoundedBadge(String text) {
+  Widget _buildRoundedBadge(double amount) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
@@ -186,14 +210,11 @@ class _BanktransferState extends State<Banktransfer> {
       ),
       child: InkWell(
         onTap: () {
-          setState(() {
-            moneyController.text =
-                text.replaceAll('+ ', ''); // Extracting numeric value
-          });
+          _updateMoney(amount);
         },
         child: Text(
-          text,
-          style: const TextStyle(color: Colors.white),
+          '+ ${amount.toInt()}',
+          style: const TextStyle(fontSize: 15, color: Colors.white),
         ),
       ),
     );
@@ -203,22 +224,22 @@ class _BanktransferState extends State<Banktransfer> {
 class MoneyTextField extends StatelessWidget {
   final TextEditingController controller;
 
-  const MoneyTextField({Key? key, required this.controller}) : super(key: key);
+  const MoneyTextField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.only(bottom: 20),
       child: Center(
         child: TextField(
           textAlign: TextAlign.center,
           controller: controller,
-          decoration: InputDecoration(
-            prefixText: '₹ ',
+          decoration: const InputDecoration(
+            prefixText: '',
             border: UnderlineInputBorder(borderSide: BorderSide.none),
           ),
-          style: TextStyle(
-            fontSize: 20.0,
+          style: const TextStyle(
+            fontSize: 50.0,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
