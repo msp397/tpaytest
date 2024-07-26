@@ -211,6 +211,7 @@ class MoneyTextField extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       child: Center(
         child: TextField(
+          textAlign: TextAlign.center,
           controller: controller,
           decoration: InputDecoration(
             prefixText: '₹ ',
@@ -218,7 +219,7 @@ class MoneyTextField extends StatelessWidget {
           ),
           style: TextStyle(
             fontSize: 20.0,
-            color: Colors.black,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
