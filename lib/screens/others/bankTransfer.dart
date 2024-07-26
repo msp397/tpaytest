@@ -124,23 +124,55 @@ class _BanktransferState extends State<Banktransfer> {
             ),
           ),
           const SizedBox(height: 20),
-          if (accountNumberController.text.isNotEmpty &&
-              ifscCodeController.text.isNotEmpty &&
-              accountHolderController.text.isNotEmpty)
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                foregroundColor: Colors.white,
-                backgroundColor: isFormValid
-                    ? Theme.of(context).primaryColorLight
-                    : Theme.of(context).primaryColor,
-              ),
-              child: const Text('Proceed'),
-            ),
+          // if (accountNumberController.text.isNotEmpty &&
+          //     ifscCodeController.text.isNotEmpty &&
+          //     accountHolderController.text.isNotEmpty)
+          //   ElevatedButton(
+          //     onPressed: () {},
+          //     style: ElevatedButton.styleFrom(
+          //       shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(20),
+          //       ),
+          //       foregroundColor: Colors.white,
+          //       backgroundColor: isFormValid
+          //           ? Theme.of(context).primaryColorLight
+          //           : Theme.of(context).primaryColor,
+          //     ),
+          //     child: const Text('Proceed'),
+          //   ),
         ],
+      ),
+      floatingActionButton: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 30, left: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                width: 150,
+                height: 50,
+                child: accountNumberController.text.isNotEmpty &&
+                        ifscCodeController.text.isNotEmpty &&
+                        accountHolderController.text.isNotEmpty
+                    ? FloatingActionButton(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        foregroundColor: Theme.of(context).primaryColorLight,
+                        onPressed: () {
+                          print('Recharge button pressed');
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.only(bottom: 2),
+                          child: Text(
+                            'Procedd to Pay',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      )
+                    : Container(),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

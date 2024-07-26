@@ -13,6 +13,7 @@ class Spalashscreen extends StatelessWidget {
       gifPath: 'assets/images/gifs/tenor.gif',
       gifWidth: 269,
       gifHeight: 474,
+      //backgroundColor: Theme.of(context).primaryColor,
       //nextScreen: const LocalAuthScreen(),
       nextScreen: Dashboard(),
       duration: const Duration(milliseconds: 5000),
