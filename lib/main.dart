@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tpay/providers/dependemcyInjection.dart';
 import 'package:tpay/providers/themeProvider.dart';
+import 'package:tpay/screens/auth/newRegistration.dart';
 import 'package:tpay/screens/others/dashboard.dart';
 import 'package:tpay/screens/others/introslider.dart';
 import 'package:tpay/screens/others/scanner.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/dashboard': (context) => Dashboard(),
           },
-          home: const MyIntroSlider(),
+          home: const Newregistration(),
         );
       },
     );
