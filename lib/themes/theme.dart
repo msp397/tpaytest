@@ -5,6 +5,7 @@ final ThemeData lightTheme = ThemeData(
     primaryColor: Colors.blue.shade800,
     primaryColorDark: Colors.blue.shade500,
     primaryColorLight: Colors.blue.shade100,
+    shadowColor: Color.fromARGB(255, 231, 238, 245),
     cardColor: Colors.white);
 
 final ThemeData darkTheme = ThemeData(
@@ -12,4 +13,5 @@ final ThemeData darkTheme = ThemeData(
     primaryColor: Colors.black,
     primaryColorDark: Colors.black,
     primaryColorLight: Colors.blue.shade100,
+    shadowColor: Color.fromARGB(255, 231, 238, 245),
     cardColor: Colors.black);
