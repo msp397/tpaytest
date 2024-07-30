@@ -52,15 +52,14 @@ class _ChooseAccountState extends State<ChooseAccount> {
         radius: 24,
       );
     } else {
-      // Use initials or a placeholder image
       String initials = _getAvatarText(contact.displayName);
       return CircleAvatar(
+        backgroundColor: Colors.blueAccent,
+        radius: 24,
         child: Text(
           initials,
           style: const TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.blueAccent,
-        radius: 24,
       );
     }
   }
@@ -106,7 +105,7 @@ class _ChooseAccountState extends State<ChooseAccount> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 300),
+                  padding: const EdgeInsets.only(right: 100),
                   child: Image.asset(
                     'assets/images/png/gpay_logo.png',
                     height: 90,

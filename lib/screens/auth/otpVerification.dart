@@ -1,3 +1,4 @@
+import 'dart:async'; // Import for Timer
 import 'package:flutter/material.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:tpay/screens/others/dashboard.dart';
@@ -7,17 +8,34 @@ class Otpverification extends StatefulWidget {
   const Otpverification({super.key, required this.phonenumber});
 
   @override
-  _OtpverificationState createState() => _OtpverificationState();
+  State<Otpverification> createState() => _OtpverificationState();
 }
 
 class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
   final TextEditingController _otpController = TextEditingController();
   String? _code;
+  Timer? _timer;
+  int _start = 30;
 
   @override
   void initState() {
     super.initState();
     listenOtp();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _start = 30;
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_start == 0) {
+        timer.cancel();
+      } else {
+        setState(() {
+          _start--;
+        });
+      }
+    });
   }
 
   void listenOtp() async {
@@ -37,21 +55,27 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
   @override
   void dispose() {
     _otpController.dispose();
+    _timer?.cancel();
     cancel();
     super.dispose();
   }
 
-  void _submit() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Dashboard(),
-      ),
+  void _submit(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (BuildContext context) => Dashboard()),
+      (Route<dynamic> route) => false,
     );
+  }
+
+  void _resendOtp() {
+    _startTimer();
+    listenOtp();
   }
 
   @override
   Widget build(BuildContext context) {
+    bool isResendEnabled = _start == 0;
+
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -64,11 +88,11 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 300),
-                      child: SizedBox(
-                        height: 100,
-                        width: 120,
-                        child: Image.asset('assets/images/png/gpay_logo.png'),
+                      padding: const EdgeInsets.only(right: 100),
+                      child: Image.asset(
+                        'assets/images/png/gpay_logo.png',
+                        height: 90,
+                        width: 70,
                       ),
                     ),
                     const Text(
@@ -83,11 +107,13 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
                     const SizedBox(height: 20),
                     PinFieldAutoFill(
                       currentCode: _code,
+                      keyboardType: TextInputType.number,
+                      enabled: true,
                       onCodeChanged: (val) {
                         print("OTP changed: $val");
                       },
                       onCodeSubmitted: (val) {
-                        _submit();
+                        _submit(context);
                       },
                       codeLength: 6,
                     ),
@@ -99,18 +125,12 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
           const SizedBox(height: 10),
           Column(
             children: [
-              if (_code != "")
+              if (_code != null && _code!.isNotEmpty && _start > 0)
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: ElevatedButton(
                     onPressed: () {
-                      _submit();
-                      // if (code != null && code!.length == 6) {
-                      //   _submit();
-                      //   print("OTP entered: $code");
-                      // } else {
-                      //   print("Invalid OTP code");
-                      // }
+                      _submit(context);
                     },
                     style: ElevatedButton.styleFrom(
                       shadowColor: Colors.transparent,
@@ -122,22 +142,38 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
                     child: const Text('Verify'),
                   ),
                 ),
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: ElevatedButton(
-                  onPressed: () {
-                    listenOtp();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shadowColor: Colors.transparent,
-                    backgroundColor: Theme.of(context).primaryColorDark,
-                    foregroundColor: Theme.of(context).primaryColorLight,
-                    padding: EdgeInsets.zero,
-                    minimumSize: const Size(double.infinity, 50),
+              if (!isResendEnabled)
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      shadowColor: Colors.transparent,
+                      backgroundColor: Theme.of(context).primaryColorDark,
+                      foregroundColor: Theme.of(context).primaryColorLight,
+                      padding: EdgeInsets.zero,
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                    child: Text('Resend in $_start seconds'),
                   ),
-                  child: const Text('Resend'),
+                )
+              else
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _resendOtp();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shadowColor: Colors.transparent,
+                      backgroundColor: Theme.of(context).primaryColorDark,
+                      foregroundColor: Theme.of(context).primaryColorLight,
+                      padding: EdgeInsets.zero,
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                    child: const Text('Resend'),
+                  ),
                 ),
-              ),
             ],
           ),
         ],

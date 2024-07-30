@@ -1,3 +1,4 @@
+import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -16,6 +17,7 @@ class _NewregistrationState extends State<Newregistration> {
   final FocusNode _phoneFocusNode = FocusNode();
   String _hintText = '00000 00000';
   String phoneNumber = '';
+  String _selectedCountryCode = 'IN';
 
   @override
   void initState() {
@@ -56,7 +58,40 @@ class _NewregistrationState extends State<Newregistration> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          DropdownButton<String>(
+            value: _selectedCountryCode,
+            focusColor: Colors.white,
+            underline: Container(),
+            onChanged: (String? newValue) {
+              if (newValue != null) {
+                setState(() {
+                  _selectedCountryCode = newValue;
+                  _hintText = _getHintTextForCountry(newValue);
+                });
+              }
+            },
+            items: <String>['IN', 'US']
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Row(
+                  children: [
+                    CountryFlag.fromCountryCode(
+                      value,
+                      height: 20,
+                      width: 25,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(value),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Expanded(
@@ -120,6 +155,7 @@ class _NewregistrationState extends State<Newregistration> {
                       ],
                       decoration: InputDecoration(
                         hintText: _hintText,
+                        hintStyle: const TextStyle(fontSize: 20),
                         border: const OutlineInputBorder(
                           borderSide: BorderSide(),
                         ),

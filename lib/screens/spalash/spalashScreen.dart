@@ -15,7 +15,7 @@ class Spalashscreen extends StatelessWidget {
       gifHeight: 474,
       backgroundColor: Theme.of(context).cardColor,
       //nextScreen: const Newregistration(),
-      duration: const Duration(milliseconds: 5000),
+      duration: const Duration(milliseconds: 4300),
       onEnd: () {
         Navigator.of(context).pushReplacement(
           FadePageRoute(page: const Newregistration()),
