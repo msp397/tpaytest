@@ -14,8 +14,38 @@ class Spalashscreen extends StatelessWidget {
       gifWidth: 269,
       gifHeight: 474,
       backgroundColor: Theme.of(context).cardColor,
-      nextScreen: const Newregistration(),
-      duration: const Duration(milliseconds: 10000),
+      //nextScreen: const Newregistration(),
+      duration: const Duration(milliseconds: 5000),
+      onEnd: () {
+        Navigator.of(context).pushReplacement(
+          FadePageRoute(page: const Newregistration()),
+        );
+      },
     );
   }
+}
+
+class FadePageRoute<T> extends PageRouteBuilder<T> {
+  final Widget page;
+
+  FadePageRoute({required this.page})
+      : super(
+          pageBuilder: (BuildContext context, Animation<double> animation,
+              Animation<double> secondaryAnimation) {
+            return page;
+          },
+          transitionsBuilder: (BuildContext context,
+              Animation<double> animation,
+              Animation<double> secondaryAnimation,
+              Widget child) {
+            const begin = Offset(0.0, 0.0);
+            const end = Offset.zero;
+            const curve = Curves.easeIn;
+
+            var tween = Tween(begin: begin, end: end);
+            animation.drive(tween.chain(CurveTween(curve: curve)));
+
+            return FadeTransition(opacity: animation, child: child);
+          },
+        );
 }

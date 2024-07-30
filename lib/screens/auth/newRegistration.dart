@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 import 'package:tpay/screens/auth/chooseAccount.dart';
 
 class Newregistration extends StatefulWidget {
@@ -54,7 +55,7 @@ class _NewregistrationState extends State<Newregistration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, // Prevent resizing when keyboard appears
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(),
       body: Column(
         children: [
@@ -65,13 +66,10 @@ class _NewregistrationState extends State<Newregistration> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 300),
-                      child: SizedBox(
-                        height: 100,
-                        width: 120,
-                        child: Image.asset('assets/images/png/gpay_logo.png'),
-                      ),
+                    Image.asset(
+                      'assets/images/png/gpay_logo.png',
+                      height: 90,
+                      width: 70,
                     ),
                     const Text(
                       'Welcome to Pay',
@@ -87,33 +85,45 @@ class _NewregistrationState extends State<Newregistration> {
                       ),
                     ),
                     const SizedBox(height: 30),
-                    IntlPhoneField(
+                    // IntlPhoneField(
+                    //   controller: _phoneController,
+                    //   focusNode: _phoneFocusNode,
+                    //   autovalidateMode: AutovalidateMode.disabled,
+                    //   style: const TextStyle(fontSize: 20),
+                    //   // showCursor: false,
+                    //   dropdownTextStyle: TextStyle(fontSize: 20),
+                    //   decoration: InputDecoration(
+                    //     hintText: _hintText,
+                    //     border: const OutlineInputBorder(
+                    //       borderSide: BorderSide(),
+                    //     ),
+                    //   ),
+                    //   initialCountryCode: 'IN',
+                    //   onChanged: (phone) {
+                    //     setState(() {
+                    //       phoneNumber = phone.completeNumber;
+                    //     });
+                    //   },
+                    //   onSubmitted: (phone) {
+                    //     _onContinue();
+                    //   },
+                    //   onCountryChanged: (country) {
+                    //     setState(() {
+                    //       _hintText = _getHintTextForCountry(country.code);
+                    //     });
+                    //   },
+                    // ),
+                    PhoneFieldHint(
                       controller: _phoneController,
-                      focusNode: _phoneFocusNode,
-                      autovalidateMode: AutovalidateMode.disabled,
-                      style: const TextStyle(fontSize: 20),
-                      // showCursor: false,
-                      dropdownTextStyle: TextStyle(fontSize: 20),
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                      ],
                       decoration: InputDecoration(
                         hintText: _hintText,
                         border: const OutlineInputBorder(
                           borderSide: BorderSide(),
                         ),
                       ),
-                      initialCountryCode: 'IN',
-                      onChanged: (phone) {
-                        setState(() {
-                          phoneNumber = phone.completeNumber;
-                        });
-                      },
-                      onSubmitted: (phone) {
-                        _onContinue();
-                      },
-                      onCountryChanged: (country) {
-                        setState(() {
-                          _hintText = _getHintTextForCountry(country.code);
-                        });
-                      },
                     ),
                     const SizedBox(height: 20),
                   ],
@@ -122,11 +132,12 @@ class _NewregistrationState extends State<Newregistration> {
             ),
           ),
           Container(
-            color: Colors.black.withOpacity(0.5),
+            color: Colors.white,
             child: Image.asset(
               'assets/images/png/auth.jpg',
               width: double.infinity,
-              height: 250,
+              height: 200,
+              cacheHeight: 200,
               fit: BoxFit.cover,
             ),
           ),
