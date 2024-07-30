@@ -8,7 +8,11 @@ import 'package:tpay/models/userModel.dart';
 import 'package:tpay/providers/themeProvider.dart';
 import 'package:tpay/screens/others/bankTransfer.dart';
 import 'package:tpay/screens/others/billsrecharges.dart';
+import 'package:tpay/screens/others/paymentcategory/creditcard.dart';
+import 'package:tpay/screens/others/paymentcategory/dthrecharge.dart';
+import 'package:tpay/screens/others/paymentcategory/electricitybill.dart';
 import 'package:tpay/screens/others/paymentcategory/mobileRecharge.dart';
+import 'package:tpay/screens/others/profiledetail.dart';
 import 'package:tpay/screens/others/scanner.dart';
 
 class Dashboard extends StatefulWidget {
@@ -81,10 +85,10 @@ class _DashboardState extends State<Dashboard> {
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: GestureDetector(
-              onTap: () {
-                // Provider.of<ThemeProvider>(context, listen: false)
-                //     .toggleTheme();
-              },
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Profiledetail())),
               child: const CircleAvatar(
                 radius: 12,
                 backgroundColor: Colors.white,
@@ -253,11 +257,29 @@ class _DashboardState extends State<Dashboard> {
                                           const MobileRecharge()));
                             }),
                             _buildMenuItem(Theme.of(context).primaryColor,
-                                Icons.credit_card, "Credit cards", () {}),
+                                Icons.credit_card, "Credit cards", () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Creditcard()));
+                            }),
                             _buildMenuItem(Theme.of(context).primaryColor,
-                                Icons.tv, "DTH / Cable", () {}),
+                                Icons.tv, "DTH / Cable", () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Dthrecharge()));
+                            }),
                             _buildMenuItem(Theme.of(context).primaryColor,
-                                Icons.electric_bolt, "Electricity", () {}),
+                                Icons.electric_bolt, "Electricity", () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ElectricityBill()));
+                            }),
                           ],
                         ),
                         const SizedBox(
