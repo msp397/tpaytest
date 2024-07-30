@@ -91,11 +91,12 @@ class _BillsRechargesState extends State<BillsRecharges> {
                   ? []
                   : _allMenuItems.take(6).toList(),
             ),
+            SizedBox(height: _expanWithheader ? 16.0 : 0.0),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.blue,
                 shape: const BeveledRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 ),
                 padding: const EdgeInsets.all(16.0),
               ),
