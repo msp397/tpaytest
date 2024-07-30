@@ -1,4 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:tpay/screens/others/paymentcategory/dthrecharge.dart';
+import 'package:tpay/screens/others/paymentcategory/electricitybill.dart';
+import 'package:tpay/screens/others/paymentcategory/gasbill.dart';
+import 'package:tpay/screens/others/paymentcategory/hospital.dart';
+import 'package:tpay/screens/others/paymentcategory/internetbill.dart';
+import 'package:tpay/screens/others/paymentcategory/loanpayment.dart';
+import 'package:tpay/screens/others/paymentcategory/mobileRecharge.dart';
+import 'package:tpay/screens/others/paymentcategory/subcription.dart';
+import 'package:tpay/screens/others/paymentcategory/taxipay.dart';
+import 'package:tpay/screens/others/paymentcategory/waterbill.dart';
 
 class BillsRecharges extends StatefulWidget {
   const BillsRecharges({super.key});
@@ -8,26 +18,6 @@ class BillsRecharges extends StatefulWidget {
 }
 
 class _BillsRechargesState extends State<BillsRecharges> {
-  bool _showMore = false;
-  bool _expanWithheader = false;
-
-  final List<_MenuItem> _allMenuItems = [
-    _MenuItem(
-        icon: Icons.phone_android, label: 'Mobile \nRecharge', onTap: () {}),
-    _MenuItem(
-        icon: Icons.lightbulb_outline,
-        label: 'Electricity \nBill',
-        onTap: () {}),
-    _MenuItem(icon: Icons.dvr_outlined, label: 'DTH Recharge', onTap: () {}),
-    _MenuItem(icon: Icons.wifi, label: 'Internet Bill', onTap: () {}),
-    _MenuItem(icon: Icons.water_drop, label: 'Water Bill', onTap: () {}),
-    _MenuItem(icon: Icons.local_gas_station, label: 'Gas Bill', onTap: () {}),
-    _MenuItem(icon: Icons.monetization_on, label: 'Loan Payment', onTap: () {}),
-    _MenuItem(icon: Icons.subscriptions, label: 'Subscription', onTap: () {}),
-    _MenuItem(icon: Icons.taxi_alert, label: 'Taxi', onTap: () {}),
-    _MenuItem(icon: Icons.local_hospital, label: 'Hospital', onTap: () {}),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,9 +25,7 @@ class _BillsRechargesState extends State<BillsRecharges> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_outlined),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: () => Navigator.of(context).pop(),
         ),
         title: Row(
           children: [
@@ -66,9 +54,7 @@ class _BillsRechargesState extends State<BillsRecharges> {
                     actions: [
                       TextButton(
                         child: const Text('OK'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+                        onPressed: () => Navigator.of(context).pop(),
                       ),
                     ],
                   ),
@@ -79,35 +65,11 @@ class _BillsRechargesState extends State<BillsRecharges> {
         ),
       ),
       body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (_expanWithheader) _buildHeader(),
-            // if (!_expanWithheader) _buildHeader(),
-            _buildMenuGrid(
-              _showMore && _expanWithheader
-                  ? []
-                  : _allMenuItems.take(6).toList(),
-            ),
-            SizedBox(height: _expanWithheader ? 16.0 : 0.0),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.blue,
-                shape: const BeveledRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                ),
-                padding: const EdgeInsets.all(16.0),
-              ),
-              onPressed: () {
-                setState(() {
-                  _expanWithheader = true;
-                  _showMore = !_showMore;
-                });
-              },
-              child: Text(_showMore ? 'Show Less' : 'View All'),
-            ),
+            _buildHeader(),
           ],
         ),
       ),
@@ -118,48 +80,85 @@ class _BillsRechargesState extends State<BillsRecharges> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (_showMore) ...[
-          const Padding(
-            padding: EdgeInsets.all(20),
-            child: Text(
-              "Payment Categories",
-              style: TextStyle(color: Colors.black, fontSize: 20),
-            ),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          child: Text(
+            "Payment Categories",
+            style: TextStyle(color: Colors.black, fontSize: 20),
           ),
-          _buildSectionHeader('Recharge', [
-            _MenuItem(
-                icon: Icons.phone_android,
-                label: 'Mobile \nRecharge',
-                onTap: () {}),
-            _MenuItem(
-                icon: Icons.lightbulb_outline,
-                label: 'Electricity \nBill',
-                onTap: () {}),
-            _MenuItem(
-                icon: Icons.dvr_outlined, label: 'DTH Recharge', onTap: () {}),
-            _MenuItem(icon: Icons.wifi, label: 'Internet Bill', onTap: () {}),
-          ]),
-          _buildSectionHeader('Utility Bills', [
-            _MenuItem(
-                icon: Icons.water_drop, label: 'Water Bill', onTap: () {}),
-            _MenuItem(
-                icon: Icons.local_gas_station, label: 'Gas Bill', onTap: () {}),
-          ]),
-          _buildSectionHeader('Finance & Tax', [
-            _MenuItem(
-                icon: Icons.monetization_on,
-                label: 'Loan Payment',
-                onTap: () {}),
-            _MenuItem(
-                icon: Icons.subscriptions, label: 'Subscription', onTap: () {}),
-            _MenuItem(icon: Icons.taxi_alert, label: 'Taxi', onTap: () {}),
-          ]),
-          _buildSectionHeader('More', [
-            _MenuItem(
-                icon: Icons.local_hospital, label: 'Hospital', onTap: () {}),
-          ]),
-          //_buildSectionHeader('Set Up Regular Payments', []),
-        ],
+        ),
+        _buildSectionHeader('Recharge', [
+          _MenuItem(
+            icon: Icons.phone_android,
+            label: 'Mobile \nRecharge',
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MobileRecharge())),
+          ),
+          _MenuItem(
+            icon: Icons.lightbulb_outline,
+            label: 'Electricity \nBill',
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ElectricityBill())),
+          ),
+          _MenuItem(
+            icon: Icons.dvr_outlined,
+            label: 'DTH Recharge',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Dthrecharge())),
+          ),
+          _MenuItem(
+            icon: Icons.wifi,
+            label: 'Internet Bill',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Internetbill())),
+          ),
+        ]),
+        _buildSectionHeader('Utility Bills', [
+          _MenuItem(
+            icon: Icons.water_drop,
+            label: 'Water Bill',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Waterbill())),
+          ),
+          _MenuItem(
+            icon: Icons.local_gas_station,
+            label: 'Gas Bill',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Gasbill())),
+          ),
+        ]),
+        _buildSectionHeader('Finance & Tax', [
+          _MenuItem(
+            icon: Icons.monetization_on,
+            label: 'Loan Payment',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Loanpayment())),
+          ),
+          _MenuItem(
+            icon: Icons.subscriptions,
+            label: 'Subscription',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Subcription())),
+          ),
+          _MenuItem(
+            icon: Icons.taxi_alert,
+            label: 'Taxi',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Taxipay())),
+          ),
+        ]),
+        _buildSectionHeader('More', [
+          _MenuItem(
+            icon: Icons.local_hospital,
+            label: 'Hospital',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Hospital())),
+          ),
+        ]),
       ],
     );
   }
@@ -176,28 +175,25 @@ class _BillsRechargesState extends State<BillsRecharges> {
                 color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
-        if (items.isNotEmpty) _buildMenuGrid(items),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 16.0,
+            mainAxisSpacing: 16.0,
+          ),
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            final item = items[index];
+            return _buildMenuItem(
+              icon: item.icon,
+              label: item.label,
+              onTap: item.onTap,
+            );
+          },
+        ),
       ],
-    );
-  }
-
-  Widget _buildMenuGrid(List<_MenuItem> items) {
-    return GridView.builder(
-      shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 16.0,
-        mainAxisSpacing: 16.0,
-      ),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        final item = items[index];
-        return _buildMenuItem(
-          icon: item.icon,
-          label: item.label,
-          onTap: item.onTap,
-        );
-      },
     );
   }
 
@@ -210,7 +206,6 @@ class _BillsRechargesState extends State<BillsRecharges> {
       onTap: onTap,
       borderRadius: BorderRadius.circular(16.0),
       child: Container(
-        height: 100,
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 231, 238, 245),
@@ -244,5 +239,9 @@ class _MenuItem {
   final String label;
   final VoidCallback onTap;
 
-  _MenuItem({required this.icon, required this.label, required this.onTap});
+  const _MenuItem({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 }
