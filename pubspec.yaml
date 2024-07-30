@@ -1,6 +1,6 @@
 name: tpay
 description: "A new Flutter project."
-publish_to: "none" 
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
@@ -43,8 +43,9 @@ flutter:
     - assets/images/png/intro_vector.jpg
     - assets/images/png/mobileNumber.png
     - assets/images/png/auth.jpg
-    - assets/images/png/gpay_logo.png 
+    - assets/images/png/gpay_logo.png
     - assets/images/gifs/intro.gif
+    - assets/images/png/TANGEDCO_Logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
