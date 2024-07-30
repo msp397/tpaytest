@@ -7,7 +7,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tpay/models/userModel.dart';
 import 'package:tpay/providers/themeProvider.dart';
 import 'package:tpay/screens/others/bankTransfer.dart';
-import 'package:tpay/screens/others/mobileRecharge.dart';
+import 'package:tpay/screens/others/billsrecharges.dart';
+import 'package:tpay/screens/others/paymentcategory/mobileRecharge.dart';
 import 'package:tpay/screens/others/scanner.dart';
 
 class Dashboard extends StatefulWidget {
@@ -222,7 +223,13 @@ class _DashboardState extends State<Dashboard> {
                                         backgroundColor: WidgetStatePropertyAll(
                                             Colors.white),
                                         elevation: WidgetStatePropertyAll(0)),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const BillsRecharges()));
+                                    },
                                     child: Text(
                                       'Explore',
                                       style: TextStyle(
