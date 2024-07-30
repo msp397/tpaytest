@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/dashboard': (context) => Dashboard(),
           },
-          home: const Newregistration(),
+          home: const Spalashscreen(),
         );
       },
     );

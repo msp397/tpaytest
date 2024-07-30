@@ -44,6 +44,7 @@ flutter:
     - assets/images/png/mobileNumber.png
     - assets/images/png/auth.jpg
     - assets/images/png/gpay_logo.png 
+    - assets/images/gifs/intro.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
