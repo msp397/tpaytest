@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:tpay/screens/others/setting/feedback.dart';
 
 class MySetting extends StatefulWidget {
@@ -9,7 +12,22 @@ class MySetting extends StatefulWidget {
 }
 
 class _MySettingState extends State<MySetting> {
+  SharedPreferences? prefs;
   String referralCode = 'your_referral_code';
+  String imagePath = '';
+
+  @override
+  void initState() {
+    super.initState();
+    initSharedPrefs();
+  }
+
+  void initSharedPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      imagePath = prefs!.getString('avatar_image').toString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +63,25 @@ class _MySettingState extends State<MySetting> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CircleAvatar(
-              radius: 26,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Icon(Icons.edit_outlined, color: Colors.white, size: 21),
-              ),
+            CircleAvatar(
+              radius: 50,
+              backgroundColor: const Color.fromARGB(255, 181, 208, 255),
+              child: imagePath != null && imagePath != ''
+                  ? ClipOval(
+                      child: Image.file(
+                        File(imagePath),
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : const Padding(
+                      padding: EdgeInsets.only(bottom: 1),
+                      child: Text(
+                        "T",
+                        style: TextStyle(fontSize: 30),
+                      ),
+                    ),
             ),
             const SizedBox(height: 20),
             Column(

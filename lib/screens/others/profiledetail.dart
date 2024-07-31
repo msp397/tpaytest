@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tpay/screens/others/setting/settings.dart';
 
 class Profiledetail extends StatefulWidget {
   const Profiledetail({super.key});
@@ -197,6 +199,17 @@ class _ProfiledetailState extends State<Profiledetail> {
                         fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
+                  ListTile(
+                    leading: const Icon(Icons.settings, color: Colors.blue),
+                    title: const Text('Settings'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MySetting()));
+                    },
+                  ),
                   // Add your settings content here
                   ListTile(
                     leading:
@@ -280,7 +293,7 @@ class _ProfiledetailState extends State<Profiledetail> {
                         : const Padding(
                             padding: EdgeInsets.only(bottom: 1),
                             child: Text(
-                              "Hello",
+                              "T",
                               style: TextStyle(fontSize: 30),
                             ),
                           ),
