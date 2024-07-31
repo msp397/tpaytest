@@ -153,7 +153,6 @@ class _DashboardState extends State<Dashboard> {
                         colors: [
                           Theme.of(context).cardColor,
                           Theme.of(context).primaryColorDark,
-                          Theme.of(context).primaryColorDark,
                         ],
                       ),
                     ),
@@ -222,7 +221,53 @@ class _DashboardState extends State<Dashboard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildMenuItem(Theme.of(context).primaryColor,
+                                Icons.qr_code, "Scan QR", () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MyScanner(),
+                                ),
+                              );
+                            }),
+                            _buildMenuItem(
+                                Theme.of(context).primaryColor,
+                                Icons.phone_android,
+                                "Pay phone \n   number", () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const PayContact(),
+                                ),
+                              );
+                            }),
+                            _buildMenuItem(Theme.of(context).primaryColor,
+                                Icons.account_balance, "Bank Transfer", () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Banktransfer(),
+                                ),
+                              );
+                            }),
+                            _buildMenuItem(Theme.of(context).primaryColor,
+                                Icons.mobile_friendly, "Pay UPI ID", () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const PayContact(),
+                                ),
+                              );
+                            }),
+                          ],
+                        ),
+                      ),
                       const Padding(
                         padding: EdgeInsets.only(left: 15, bottom: 12),
                         child: Text(
@@ -335,6 +380,44 @@ class _DashboardState extends State<Dashboard> {
                       const SizedBox(
                         height: 20,
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 15, bottom: 12),
+                            child: Text(
+                              'Businesses',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 40, bottom: 12),
+                            child: ElevatedButton(
+                              style: const ButtonStyle(
+                                  backgroundColor:
+                                      WidgetStatePropertyAll(Colors.white),
+                                  elevation: WidgetStatePropertyAll(0)),
+                              onPressed: () {},
+                              child: Text(
+                                'Explore',
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 35),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [],
+                        ),
+                      ),
                       const Padding(
                         padding: EdgeInsets.only(left: 15, bottom: 12),
                         child: Text(
@@ -347,7 +430,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 35),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Column(
@@ -387,6 +470,13 @@ class _DashboardState extends State<Dashboard> {
                       ),
                       const SizedBox(
                         height: 20,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 15, bottom: 10),
+                        child: Text(
+                          'Manage your money',
+                          style: TextStyle(fontSize: 18),
+                        ),
                       ),
                       const GFListTile(
                         avatar: Icon(
