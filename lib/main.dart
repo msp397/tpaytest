@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tpay/providers/dependemcyInjection.dart';
 import 'package:tpay/providers/themeProvider.dart';
 import 'package:tpay/screens/auth/newRegistration.dart';
@@ -10,7 +11,8 @@ import 'package:tpay/screens/others/scanner.dart';
 import 'package:tpay/screens/spalash/spalashScreen.dart';
 import 'package:tpay/themes/theme.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   DependencyInjection.init();
   runApp(
     ChangeNotifierProvider<ThemeProvider>(
