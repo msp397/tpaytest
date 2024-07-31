@@ -15,6 +15,12 @@ class _MobileRechargeState extends State<MobileRecharge> {
   List<Contact> _contacts = [];
   bool _loading = true;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadContacts();
+  }
+
   void _updateProviderList(String phoneNumber) {
     setState(() {
       print(phoneNumber);
@@ -93,7 +99,27 @@ class _MobileRechargeState extends State<MobileRecharge> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mobile Recharge'),
+        title: const Text('Mobile recharge'),
+        actions: [
+          PopupMenuButton(
+            icon: const Icon(Icons.more_vert_outlined),
+            onSelected: (dynamic value) {
+              // Handle menu actions here
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem(
+                  value: 1,
+                  child: Text("Get help"),
+                ),
+                const PopupMenuItem(
+                  value: 2,
+                  child: Text("Send feedback"),
+                ),
+              ];
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -101,9 +127,16 @@ class _MobileRechargeState extends State<MobileRecharge> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Enter mobile number'),
-            const SizedBox(height: 10),
+            const SizedBox(height: 12),
+            const Text(
+              'Enter mobile number',
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            const SizedBox(height: 12),
             IntlPhoneField(
+              autovalidateMode: AutovalidateMode.disabled,
               decoration: const InputDecoration(
                 hintText: 'Mobile number',
                 border: OutlineInputBorder(
@@ -114,11 +147,17 @@ class _MobileRechargeState extends State<MobileRecharge> {
               onChanged: (phone) {
                 setState(() {
                   _updateProviderList(phone.completeNumber);
-                  _loadContacts();
                 });
               },
             ),
             const SizedBox(height: 10),
+            const Padding(
+              padding: EdgeInsets.only(left: 15, bottom: 12),
+              child: Text(
+                'My contacts',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
             if (_loading)
               const Center()
             else if (_contacts.isNotEmpty)
@@ -127,56 +166,46 @@ class _MobileRechargeState extends State<MobileRecharge> {
                   itemCount: _contacts.length,
                   itemBuilder: (context, index) {
                     final contact = _contacts[index];
-                    return ListTile(
-                      leading: contact.avatar != null
-                          ? CircleAvatar(
-                              backgroundImage: MemoryImage(contact.avatar!),
-                            )
-                          : null,
-                      title: Text(contact.displayName ?? 'No Name'),
-                      subtitle: contact.phones!.isNotEmpty
-                          ? Text(
-                              contact.phones!.first.value ?? 'No Phone Number')
-                          : null,
+                    return Column(
+                      children: [
+                        Column(
+                          children: _providerList,
+                        ),
+                        ListTile(
+                          leading: contact.avatar != null &&
+                                  contact.avatar!.isNotEmpty
+                              ? CircleAvatar(
+                                  backgroundImage: MemoryImage(contact.avatar!),
+                                )
+                              : CircleAvatar(
+                                  child:
+                                      Text(contact.displayName.toString()[0]),
+                                ),
+                          title: Text(contact.displayName ?? 'No Name'),
+                          subtitle: contact.phones!.isNotEmpty
+                              ? Text(contact.phones!.first.value ??
+                                  'No Phone Number')
+                              : null,
+                        ),
+                      ],
                     );
                   },
                 ),
               )
             else
               const SizedBox(height: 10),
-            Expanded(
-              child: ListView(
-                children: _providerList,
-              ),
-            ),
           ],
         ),
       ),
-      floatingActionButton: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 30, left: 30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SizedBox(
-                width: 100,
-                child: FloatingActionButton(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  foregroundColor: Theme.of(context).primaryColorLight,
-                  onPressed: () {
-                    print('Recharge button pressed');
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.only(bottom: 2),
-                    child: Text(
-                      'Recharge',
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).primaryColorLight,
+        onPressed: () {
+          print('Recharge button pressed');
+        },
+        child: const Padding(
+          padding: EdgeInsets.only(bottom: 2),
+          child: Icon(Icons.keyboard_arrow_right),
         ),
       ),
     );

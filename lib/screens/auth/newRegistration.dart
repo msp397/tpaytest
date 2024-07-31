@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-import 'package:tpay/screens/auth/chooseAccount.dart';
+import 'package:tpay/screens/auth/accountSelection.dart';
+import 'package:tpay/screens/others/paymentcategory/electricitybill.dart';
 
 class Newregistration extends StatefulWidget {
   const Newregistration({super.key});
@@ -30,7 +31,7 @@ class _NewregistrationState extends State<Newregistration> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ChooseAccount(
+          builder: (context) => AccountSelection(
             phoneNumber: phoneNumber,
           ),
         ),

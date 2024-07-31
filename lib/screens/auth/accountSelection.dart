@@ -4,17 +4,16 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:tpay/screens/auth/otpVerification.dart';
 
-class ChooseAccount extends StatefulWidget {
+class AccountSelection extends StatefulWidget {
   final String phoneNumber;
-  const ChooseAccount({super.key, required this.phoneNumber});
+  const AccountSelection({super.key, required this.phoneNumber});
 
   @override
-  State<ChooseAccount> createState() => _ChooseAccountState();
+  State<AccountSelection> createState() => _AccountSelectionState();
 }
 
-class _ChooseAccountState extends State<ChooseAccount> {
+class _AccountSelectionState extends State<AccountSelection> {
   List<Contact> _contacts = [];
-  bool _loading = true;
 
   @override
   void initState() {
@@ -30,18 +29,12 @@ class _ChooseAccountState extends State<ChooseAccount> {
         List<Contact> contacts = (await ContactsService.getContacts()).toList();
         setState(() {
           _contacts = contacts;
-          _loading = false;
         });
       } catch (e) {
-        setState(() {
-          _loading = false;
-        });
         print('Error fetching contacts: $e');
       }
     } else {
-      setState(() {
-        _loading = false;
-      });
+      print('Error fetching contacts:');
     }
   }
 
@@ -127,21 +120,17 @@ class _ChooseAccountState extends State<ChooseAccount> {
                 ),
                 const SizedBox(height: 30),
                 Expanded(
-                  child: _loading
-                      ? const Center(child: const CircularProgressIndicator())
-                      : ListView(
-                          children: _contacts
-                              .where((contact) => contact.emails!.isNotEmpty)
-                              .map((contact) => ListTile(
-                                    title:
-                                        Text(contact.displayName ?? 'No Name'),
-                                    leading: _buildAvatar(contact),
-                                    subtitle: Text(
-                                        contact.emails!.first.value ??
-                                            'No Email'),
-                                  ))
-                              .toList(),
-                        ),
+                  child: ListView(
+                    children: _contacts
+                        .where((contact) => contact.emails!.isNotEmpty)
+                        .map((contact) => ListTile(
+                              title: Text(contact.displayName ?? 'No Name'),
+                              leading: _buildAvatar(contact),
+                              subtitle: Text(
+                                  contact.emails!.first.value ?? 'No Email'),
+                            ))
+                        .toList(),
+                  ),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
