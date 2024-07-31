@@ -19,7 +19,7 @@ class _AnimatedHintTextFieldState extends State<AnimatedHintTextField>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 2000),
       vsync: this,
     )..repeat(reverse: true);
 
