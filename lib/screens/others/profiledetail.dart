@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tpay/screens/others/paymentcategory/addbank.dart';
 import 'package:tpay/screens/others/setting/settings.dart';
 
 class Profiledetail extends StatefulWidget {
@@ -66,8 +66,8 @@ class _ProfiledetailState extends State<Profiledetail> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(20)),
+                // borderRadius:
+                //     BorderRadius.vertical(bottom: Radius.circular(20)),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Row(
@@ -127,68 +127,113 @@ class _ProfiledetailState extends State<Profiledetail> {
             ),
             const SizedBox(height: 20),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 2,
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Bank Account and Cards".toUpperCase(),
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  // Add your bank account and cards content here
-                  // Example card item
-                  ListTile(
-                    leading: const Icon(Icons.credit_card, color: Colors.blue),
-                    title: const Text('Credit Card'),
-                    subtitle: const Text('**** **** **** 1234'),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () {
-                      // Handle card tap
-                    },
-                  ),
-                  ListTile(
-                    leading:
-                        const Icon(Icons.account_balance, color: Colors.blue),
-                    title: const Text('Bank Account'),
-                    subtitle: const Text('**** 5678'),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () {
-                      // Handle bank account tap
-                    },
-                  ),
-                ],
-              ),
-            ),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  // color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Colors.black.withOpacity(0.1),
+                  //     spreadRadius: 2,
+                  //     blurRadius: 8,
+                  //     offset: const Offset(0, 4),
+                  //   ),
+                  // ],
+                ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Payment Method",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 25),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              // Handle card tap
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddBank()),
+                              );
+                            },
+                            child: const Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.account_balance, color: Colors.blue),
+                                SizedBox(height: 4),
+                                Text(
+                                  'Bank',
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              // Handle bank account tap
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddBank()),
+                              );
+                            },
+                            child: const Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.credit_card, color: Colors.blue),
+                                SizedBox(height: 4),
+                                Text(
+                                  'credit',
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              // Handle additional tap
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddBank()),
+                              );
+                            },
+                            child: const Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.add, color: Colors.blue),
+                                SizedBox(height: 4),
+                                Text(
+                                  'UPI',
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ])),
             const SizedBox(height: 20),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 2,
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
+                // color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.black.withOpacity(0.1),
+                //     spreadRadius: 2,
+                //     blurRadius: 8,
+                //     offset: const Offset(0, 4),
+                //   ),
+                // ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
