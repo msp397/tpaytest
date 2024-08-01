@@ -34,7 +34,7 @@ class _MySettingState extends State<MySetting> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Theme.of(context).primaryColorDark,
+        // backgroundColor: Theme.of(context).primaryColorDark,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_outlined),
           onPressed: () {
@@ -63,25 +63,28 @@ class _MySettingState extends State<MySetting> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundColor: const Color.fromARGB(255, 181, 208, 255),
-              child: imagePath != null && imagePath != ''
-                  ? ClipOval(
-                      child: Image.file(
-                        File(imagePath),
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
+            Align(
+              alignment: Alignment.center,
+              child: CircleAvatar(
+                radius: 50,
+                backgroundColor: const Color.fromARGB(255, 181, 208, 255),
+                child: imagePath != null && imagePath != ''
+                    ? ClipOval(
+                        child: Image.file(
+                          File(imagePath),
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : const Padding(
+                        padding: EdgeInsets.only(bottom: 1),
+                        child: Text(
+                          "T",
+                          style: TextStyle(fontSize: 30),
+                        ),
                       ),
-                    )
-                  : const Padding(
-                      padding: EdgeInsets.only(bottom: 1),
-                      child: Text(
-                        "T",
-                        style: TextStyle(fontSize: 30),
-                      ),
-                    ),
+              ),
             ),
             const SizedBox(height: 20),
             Column(
