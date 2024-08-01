@@ -1,6 +1,8 @@
-import 'dart:async'; // Import for Timer
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+import 'package:tpay/screens/auth/selectAuthPintype.dart';
 import 'package:tpay/screens/others/dashboard.dart';
 
 class Otpverification extends StatefulWidget {
@@ -31,8 +33,12 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
       if (_start == 0) {
         timer.cancel();
       } else {
-        setState(() {
-          _start--;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            setState(() {
+              _start--;
+            });
+          }
         });
       }
     });
@@ -47,9 +53,15 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
 
   @override
   void codeUpdated() {
-    setState(() {
-      _code = code;
-    });
+    if (mounted) {
+      setState(() {
+        _code = code;
+        // Automatically fill the OTP if it's detected
+        if (_code != null && _code!.length == 6) {
+          _submit(context);
+        }
+      });
+    }
   }
 
   @override
@@ -61,9 +73,9 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
   }
 
   void _submit(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (BuildContext context) => Dashboard()),
-      (Route<dynamic> route) => false,
+    Navigator.of(context).push(
+      MaterialPageRoute(
+          builder: (BuildContext context) => const SelectAuthPinType()),
     );
   }
 
@@ -108,8 +120,17 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
                     PinFieldAutoFill(
                       currentCode: _code,
                       keyboardType: TextInputType.number,
+                      autoFocus: true,
                       enabled: true,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       onCodeChanged: (val) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          if (mounted) {
+                            setState(() {
+                              _code = val;
+                            });
+                          }
+                        });
                         print("OTP changed: $val");
                       },
                       onCodeSubmitted: (val) {
@@ -125,7 +146,10 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
           const SizedBox(height: 10),
           Column(
             children: [
-              if (_code != null && _code!.isNotEmpty && _start > 0)
+              if (_code != null &&
+                  _code!.isNotEmpty &&
+                  _start > 0 &&
+                  _code!.length == 6)
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: ElevatedButton(

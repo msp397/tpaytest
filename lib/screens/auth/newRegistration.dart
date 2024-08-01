@@ -1,10 +1,9 @@
+import 'dart:math';
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:tpay/screens/auth/accountSelection.dart';
-import 'package:tpay/screens/others/paymentcategory/electricitybill.dart';
 
 class Newregistration extends StatefulWidget {
   const Newregistration({super.key});
@@ -17,17 +16,49 @@ class _NewregistrationState extends State<Newregistration> {
   final TextEditingController _phoneController = TextEditingController();
   final FocusNode _phoneFocusNode = FocusNode();
   String _hintText = '00000 00000';
-  String phoneNumber = '';
   String _selectedCountryCode = 'IN';
 
   @override
   void initState() {
     super.initState();
+    _hintText = _getHintTextForCountry(_selectedCountryCode);
+  }
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    _phoneFocusNode.dispose();
+    super.dispose();
+  }
+
+  String _getHintTextForCountry(String countryCode) {
+    final Map<String, String> countryCodeToHintText = {
+      'IN': '00000 00000',
+      'US': '(000) 000-0000',
+      'AE': '000 0000 0000',
+    };
+    return countryCodeToHintText[countryCode] ?? '00000 00000';
+  }
+
+  int _getPhoneNumberLengthForCountry(String countryCode) {
+    final Map<String, int> countryCodeToLength = {
+      'IN': 10,
+      'US': 10,
+      'AE': 9,
+    };
+    return countryCodeToLength[countryCode] ?? 10;
+  }
+
+  bool _isPhoneNumberValid(String phoneNumber, String countryCode) {
+    final length = _getPhoneNumberLengthForCountry(countryCode);
+    return phoneNumber.length == length;
   }
 
   void _onContinue() {
-    if (_phoneController.text.isNotEmpty) {
-      _phoneController.text = "";
+    final phoneNumber = _phoneController.text.replaceAll(RegExp(r'\D'), '');
+    print(phoneNumber);
+    if (phoneNumber.isNotEmpty &&
+        _isPhoneNumberValid(phoneNumber, _selectedCountryCode)) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -36,23 +67,20 @@ class _NewregistrationState extends State<Newregistration> {
           ),
         ),
       );
+      _phoneController.text = "";
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Please enter a valid phone number.'),
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
+          backgroundColor: Colors.red,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
+      );
     }
-  }
-
-  String _getHintTextForCountry(String countryCode) {
-    final Map<String, String> countryCodeToLength = {
-      'IN': '00000 00000',
-      'US': '(000) 000-0000',
-    };
-
-    return countryCodeToLength[countryCode] ?? '00000 00000';
-  }
-
-  @override
-  void dispose() {
-    _phoneController.dispose();
-    _phoneFocusNode.dispose();
-    super.dispose();
   }
 
   @override
@@ -73,7 +101,7 @@ class _NewregistrationState extends State<Newregistration> {
                 });
               }
             },
-            items: <String>['IN', 'US']
+            items: <String>['IN', 'US', 'AE']
                 .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -82,7 +110,7 @@ class _NewregistrationState extends State<Newregistration> {
                     CountryFlag.fromCountryCode(
                       value,
                       height: 20,
-                      width: 25,
+                      width: 30,
                     ),
                     const SizedBox(width: 10),
                     Text(value),
@@ -121,39 +149,9 @@ class _NewregistrationState extends State<Newregistration> {
                       ),
                     ),
                     const SizedBox(height: 30),
-                    // IntlPhoneField(
-                    //   controller: _phoneController,
-                    //   focusNode: _phoneFocusNode,
-                    //   autovalidateMode: AutovalidateMode.disabled,
-                    //   style: const TextStyle(fontSize: 20),
-                    //   // showCursor: false,
-                    //   dropdownTextStyle: TextStyle(fontSize: 20),
-                    //   decoration: InputDecoration(
-                    //     hintText: _hintText,
-                    //     border: const OutlineInputBorder(
-                    //       borderSide: BorderSide(),
-                    //     ),
-                    //   ),
-                    //   initialCountryCode: 'IN',
-                    //   onChanged: (phone) {
-                    //     setState(() {
-                    //       phoneNumber = phone.completeNumber;
-                    //     });
-                    //   },
-                    //   onSubmitted: (phone) {
-                    //     _onContinue();
-                    //   },
-                    //   onCountryChanged: (country) {
-                    //     setState(() {
-                    //       _hintText = _getHintTextForCountry(country.code);
-                    //     });
-                    //   },
-                    // ),
-                    PhoneFieldHint(
+                    CustomTextField(
                       controller: _phoneController,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                      ],
+                      countryCode: _selectedCountryCode,
                       decoration: InputDecoration(
                         hintText: _hintText,
                         hintStyle: const TextStyle(fontSize: 20),
@@ -161,6 +159,9 @@ class _NewregistrationState extends State<Newregistration> {
                           borderSide: BorderSide(),
                         ),
                       ),
+                      onSubmitted: (val) {
+                        _onContinue();
+                      },
                     ),
                     const SizedBox(height: 20),
                   ],
@@ -182,9 +183,7 @@ class _NewregistrationState extends State<Newregistration> {
           Padding(
             padding: const EdgeInsets.all(20),
             child: ElevatedButton(
-              onPressed: () {
-                _onContinue();
-              },
+              onPressed: _onContinue,
               style: ElevatedButton.styleFrom(
                 shadowColor: Colors.transparent,
                 backgroundColor: Theme.of(context).primaryColorDark,
@@ -197,6 +196,79 @@ class _NewregistrationState extends State<Newregistration> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class CustomTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String countryCode;
+  final InputDecoration decoration;
+  final Function(String) onSubmitted;
+
+  const CustomTextField({
+    super.key,
+    required this.controller,
+    required this.countryCode,
+    required this.decoration,
+    required this.onSubmitted,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return PhoneFieldHint(
+      controller: controller,
+      inputFormatters: <TextInputFormatter>[
+        PhoneNumberFormatter(countryCode),
+      ],
+      decoration: decoration,
+      // keyboardType: TextInputType.phone,
+      // onSubmitted: onSubmitted,
+    );
+  }
+}
+
+class PhoneNumberFormatter extends TextInputFormatter {
+  final String countryCode;
+
+  PhoneNumberFormatter(this.countryCode);
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    final phoneNumber = newValue.text.replaceAll(RegExp(r'\D'), '');
+
+    String formattedNumber;
+    switch (countryCode) {
+      case 'IN':
+        formattedNumber = phoneNumber.length <= 5
+            ? phoneNumber
+            : '${phoneNumber.substring(0, 5)} ${phoneNumber.substring(5, min(phoneNumber.length, 10))}';
+        break;
+      case 'US':
+        formattedNumber = phoneNumber.length <= 3
+            ? '(${phoneNumber}'
+            : phoneNumber.length <= 6
+                ? '(${phoneNumber.substring(0, 3)}) ${phoneNumber.substring(3)}'
+                : phoneNumber.length <= 10
+                    ? '(${phoneNumber.substring(0, 3)}) ${phoneNumber.substring(3, 6)}-${phoneNumber.substring(6)}'
+                    : '(${phoneNumber.substring(0, 3)}) ${phoneNumber.substring(3, 6)}-${phoneNumber.substring(6, 10)}';
+        break;
+      case 'AE':
+        formattedNumber = phoneNumber.length <= 4
+            ? phoneNumber
+            : phoneNumber.length <= 9
+                ? '${phoneNumber.substring(0, 4)} ${phoneNumber.substring(4, min(phoneNumber.length, 9))}'
+                : '${phoneNumber.substring(0, 4)} ${phoneNumber.substring(4, 9)}';
+        break;
+      default:
+        formattedNumber = phoneNumber;
+        break;
+    }
+
+    return newValue.copyWith(
+      text: formattedNumber,
+      selection: TextSelection.collapsed(offset: formattedNumber.length),
     );
   }
 }

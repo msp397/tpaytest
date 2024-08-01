@@ -10,6 +10,7 @@ import 'package:tpay/providers/themeProvider.dart';
 import 'package:tpay/screens/others/bankTransfer.dart';
 import 'package:tpay/screens/others/billsrecharges.dart';
 import 'package:tpay/screens/others/payContact.dart';
+import 'package:tpay/screens/others/payUPI.dart';
 import 'package:tpay/screens/others/paymentcategory/creditcard.dart';
 import 'package:tpay/screens/others/paymentcategory/dthrecharge.dart';
 import 'package:tpay/screens/others/paymentcategory/electricitybill.dart';
@@ -262,7 +263,7 @@ class _DashboardState extends State<Dashboard> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const PayContact(),
+                                  builder: (context) => const PayUPI(),
                                 ),
                               );
                             }),

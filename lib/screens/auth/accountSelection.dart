@@ -1,7 +1,7 @@
-import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+import 'package:tpay/account_service.dart';
 import 'package:tpay/screens/auth/otpVerification.dart';
 
 class AccountSelection extends StatefulWidget {
@@ -13,70 +13,65 @@ class AccountSelection extends StatefulWidget {
 }
 
 class _AccountSelectionState extends State<AccountSelection> {
-  List<Contact> _contacts = [];
+  List<String> _googleAccounts = [];
+  final AccountService _accountService = AccountService();
 
   @override
   void initState() {
     super.initState();
-    _loadContacts();
+    _loadGoogleAccounts();
   }
 
-  Future<void> _loadContacts() async {
+  Future<void> _loadGoogleAccounts() async {
     var permissionStatus = await Permission.contacts.request();
 
     if (permissionStatus.isGranted) {
       try {
-        List<Contact> contacts = (await ContactsService.getContacts()).toList();
+        List<String> accounts = await _accountService.getGoogleAccounts();
         setState(() {
-          _contacts = contacts;
+          _googleAccounts = accounts;
         });
       } catch (e) {
-        print('Error fetching contacts: $e');
+        print('Error fetching Google accounts: $e');
       }
     } else {
-      print('Error fetching contacts:');
+      print('Permission denied to access contacts.');
     }
   }
 
-  Widget _buildAvatar(Contact contact) {
-    if (contact.avatar != null && contact.avatar!.isNotEmpty) {
-      return CircleAvatar(
-        backgroundImage: MemoryImage(contact.avatar!),
-        radius: 24,
-      );
-    } else {
-      String initials = _getAvatarText(contact.displayName);
-      return CircleAvatar(
-        backgroundColor: Colors.blueAccent,
-        radius: 24,
-        child: Text(
-          initials,
-          style: const TextStyle(color: Colors.white),
-        ),
-      );
-    }
-  }
-
-  String _getAvatarText(String? name) {
-    if (name == null || name.isEmpty) {
+  String _getAvatarText(String name) {
+    if (name.isEmpty) {
       return '';
     }
     List<String> parts = name.split(' ');
     if (parts.length > 1) {
-      return '${parts[0][0]}${parts[1][0]}';
+      return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
     } else {
       return name.substring(0, 2).toUpperCase();
     }
   }
 
-  void _submit() async {
+  Widget _buildAvatar(String name) {
+    return CircleAvatar(
+      backgroundColor: Colors.blueAccent,
+      radius: 24,
+      child: Text(
+        _getAvatarText(name),
+        style: const TextStyle(color: Colors.white),
+      ),
+    );
+  }
+
+  void _submit(String account) async {
     var appSignatureID = await SmsAutoFill().getAppSignature;
     Map sendOtpData = {
-      "mobile_number": widget.phoneNumber.toString(),
-      "app_signature_id": appSignatureID
+      "mobile_number": widget.phoneNumber,
+      "app_signature_id": appSignatureID,
+      "account": account
     };
     print(sendOtpData);
     Navigator.push(
+      // ignore: use_build_context_synchronously
       context,
       MaterialPageRoute(
         builder: (context) => Otpverification(
@@ -120,16 +115,21 @@ class _AccountSelectionState extends State<AccountSelection> {
                 ),
                 const SizedBox(height: 30),
                 Expanded(
-                  child: ListView(
-                    children: _contacts
-                        .where((contact) => contact.emails!.isNotEmpty)
-                        .map((contact) => ListTile(
-                              title: Text(contact.displayName ?? 'No Name'),
-                              leading: _buildAvatar(contact),
-                              subtitle: Text(
-                                  contact.emails!.first.value ?? 'No Email'),
-                            ))
-                        .toList(),
+                  child: ListView.builder(
+                    itemCount: _googleAccounts.length,
+                    itemBuilder: (context, index) {
+                      final account = _googleAccounts[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 12.0),
+                          title: Text(account),
+                          leading: _buildAvatar(account),
+                          onTap: () => _submit(account),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 Align(
@@ -137,12 +137,32 @@ class _AccountSelectionState extends State<AccountSelection> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text('Terms and Conditions'),
+                      RichText(
+                        textAlign: TextAlign.justify,
+                        text: const TextSpan(
+                            text: 'By continuing you agree to the combined ',
+                            style: TextStyle(fontSize: 11, color: Colors.black),
+                            children: [
+                              TextSpan(
+                                  text: 'Google Pay Terms',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.blue)),
+                              TextSpan(
+                                  text:
+                                      '\n    The Privacy Policy describes how your data is handled. \nGoogle Pay will periodically send your contacts and location \nto Google servers. People with your number can contact you \n access google services and see your public information like \nname and photo. The phone number you have provided can \n                 be used on different Google Services')
+                            ]),
+                      ),
                       const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: ElevatedButton(
-                            onPressed: _submit,
+                            onPressed: () {
+                              if (_googleAccounts.isNotEmpty) {
+                                _submit(_googleAccounts
+                                    .first); // Or handle multiple selections
+                              }
+                            },
                             style: ElevatedButton.styleFrom(
                               shadowColor: Colors.transparent,
                               backgroundColor:

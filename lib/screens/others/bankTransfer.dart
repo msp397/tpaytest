@@ -123,7 +123,7 @@ class _BanktransferState extends State<Banktransfer> {
                   if (value == null || value.isEmpty) {
                     return 'Please re-enter the account number';
                   } else if (value != accountNumberController.text) {
-                    return 'Account number do not match';
+                    return 're-enter account number must matches with \naccount number';
                   }
                   return null;
                 },
@@ -203,7 +203,7 @@ class _BanktransferState extends State<Banktransfer> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const PaymentScreen()));
+                                  builder: (context) => PaymentScreen()));
                         }
                       : null,
                   child: const Padding(
