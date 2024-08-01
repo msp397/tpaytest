@@ -9,11 +9,13 @@ import 'package:tpay/models/userModel.dart';
 import 'package:tpay/providers/themeProvider.dart';
 import 'package:tpay/screens/others/bankTransfer.dart';
 import 'package:tpay/screens/others/billsrecharges.dart';
+import 'package:tpay/screens/others/business/business.dart';
 import 'package:tpay/screens/others/payContact.dart';
 import 'package:tpay/screens/others/paymentcategory/creditcard.dart';
 import 'package:tpay/screens/others/paymentcategory/dthrecharge.dart';
 import 'package:tpay/screens/others/paymentcategory/electricitybill.dart';
 import 'package:tpay/screens/others/paymentcategory/mobileRecharge.dart';
+import 'package:tpay/screens/others/payments/chart.dart';
 import 'package:tpay/screens/others/profiledetail.dart';
 import 'package:tpay/screens/others/scanner.dart';
 
@@ -44,35 +46,24 @@ class _DashboardState extends State<Dashboard> {
 
   final List<User> users = [
     User(
-        name: 'Alice',
-        avatarUrl: 'https://randomuser.me/api/portraits/men/1.jpg'),
+      name: 'Alice',
+      avatarUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
+    ),
     User(
         name: 'Bob',
         avatarUrl: 'https://randomuser.me/api/portraits/men/2.jpg'),
-    User(
-        name: 'Charlie',
-        avatarUrl: 'https://randomuser.me/api/portraits/men/3.jpg'),
+    User(name: 'Charlie', avatarUrl: ''),
     User(
         name: 'David',
         avatarUrl: 'https://randomuser.me/api/portraits/men/4.jpg'),
-    User(
-        name: 'Eve',
-        avatarUrl: 'https://randomuser.me/api/portraits/men/5.jpg'),
+    User(name: 'Eve', avatarUrl: ''),
     User(
         name: 'Frank',
         avatarUrl: 'https://randomuser.me/api/portraits/men/6.jpg'),
     User(
         name: 'Grace',
         avatarUrl: 'https://randomuser.me/api/portraits/men/7.jpg'),
-    User(
-        name: 'Hannah',
-        avatarUrl: 'https://randomuser.me/api/portraits/men/8.jpg'),
-    User(
-        name: 'Ivy',
-        avatarUrl: 'https://randomuser.me/api/portraits/men/9.jpg'),
-    User(
-        name: 'Jack',
-        avatarUrl: 'https://randomuser.me/api/portraits/men/10.jpg'),
+    User(name: 'Hannah', avatarUrl: ''),
   ];
 
   @override
@@ -290,10 +281,26 @@ class _DashboardState extends State<Dashboard> {
                           return GridTile(
                             child: Column(
                               children: [
-                                CircleAvatar(
-                                  radius: 20,
-                                  backgroundImage:
-                                      NetworkImage(users[index].avatarUrl),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Chart(),
+                                        ));
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    backgroundImage: users[index].avatarUrl !=
+                                            ''
+                                        ? NetworkImage(users[index].avatarUrl)
+                                        : null,
+                                    child: Text(
+                                      (users[index].avatarUrl) == ""
+                                          ? users[index].name[0]
+                                          : "",
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(height: 8.0),
                                 Text(
@@ -399,7 +406,13 @@ class _DashboardState extends State<Dashboard> {
                                   backgroundColor:
                                       WidgetStatePropertyAll(Colors.white),
                                   elevation: WidgetStatePropertyAll(0)),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Business()));
+                              },
                               child: Text(
                                 'Explore',
                                 style: TextStyle(
