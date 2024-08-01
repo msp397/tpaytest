@@ -50,6 +50,15 @@ flutter:
     - assets/images/gifs/intro.gif
     - assets/images/png/TANGEDCO_Logo.png
     - assets/images/png/blue_bg.png
+    - assets/images/png/railway6.jpg
+    - assets/images/png/midnight.jpg
+    - assets/images/png/loanbusiness.jpg
+    - assets/images/png/channels4_profile.jpg
+    - assets/images/png/confirmtlk.png
+    - assets/images/png/digit-insurance.png
+    - assets/images/png/redbus.png
+    - assets/images/png/unnamed.png
+    - assets/images/png/png.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
