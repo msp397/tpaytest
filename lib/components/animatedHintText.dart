@@ -45,8 +45,8 @@ class _AnimatedHintTextFieldState extends State<AnimatedHintTextField>
           border: InputBorder.none,
           hintText: 'Pay anyone on UPI...',
           hintStyle: TextStyle(color: Colors.grey.withOpacity(0.8)),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+          // contentPadding:
+          //     const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         ),
       ),
     );

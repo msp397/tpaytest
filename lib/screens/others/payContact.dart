@@ -108,7 +108,9 @@ class _PayContactState extends State<PayContact> {
           child: Column(
             children: [
               if (_loading)
-                const Center()
+                const Center(
+                  child: CircularProgressIndicator(),
+                )
               else if (_contacts.isNotEmpty)
                 Expanded(
                   child: ListView.builder(

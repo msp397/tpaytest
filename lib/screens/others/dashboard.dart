@@ -187,7 +187,7 @@ class _DashboardState extends State<Dashboard> {
                         ),
                         const SizedBox(height: 20),
                         SizedBox(
-                          width: 180,
+                          width: 200,
                           height: 30,
                           child: ElevatedButton(
                             onPressed: () {},
@@ -201,6 +201,7 @@ class _DashboardState extends State<Dashboard> {
                             child: const Text('Add your bank account'),
                           ),
                         ),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   )

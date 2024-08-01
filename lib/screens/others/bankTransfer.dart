@@ -1,8 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:tpay/screens/others/payments/amount.dart';
 
 class Banktransfer extends StatefulWidget {
   const Banktransfer({super.key});
@@ -13,19 +11,18 @@ class Banktransfer extends StatefulWidget {
 
 class _BanktransferState extends State<Banktransfer> {
   final TextEditingController accountNumberController = TextEditingController();
+  final TextEditingController reEnterAccountNumberController =
+      TextEditingController();
   final TextEditingController ifscCodeController = TextEditingController();
   final TextEditingController accountHolderController = TextEditingController();
-  final TextEditingController moneyController = TextEditingController();
 
   bool isFormValid = false;
 
   @override
   void initState() {
     super.initState();
-    moneyController.text == ""
-        ? moneyController.text = '₹ 0'
-        : moneyController.text;
     accountNumberController.addListener(validateForm);
+    reEnterAccountNumberController.addListener(validateForm);
     ifscCodeController.addListener(validateForm);
     accountHolderController.addListener(validateForm);
   }
@@ -35,34 +32,28 @@ class _BanktransferState extends State<Banktransfer> {
     accountNumberController.dispose();
     ifscCodeController.dispose();
     accountHolderController.dispose();
-    moneyController.dispose();
+    reEnterAccountNumberController.dispose();
     super.dispose();
   }
 
   void validateForm() {
     final String accountNumber = accountNumberController.text;
+    final String reEnterAccountNumber = reEnterAccountNumberController.text;
     final String ifscCode = ifscCodeController.text;
     final String accountHolderName = accountHolderController.text;
 
-    bool isValidAccountNumber =
-        accountNumber.length == 16 && int.tryParse(accountNumber) != null;
+    bool isValidAccountNumber = int.tryParse(accountNumber) != null;
     bool isValidIFSC = ifscCode.length == 11;
-    bool isValidAccountHolderName =
-        accountHolderName.isNotEmpty && accountHolderName.length <= 20;
-
-    bool formIsValid =
-        isValidAccountNumber && isValidIFSC && isValidAccountHolderName;
+    bool isValidAccountHolderName = accountHolderName.isNotEmpty;
+    bool reEnterAccountNumberValid = accountNumber == reEnterAccountNumber;
+    bool formIsValid = isValidAccountNumber &&
+        isValidIFSC &&
+        isValidAccountHolderName &&
+        reEnterAccountNumberValid;
 
     setState(() {
       isFormValid = formIsValid;
-    });
-  }
-
-  void _updateMoney(double amount) {
-    setState(() {
-      final currentAmount =
-          double.tryParse(moneyController.text.replaceAll('₹ ', '')) ?? 0.0;
-      moneyController.text = '₹ ${currentAmount + amount}';
+      print(isFormValid);
     });
   }
 
@@ -70,44 +61,37 @@ class _BanktransferState extends State<Banktransfer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColorDark,
+        backgroundColor: Theme.of(context).cardColor,
+        title: const Text('Enter recipient details'),
+        actions: [
+          PopupMenuButton(
+            icon: const Icon(Icons.more_vert_outlined),
+            onSelected: (dynamic value) {
+              // Handle menu actions here
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem(
+                  value: 1,
+                  child: Text("Get help"),
+                ),
+                const PopupMenuItem(
+                  value: 2,
+                  child: Text("Send feedback"),
+                ),
+              ];
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            Container(
-              width: double.infinity,
-              height: 200,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColorDark,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  MoneyTextField(
-                    controller: moneyController,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildRoundedBadge(100),
-                        const SizedBox(width: 8),
-                        _buildRoundedBadge(500),
-                        const SizedBox(width: 8),
-                        _buildRoundedBadge(1000),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.all(12.0),
-              child: TextField(
+              child: TextFormField(
                 controller: accountNumberController,
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
@@ -117,27 +101,49 @@ class _BanktransferState extends State<Banktransfer> {
                   border: OutlineInputBorder(),
                   labelText: 'Bank Account Number',
                 ),
+                obscureText: true,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: TextFormField(
+                controller: reEnterAccountNumberController,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Re-enter bank account number',
+                ),
+                obscureText: true,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please re-enter the account number';
+                  } else if (value != accountNumberController.text) {
+                    return 'Account number do not match';
+                  }
+                  return null;
+                },
               ),
             ),
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextField(
-                    controller: ifscCodeController,
-                    textCapitalization: TextCapitalization.characters,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp(r'[A-Z0-9]')),
-                    ],
-                    maxLength: 11,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'IFSC Code',
-                    ),
-                  ),
-                  ElevatedButton(
+              child: TextFormField(
+                controller: ifscCodeController,
+                maxLength: 11,
+                textCapitalization: TextCapitalization.characters,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'[A-Z0-9]')),
+                ],
+                decoration: InputDecoration(
+                  counterText: '',
+                  border: const OutlineInputBorder(),
+                  labelText: 'IFSC Code',
+                  suffixIcon: ElevatedButton(
                     onPressed: () {},
                     style: TextButton.styleFrom(
                         foregroundColor: Theme.of(context).primaryColorDark,
@@ -145,9 +151,19 @@ class _BanktransferState extends State<Banktransfer> {
                         elevation: 0),
                     child: const Text('Search IFSC '),
                   ),
-                ],
+                ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter the IFSC code';
+                  } else if (value.length != 11) {
+                    return 'IFSC should be 4 letters, followed by 7 letters or \ndigits';
+                  }
+                  return null;
+                },
               ),
             ),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: TextField(
@@ -181,10 +197,15 @@ class _BanktransferState extends State<Banktransfer> {
                       : Colors.grey.shade200,
                   foregroundColor: isFormValid
                       ? Theme.of(context).primaryColorLight
-                      : Colors.black,
-                  onPressed: () {
-                    print('proceed button pressed');
-                  },
+                      : Colors.grey.shade500,
+                  onPressed: isFormValid
+                      ? () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const PaymentScreen()));
+                        }
+                      : null,
                   child: const Padding(
                     padding: EdgeInsets.only(bottom: 2),
                     child: Text(
@@ -195,53 +216,6 @@ class _BanktransferState extends State<Banktransfer> {
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRoundedBadge(double amount) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColorDark,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: InkWell(
-        onTap: () {
-          _updateMoney(amount);
-        },
-        child: Text(
-          '+ ${amount.toInt()}',
-          style: const TextStyle(fontSize: 15, color: Colors.white),
-        ),
-      ),
-    );
-  }
-}
-
-class MoneyTextField extends StatelessWidget {
-  final TextEditingController controller;
-
-  const MoneyTextField({super.key, required this.controller});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Center(
-        child: TextField(
-          textAlign: TextAlign.center,
-          controller: controller,
-          decoration: const InputDecoration(
-            prefixText: '',
-            border: UnderlineInputBorder(borderSide: BorderSide.none),
-          ),
-          style: const TextStyle(
-            fontSize: 50.0,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
           ),
         ),
       ),
