@@ -1,12 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/avatar/gf_avatar.dart';
 import 'package:getwidget/components/list_tile/gf_list_tile.dart';
 import 'package:getwidget/shape/gf_avatar_shape.dart';
-import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tpay/components/animatedHintText.dart';
 import 'package:tpay/models/userModel.dart';
-import 'package:tpay/providers/themeProvider.dart';
 import 'package:tpay/screens/others/bankTransfer.dart';
 import 'package:tpay/screens/others/billsrecharges.dart';
 import 'package:tpay/screens/others/business/business.dart';
@@ -39,33 +39,26 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void setLoaderState() async {
-    Future.delayed(const Duration(seconds: 2), () {
+    await Future.delayed(const Duration(seconds: 2));
+    if (mounted) {
       setState(() {
         _loading = false;
       });
-    });
+    }
   }
 
   final List<User> users = [
+    User(name: 'Alice', avatar: 'assets/images/png/2f41fd.jpg'),
+    User(name: 'Bob', avatar: 'assets/images/png/360_F.jpg'),
     User(
-      name: 'Alice',
-      avatarUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
+      name: 'Charlie',
+      avatar: '',
     ),
-    User(
-        name: 'Bob',
-        avatarUrl: 'https://randomuser.me/api/portraits/men/2.jpg'),
-    User(name: 'Charlie', avatarUrl: ''),
-    User(
-        name: 'David',
-        avatarUrl: 'https://randomuser.me/api/portraits/men/4.jpg'),
-    User(name: 'Eve', avatarUrl: ''),
-    User(
-        name: 'Frank',
-        avatarUrl: 'https://randomuser.me/api/portraits/men/6.jpg'),
-    User(
-        name: 'Grace',
-        avatarUrl: 'https://randomuser.me/api/portraits/men/7.jpg'),
-    User(name: 'Hannah', avatarUrl: ''),
+    User(name: 'David', avatar: 'assets/images/png/close.jpg'),
+    User(name: 'Eve', avatar: 'assets/images/png/indian-man.jpg'),
+    User(name: 'Frank', avatar: 'assets/images/png/Outdoors.jpg'),
+    User(name: 'Grace', avatar: 'assets/images/png/pexels.jpeg'),
+    User(name: 'Hannah', avatar: ''),
   ];
 
   @override
@@ -150,12 +143,6 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
                   ),
-                  // Image.asset(
-                  //   'assets/images/png/blue_bg.png',
-                  //   height: 150,
-                  //   width: double.infinity,
-                  //   fit: BoxFit.cover,
-                  // ),
                   Align(
                     alignment: Alignment.center,
                     child: Column(
@@ -226,44 +213,58 @@ class _DashboardState extends State<Dashboard> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildMenuItem(Theme.of(context).primaryColor,
-                                Icons.qr_code, "Scan QR", () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const MyScanner(),
-                                ),
-                              );
-                            }),
                             _buildMenuItem(
-                                Theme.of(context).primaryColor,
-                                Icons.phone_android,
-                                "Pay phone \n   number", () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const PayContact(),
-                                ),
-                              );
-                            }),
-                            _buildMenuItem(Theme.of(context).primaryColor,
-                                Icons.account_balance, "Bank Transfer", () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Banktransfer(),
-                                ),
-                              );
-                            }),
-                            _buildMenuItem(Theme.of(context).primaryColor,
-                                Icons.mobile_friendly, "Pay UPI ID", () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const PayUPI(),
-                                ),
-                              );
-                            }),
+                              Theme.of(context).primaryColor,
+                              Icons.qr_code,
+                              "Scan QR",
+                              () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const MyScanner(),
+                                  ),
+                                );
+                              },
+                            ),
+                            _buildMenuItem(
+                              Theme.of(context).primaryColor,
+                              Icons.phone_android,
+                              "Pay phone \n   number",
+                              () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const PayContact(),
+                                  ),
+                                );
+                              },
+                            ),
+                            _buildMenuItem(
+                              Theme.of(context).primaryColor,
+                              Icons.account_balance,
+                              "Bank Transfer",
+                              () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const Banktransfer(),
+                                  ),
+                                );
+                              },
+                            ),
+                            _buildMenuItem(
+                              Theme.of(context).primaryColor,
+                              Icons.mobile_friendly,
+                              "Pay UPI ID",
+                              () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const PayUPI(),
+                                  ),
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -293,20 +294,22 @@ class _DashboardState extends State<Dashboard> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => Chart(),
+                                          builder: (context) => const Chart(),
                                         ));
                                   },
                                   child: CircleAvatar(
                                     radius: 20,
-                                    backgroundImage: users[index].avatarUrl !=
-                                            ''
-                                        ? NetworkImage(users[index].avatarUrl)
+                                    backgroundImage:
+                                        users[index].avatar.isNotEmpty
+                                            ? AssetImage(users[index].avatar)
+                                            : null,
+                                    child: users[index].avatar.isEmpty
+                                        ? Text(
+                                            users[index].name[0],
+                                            style:
+                                                const TextStyle(fontSize: 20),
+                                          )
                                         : null,
-                                    child: Text(
-                                      (users[index].avatarUrl) == ""
-                                          ? users[index].name[0]
-                                          : "",
-                                    ),
                                   ),
                                 ),
                                 const SizedBox(height: 8.0),
@@ -333,25 +336,27 @@ class _DashboardState extends State<Dashboard> {
                             ),
                           ),
                           Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 40, bottom: 12),
-                              child: ElevatedButton(
-                                  style: const ButtonStyle(
-                                      backgroundColor:
-                                          WidgetStatePropertyAll(Colors.white),
-                                      elevation: WidgetStatePropertyAll(0)),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const BillsRecharges()));
-                                  },
-                                  child: Text(
-                                    'Explore',
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor),
-                                  ))),
+                            padding:
+                                const EdgeInsets.only(left: 40, bottom: 12),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                elevation: 0,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BillsRecharges()));
+                              },
+                              child: Text(
+                                'Explore',
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(
@@ -360,36 +365,54 @@ class _DashboardState extends State<Dashboard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          _buildMenuItem(Theme.of(context).primaryColor,
-                              Icons.send_to_mobile, " Mobile \nrecharge", () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const MobileRecharge()));
-                          }),
-                          _buildMenuItem(Theme.of(context).primaryColor,
-                              Icons.credit_card, "Credit cards", () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Creditcard()));
-                          }),
-                          _buildMenuItem(Theme.of(context).primaryColor,
-                              Icons.tv, "DTH / Cable", () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Dthrecharge()));
-                          }),
-                          _buildMenuItem(Theme.of(context).primaryColor,
-                              Icons.electric_bolt, "Electricity", () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ElectricityBill()));
-                          }),
+                          _buildMenuItem(
+                            Theme.of(context).primaryColor,
+                            Icons.send_to_mobile,
+                            "Mobile \nrecharge",
+                            () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const MobileRecharge()));
+                            },
+                          ),
+                          _buildMenuItem(
+                            Theme.of(context).primaryColor,
+                            Icons.credit_card,
+                            "Credit cards",
+                            () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Creditcard()));
+                            },
+                          ),
+                          _buildMenuItem(
+                            Theme.of(context).primaryColor,
+                            Icons.tv,
+                            "DTH / Cable",
+                            () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Dthrecharge()));
+                            },
+                          ),
+                          _buildMenuItem(
+                            Theme.of(context).primaryColor,
+                            Icons.electric_bolt,
+                            "Electricity",
+                            () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ElectricityBill()));
+                            },
+                          ),
                         ],
                       ),
                       const SizedBox(
@@ -409,10 +432,10 @@ class _DashboardState extends State<Dashboard> {
                             padding:
                                 const EdgeInsets.only(left: 40, bottom: 12),
                             child: ElevatedButton(
-                              style: const ButtonStyle(
-                                  backgroundColor:
-                                      WidgetStatePropertyAll(Colors.white),
-                                  elevation: WidgetStatePropertyAll(0)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                elevation: 0,
+                              ),
                               onPressed: () {
                                 Navigator.push(
                                     context,
@@ -627,6 +650,7 @@ class _DashboardState extends State<Dashboard> {
               color: color,
               fontSize: 12,
             ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
@@ -634,16 +658,13 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget _buildFooter() {
-    return const Text(
-      "",
-      style: TextStyle(color: Colors.black),
-    );
+    return const SizedBox();
   }
 }
 
 class User {
   final String name;
-  final String avatarUrl;
+  final String avatar;
 
-  User({required this.name, required this.avatarUrl});
+  User({required this.name, required this.avatar});
 }
