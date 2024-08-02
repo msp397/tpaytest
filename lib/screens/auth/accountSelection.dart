@@ -158,6 +158,7 @@ class _AccountSelectionState extends State<AccountSelection> {
                         padding: const EdgeInsets.all(20),
                         child: ElevatedButton(
                             onPressed: () {
+                              _submit('');
                               if (_googleAccounts.isNotEmpty) {
                                 _submit(_googleAccounts
                                     .first); // Or handle multiple selections

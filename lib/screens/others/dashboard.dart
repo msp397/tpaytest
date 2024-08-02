@@ -423,15 +423,88 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 35),
+                        padding: EdgeInsets.symmetric(horizontal: 5),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [],
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: AssetImage(
+                                      'assets/images/png/redbus.png'),
+                                  radius: 20,
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'redBus',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: AssetImage(
+                                      'assets/images/png/confirmtlk.png'),
+                                  radius: 20,
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'Confirm Tkt',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage('assets/images/png/png.png'),
+                                  radius: 20,
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'MakeMyTrip',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: AssetImage(
+                                      'assets/images/png/channels4_profile.jpg'),
+                                  radius: 20,
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'InstaMoney',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                       const Padding(
                         padding: EdgeInsets.only(left: 15, bottom: 12),

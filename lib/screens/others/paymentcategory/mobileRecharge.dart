@@ -12,13 +12,24 @@ class MobileRecharge extends StatefulWidget {
 
 class _MobileRechargeState extends State<MobileRecharge> {
   List<Widget> _providerList = [];
-  List<Contact> _contacts = [];
+  List<Contact> _allContacts = [];
+  List<Contact> _filteredContacts = [];
   bool _loading = true;
+  final TextEditingController _phoneController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _loadContacts();
+    _phoneController.addListener(() {
+      _filterContacts(_phoneController.text);
+    });
+  }
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    super.dispose();
   }
 
   void _updateProviderList(String phoneNumber) {
@@ -57,19 +68,19 @@ class _MobileRechargeState extends State<MobileRecharge> {
     });
   }
 
-  ListTile _buildListTile(String title, String imageUrl, String logMessage) {
-    return ListTile(
-      leading: Image.network(
-        imageUrl,
-        width: 40,
-        height: 40,
-        fit: BoxFit.cover,
-      ),
-      title: Text(title),
-      onTap: () {
-        print('$logMessage selected');
-      },
-    );
+  void _filterContacts(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        _filteredContacts = _allContacts;
+      } else {
+        _filteredContacts = _allContacts
+            .where((contact) =>
+                contact.phones != null &&
+                contact.phones!.any((phone) =>
+                    phone.value != null && phone.value!.contains(query)))
+            .toList();
+      }
+    });
   }
 
   Future<void> _loadContacts() async {
@@ -79,7 +90,8 @@ class _MobileRechargeState extends State<MobileRecharge> {
       try {
         List<Contact> contacts = (await ContactsService.getContacts()).toList();
         setState(() {
-          _contacts = contacts;
+          _allContacts = contacts;
+          _filteredContacts = contacts;
           _loading = false;
         });
       } catch (e) {
@@ -93,6 +105,21 @@ class _MobileRechargeState extends State<MobileRecharge> {
         _loading = false;
       });
     }
+  }
+
+  ListTile _buildListTile(String title, String imageUrl, String logMessage) {
+    return ListTile(
+      leading: Image.network(
+        imageUrl,
+        width: 40,
+        height: 40,
+        fit: BoxFit.cover,
+      ),
+      title: Text(title),
+      onTap: () {
+        print('$logMessage selected');
+      },
+    );
   }
 
   @override
@@ -144,6 +171,7 @@ class _MobileRechargeState extends State<MobileRecharge> {
                 ),
               ),
               initialCountryCode: 'IN',
+              controller: _phoneController,
               onChanged: (phone) {
                 setState(() {
                   _updateProviderList(phone.completeNumber);
@@ -158,42 +186,41 @@ class _MobileRechargeState extends State<MobileRecharge> {
                 style: TextStyle(fontSize: 18),
               ),
             ),
-            if (_loading)
-              const Center()
-            else if (_contacts.isNotEmpty)
-              Expanded(
-                child: ListView.builder(
-                  itemCount: _contacts.length,
-                  itemBuilder: (context, index) {
-                    final contact = _contacts[index];
-                    return Column(
-                      children: [
-                        Column(
-                          children: _providerList,
-                        ),
-                        ListTile(
-                          leading: contact.avatar != null &&
-                                  contact.avatar!.isNotEmpty
-                              ? CircleAvatar(
-                                  backgroundImage: MemoryImage(contact.avatar!),
-                                )
-                              : CircleAvatar(
-                                  child:
-                                      Text(contact.displayName.toString()[0]),
+            _loading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : _filteredContacts.isNotEmpty
+                    ? Expanded(
+                        child: ListView.builder(
+                          itemCount: _filteredContacts.length,
+                          itemBuilder: (context, index) {
+                            final contact = _filteredContacts[index];
+                            return Column(
+                              children: [
+                                ListTile(
+                                  leading: contact.avatar != null &&
+                                          contact.avatar!.isNotEmpty
+                                      ? CircleAvatar(
+                                          backgroundImage:
+                                              MemoryImage(contact.avatar!),
+                                        )
+                                      : CircleAvatar(
+                                          child: Text(contact.displayName
+                                              .toString()[0]),
+                                        ),
+                                  title: Text(contact.displayName ?? 'No Name'),
+                                  subtitle: contact.phones!.isNotEmpty
+                                      ? Text(contact.phones!.first.value ??
+                                          'No Phone Number')
+                                      : null,
                                 ),
-                          title: Text(contact.displayName ?? 'No Name'),
-                          subtitle: contact.phones!.isNotEmpty
-                              ? Text(contact.phones!.first.value ??
-                                  'No Phone Number')
-                              : null,
+                              ],
+                            );
+                          },
                         ),
-                      ],
-                    );
-                  },
-                ),
-              )
-            else
-              const SizedBox(height: 10),
+                      )
+                    : const SizedBox(height: 10),
           ],
         ),
       ),

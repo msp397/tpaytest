@@ -1,6 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tpay/screens/others/payments/amount.dart';
 
 class PayContact extends StatefulWidget {
   const PayContact({super.key});
@@ -11,13 +12,35 @@ class PayContact extends StatefulWidget {
 
 class _PayContactState extends State<PayContact> {
   final TextEditingController _searchController = TextEditingController();
-  List<Contact> _contacts = [];
+  List<Contact> _allContacts = [];
+  List<Contact> _filteredContacts = [];
   bool _loading = true;
 
   @override
   void initState() {
     super.initState();
     _loadContacts();
+    _searchController.addListener(() {
+      _filterContacts(_searchController.text);
+    });
+  }
+
+  void _filterContacts(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        _filteredContacts = _allContacts;
+      } else {
+        _filteredContacts = _allContacts.where((contact) {
+          final nameContainsQuery = contact.displayName != null &&
+              contact.displayName!.toLowerCase().contains(query.toLowerCase());
+          final phoneContainsQuery = contact.phones != null &&
+              contact.phones!.any((phone) =>
+                  phone.value != null && phone.value!.contains(query));
+
+          return nameContainsQuery || phoneContainsQuery;
+        }).toList();
+      }
+    });
   }
 
   Future<void> _loadContacts() async {
@@ -27,7 +50,8 @@ class _PayContactState extends State<PayContact> {
       try {
         List<Contact> contacts = (await ContactsService.getContacts()).toList();
         setState(() {
-          _contacts = contacts;
+          _allContacts = contacts;
+          _filteredContacts = contacts;
           _loading = false;
         });
       } catch (e) {
@@ -41,6 +65,27 @@ class _PayContactState extends State<PayContact> {
         _loading = false;
       });
     }
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  ListTile _buildListTile(String title, String imageUrl, String logMessage) {
+    return ListTile(
+      leading: Image.network(
+        imageUrl,
+        width: 40,
+        height: 40,
+        fit: BoxFit.cover,
+      ),
+      title: Text(title),
+      onTap: () {
+        print('$logMessage selected');
+      },
+    );
   }
 
   @override
@@ -102,49 +147,56 @@ class _PayContactState extends State<PayContact> {
           ),
         ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              if (_loading)
-                const Center(
-                  child: CircularProgressIndicator(),
-                )
-              else if (_contacts.isNotEmpty)
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: _contacts.length,
-                    itemBuilder: (context, index) {
-                      final contact = _contacts[index];
-                      return Column(
-                        children: [
-                          ListTile(
-                            leading: contact.avatar != null &&
-                                    contact.avatar!.isNotEmpty
-                                ? CircleAvatar(
-                                    backgroundImage:
-                                        MemoryImage(contact.avatar!),
-                                  )
-                                : CircleAvatar(
-                                    child:
-                                        Text(contact.displayName.toString()[0]),
-                                  ),
-                            title: Text(contact.displayName ?? 'No Name'),
-                            subtitle: contact.phones!.isNotEmpty
-                                ? Text(contact.phones!.first.value ??
-                                    'No Phone Number')
-                                : null,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                )
-              else
-                const SizedBox(height: 10),
-            ],
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 12),
+            _loading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : _filteredContacts.isNotEmpty
+                    ? Expanded(
+                        child: ListView.builder(
+                          itemCount: _filteredContacts.length,
+                          itemBuilder: (context, index) {
+                            final contact = _filteredContacts[index];
+                            return Column(
+                              children: [
+                                ListTile(
+                                  leading: contact.avatar != null &&
+                                          contact.avatar!.isNotEmpty
+                                      ? CircleAvatar(
+                                          backgroundImage:
+                                              MemoryImage(contact.avatar!),
+                                        )
+                                      : CircleAvatar(
+                                          child: Text(contact.displayName
+                                              .toString()[0]),
+                                        ),
+                                  title: Text(contact.displayName ?? 'No Name'),
+                                  subtitle: contact.phones!.isNotEmpty
+                                      ? Text(contact.phones!.first.value ??
+                                          'No Phone Number')
+                                      : null,
+                                  onTap: () {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const PaymentScreen()));
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      )
+                    : const SizedBox(height: 10),
+          ],
         ),
       ),
     );

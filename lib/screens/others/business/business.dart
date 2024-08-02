@@ -64,93 +64,88 @@ class _BusinessState extends State<Business> {
               ),
             ),
             const SizedBox(height: 10),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.all(16),
-              child: Card(
-                color: Colors.grey.shade200,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 10),
-                    ListTile(
-                      leading: const CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/png/unnamed.png'),
-                        radius: 20,
-                      ),
-                      title: const Text('5Paisa'),
-                      subtitle: const Text('Stock market trading'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {},
+            Card(
+              color: Colors.grey.shade200,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  ListTile(
+                    leading: const CircleAvatar(
+                      backgroundImage:
+                          AssetImage('assets/images/png/unnamed.png'),
+                      radius: 20,
                     ),
-                    ListTile(
-                      leading: const CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/png/redbus.png'),
-                        radius: 20,
-                      ),
-                      title: const Text('redBus'),
-                      subtitle: const Text('Bus rides through India'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        // Handle notifications tap
-                      },
+                    title: const Text('5Paisa'),
+                    subtitle: const Text('Stock market trading'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: const CircleAvatar(
+                      backgroundImage:
+                          AssetImage('assets/images/png/redbus.png'),
+                      radius: 20,
                     ),
-                    ListTile(
-                      leading: const CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/png/confirmtlk.png'),
-                        radius: 20,
-                      ),
-                      title: const Text('Confirm Tkt'),
-                      subtitle: const Text('IRCTC TKT confirmation'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        // Handle security tap
-                      },
+                    title: const Text('redBus'),
+                    subtitle: const Text('Bus rides through India'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      // Handle notifications tap
+                    },
+                  ),
+                  ListTile(
+                    leading: const CircleAvatar(
+                      backgroundImage:
+                          AssetImage('assets/images/png/confirmtlk.png'),
+                      radius: 20,
                     ),
-                    ListTile(
-                      leading: const CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/png/png.png'),
-                        radius: 20,
-                      ),
-                      title: const Text('MakeMyTrip'),
-                      subtitle: const Text('Travel in india and abroad'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        // Handle help & support tap
-                      },
+                    title: const Text('Confirm Tkt'),
+                    subtitle: const Text('IRCTC TKT confirmation'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      // Handle security tap
+                    },
+                  ),
+                  ListTile(
+                    leading: const CircleAvatar(
+                      backgroundImage: AssetImage('assets/images/png/png.png'),
+                      radius: 20,
                     ),
-                    ListTile(
-                      leading: const CircleAvatar(
-                        backgroundImage: AssetImage(
-                            'assets/images/png/channels4_profile.jpg'),
-                        radius: 20,
-                      ),
-                      title: const Text('InstaMoney'),
-                      subtitle: const Text('Go digital Go InstaMoney'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        // Handle help & support tap
-                      },
+                    title: const Text('MakeMyTrip'),
+                    subtitle: const Text('Travel in india and abroad'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      // Handle help & support tap
+                    },
+                  ),
+                  ListTile(
+                    leading: const CircleAvatar(
+                      backgroundImage:
+                          AssetImage('assets/images/png/channels4_profile.jpg'),
+                      radius: 20,
                     ),
-                    ListTile(
-                      leading: const CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/png/digit-insurance.png'),
-                        radius: 20,
-                      ),
-                      title: const Text('Digit Insurance'),
-                      subtitle: const Text('Best insurance online'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        // Handle help & support tap
-                      },
+                    title: const Text('InstaMoney'),
+                    subtitle: const Text('Go digital Go InstaMoney'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      // Handle help & support tap
+                    },
+                  ),
+                  ListTile(
+                    leading: const CircleAvatar(
+                      backgroundImage:
+                          AssetImage('assets/images/png/digit-insurance.png'),
+                      radius: 20,
                     ),
-                  ],
-                ),
+                    title: const Text('Digit Insurance'),
+                    subtitle: const Text('Best insurance online'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      // Handle help & support tap
+                    },
+                  ),
+                ],
               ),
             ),
           ],

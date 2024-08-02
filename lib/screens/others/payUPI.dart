@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tpay/screens/others/payments/amount.dart';
 
 class PayUPI extends StatefulWidget {
   const PayUPI({super.key});
@@ -8,6 +9,20 @@ class PayUPI extends StatefulWidget {
 }
 
 class _PayUPIState extends State<PayUPI> {
+  final TextEditingController controller = TextEditingController();
+  bool validForm = false;
+
+  void _updateFormState(String text) {
+    setState(() {
+      validForm = text.length > 5;
+    });
+  }
+
+  void _clearTextField() {
+    controller.clear();
+    _updateFormState('');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,9 +65,22 @@ class _PayUPIState extends State<PayUPI> {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 20),
-                    TextField(
-                      controller: TextEditingController(),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: controller,
+                      decoration: InputDecoration(
+                        labelText: 'Enter UPI or number',
+                        border: const OutlineInputBorder(),
+                        suffixIcon: controller.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear),
+                                color: Colors.black,
+                                onPressed: _clearTextField,
+                              )
+                            : null,
+                      ),
+                      autofocus: true,
+                      onChanged: _updateFormState,
                     ),
                   ],
                 ),
@@ -62,11 +90,24 @@ class _PayUPIState extends State<PayUPI> {
           Padding(
             padding: const EdgeInsets.all(20),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: validForm
+                  ? () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PaymentScreen(),
+                        ),
+                      );
+                    }
+                  : null,
               style: ElevatedButton.styleFrom(
                 shadowColor: Colors.transparent,
-                backgroundColor: Theme.of(context).primaryColorDark,
-                foregroundColor: Theme.of(context).primaryColorLight,
+                backgroundColor: validForm
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey.shade200,
+                foregroundColor: validForm
+                    ? Theme.of(context).primaryColorLight
+                    : Colors.grey.shade500,
                 padding: EdgeInsets.zero,
                 minimumSize: const Size(double.infinity, 50),
               ),
