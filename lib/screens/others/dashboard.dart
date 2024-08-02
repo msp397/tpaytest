@@ -12,6 +12,7 @@ import 'package:tpay/screens/others/billsrecharges.dart';
 import 'package:tpay/screens/others/business/business.dart';
 import 'package:tpay/screens/others/payContact.dart';
 import 'package:tpay/screens/others/payUPI.dart';
+import 'package:tpay/screens/others/paymentcategory/addbank.dart';
 import 'package:tpay/screens/others/paymentcategory/creditcard.dart';
 import 'package:tpay/screens/others/paymentcategory/dthrecharge.dart';
 import 'package:tpay/screens/others/paymentcategory/electricitybill.dart';
@@ -182,7 +183,12 @@ class _DashboardState extends State<Dashboard> {
                           width: 200,
                           height: 30,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const AddBank()));
+                            },
                             style: ElevatedButton.styleFrom(
                               shadowColor: Colors.transparent,
                               backgroundColor: Theme.of(context).primaryColor,
