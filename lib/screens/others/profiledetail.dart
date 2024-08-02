@@ -85,7 +85,7 @@ class _ProfiledetailState extends State<Profiledetail> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Andrew Lincoln",
+                          "Rahul Sakthi",
                           style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
@@ -338,7 +338,7 @@ class _ProfiledetailState extends State<Profiledetail> {
                         : const Padding(
                             padding: EdgeInsets.only(bottom: 1),
                             child: Text(
-                              "T",
+                              "RS",
                               style: TextStyle(fontSize: 30),
                             ),
                           ),

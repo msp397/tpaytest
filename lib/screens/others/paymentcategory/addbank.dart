@@ -8,14 +8,70 @@ class AddBank extends StatefulWidget {
 }
 
 class _AddBankState extends State<AddBank> {
+  void _onMenuSelected(int value) {
+    switch (value) {
+      case 1:
+        // Handle refresh action
+        break;
+      case 2:
+        // Handle get help action
+        break;
+      case 3:
+        // Handle send feedback action
+        break;
+      default:
+        break;
+    }
+  }
+
+  Widget _buildIconWithText(String text, IconData icon) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          child: CustomPaint(
+            painter: DashedBorderPainter(
+              color: Colors.blueAccent,
+              dashWidth: 4.0,
+              dashSpace: 4.0,
+            ),
+            child: Container(
+              width: 80,
+              height: 80,
+              child: Icon(
+                icon,
+                size: 40,
+                color: Colors.blueAccent,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(width: 10),
+        Text(
+          text,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMenuItem(IconData icon, String title, VoidCallback onTap) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.blueAccent),
+      title: Text(title),
+      onTap: onTap,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Add Bank'),
         actions: [
-          PopupMenuButton(
+          PopupMenuButton<int>(
             icon: const Icon(Icons.more_vert_outlined),
-            onSelected: (dynamic value) {},
+            onSelected: _onMenuSelected,
             itemBuilder: (BuildContext context) {
               return [
                 const PopupMenuItem(
@@ -41,47 +97,30 @@ class _AddBankState extends State<AddBank> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20),
-            Row(
+            _buildIconWithText("Add Bank", Icons.account_balance),
+            SizedBox(height: 20),
+            Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.blueAccent, // Border color
-                      width: 2.0, // Border width
-                    ),
-                    // Add dotted border
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Icon(
-                        Icons.account_balance, // Bank icon
-                        size: 40,
-                        color: Colors.blueAccent,
-                      ),
-                      Positioned.fill(
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: Container(
-                            width: 10,
-                            height: 10,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.blueAccent,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                _buildMenuItem(
+                  Icons.credit_card,
+                  'Add Credit/Debit Card',
+                  () {
+                    // Handle the tap event for adding a card
+                  },
                 ),
-                SizedBox(width: 10),
-                Text(
-                  "Add Bank",
-                  style: Theme.of(context).textTheme.bodyLarge,
+                _buildMenuItem(
+                  Icons.account_balance,
+                  'Add Bank',
+                  () {
+                    // Handle the tap event for adding a bank
+                  },
+                ),
+                _buildMenuItem(
+                  Icons.money_off,
+                  'Set Up UPI Lite',
+                  () {
+                    // Handle the tap event for setting up UPI Lite
+                  },
                 ),
               ],
             ),
@@ -90,4 +129,47 @@ class _AddBankState extends State<AddBank> {
       ),
     );
   }
+}
+
+class DashedBorderPainter extends CustomPainter {
+  final Color color;
+  final double dashWidth;
+  final double dashSpace;
+
+  DashedBorderPainter({
+    required this.color,
+    required this.dashWidth,
+    required this.dashSpace,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0;
+
+    final dashPath = Path();
+    final width = size.width;
+    final height = size.height;
+    final dashCount = (width / (dashWidth + dashSpace)).floor();
+
+    for (int i = 0; i < dashCount; i++) {
+      double startX = i * (dashWidth + dashSpace);
+      double endX = startX + dashWidth;
+      dashPath.moveTo(startX, 0);
+      dashPath.lineTo(endX, 0);
+      dashPath.moveTo(startX, height);
+      dashPath.lineTo(endX, height);
+      dashPath.moveTo(0, startX);
+      dashPath.lineTo(0, endX);
+      dashPath.moveTo(width, startX);
+      dashPath.lineTo(width, endX);
+    }
+
+    canvas.drawPath(dashPath, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
