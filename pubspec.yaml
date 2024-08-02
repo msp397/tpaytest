@@ -59,6 +59,13 @@ flutter:
     - assets/images/png/redbus.png
     - assets/images/png/unnamed.png
     - assets/images/png/png.png
+    - assets/images/png/2f41fd.jpg
+    - assets/images/png/360_F.jpg
+    - assets/images/png/close.jpg
+    - assets/images/png/indian-man.jpg
+    - assets/images/png/istockphoto.jpg
+    - assets/images/png/Outdoors.jpg
+    - assets/images/png/pexels.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

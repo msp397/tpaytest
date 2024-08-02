@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:tpay/screens/others/payments/amount.dart';
 
 class MyScanner extends StatefulWidget {
   const MyScanner({super.key});
@@ -70,10 +71,21 @@ class _MyScannerState extends State<MyScanner> {
     setState(() {
       this.controller = controller;
     });
+
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         scannedData = scanData.code!;
       });
+
+      // Navigate to AddBank page if scanned data is not empty
+      if (scannedData.isNotEmpty) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const PaymentScreen(),
+          ),
+        );
+      }
     });
   }
 
