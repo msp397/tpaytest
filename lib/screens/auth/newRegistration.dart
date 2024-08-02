@@ -17,6 +17,7 @@ class _NewregistrationState extends State<Newregistration> {
   final FocusNode _phoneFocusNode = FocusNode();
   String _hintText = '00000 00000';
   String _selectedCountryCode = 'IN';
+  bool _isAutofilled = false;
 
   @override
   void initState() {
@@ -49,21 +50,44 @@ class _NewregistrationState extends State<Newregistration> {
     return countryCodeToLength[countryCode] ?? 10;
   }
 
+  // bool _isPhoneNumberValid(String phoneNumber, String countryCode) {
+  //   final length = _getPhoneNumberLengthForCountry(countryCode);
+  //   return phoneNumber.length == length;
+  // }
+
   bool _isPhoneNumberValid(String phoneNumber, String countryCode) {
+    final cleanedNumber = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
+
+    String localNumber;
+    if (countryCode == 'IN') {
+      localNumber = cleanedNumber.replaceFirst(RegExp(r'^91'), '');
+    } else if (countryCode == 'US') {
+      localNumber = cleanedNumber;
+    } else {
+      localNumber = cleanedNumber;
+    }
+
     final length = _getPhoneNumberLengthForCountry(countryCode);
-    return phoneNumber.length == length;
+    setState(() {});
+    return localNumber.length == length;
   }
 
   void _onContinue() {
-    final phoneNumber = _phoneController.text.replaceAll(RegExp(r'\D'), '');
-    print(phoneNumber);
-    if (phoneNumber.isNotEmpty &&
-        _isPhoneNumberValid(phoneNumber, _selectedCountryCode)) {
+    final phoneNumber = _phoneController.text;
+    final cleanedNumber = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
+    if (cleanedNumber.isNotEmpty &&
+        _isPhoneNumberValid(cleanedNumber, _selectedCountryCode)) {
+      if (_isAutofilled) {
+        print("Phone number was auto-filled.");
+      } else {
+        print("Phone number was manually entered.");
+      }
+
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => AccountSelection(
-            phoneNumber: phoneNumber,
+            phoneNumber: cleanedNumber,
           ),
         ),
       );
@@ -80,6 +104,18 @@ class _NewregistrationState extends State<Newregistration> {
           ),
         ),
       );
+    }
+  }
+
+  void _onPhoneControllerChange() {
+    final phoneNumber = _phoneController.text;
+
+    if (!_isAutofilled) {
+      final cleanedNumber = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
+
+      if (_isPhoneNumberValid(cleanedNumber, _selectedCountryCode)) {
+        _isAutofilled = true;
+      }
     }
   }
 
@@ -247,7 +283,7 @@ class PhoneNumberFormatter extends TextInputFormatter {
         break;
       case 'US':
         formattedNumber = phoneNumber.length <= 3
-            ? '(${phoneNumber}'
+            ? '($phoneNumber'
             : phoneNumber.length <= 6
                 ? '(${phoneNumber.substring(0, 3)}) ${phoneNumber.substring(3)}'
                 : phoneNumber.length <= 10
