@@ -23,20 +23,20 @@ class _AccountSelectionState extends State<AccountSelection> {
   }
 
   Future<void> _loadGoogleAccounts() async {
-    var permissionStatus = await Permission.contacts.request();
-
-    if (permissionStatus.isGranted) {
-      try {
-        List<String> accounts = await _accountService.getGoogleAccounts();
-        setState(() {
-          _googleAccounts = accounts;
-        });
-      } catch (e) {
-        print('Error fetching Google accounts: $e');
-      }
-    } else {
-      print('Permission denied to access contacts.');
+    //var permissionStatus = await Permission.contacts.request();
+    try {
+      List<String> accounts = await _accountService.getGoogleAccounts();
+      setState(() {
+        _googleAccounts = accounts;
+      });
+    } catch (e) {
+      print('Error fetching Google accounts: $e');
     }
+    // if (permissionStatus.isGranted) {
+
+    // } else {
+    //   print('Permission denied to access contacts.');
+    // }
   }
 
   String _getAvatarText(String name) {

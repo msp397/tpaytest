@@ -17,7 +17,7 @@ class _NewregistrationState extends State<Newregistration> {
   final FocusNode _phoneFocusNode = FocusNode();
   String _hintText = '00000 00000';
   String _selectedCountryCode = 'IN';
-  bool _isAutofilled = false;
+  final bool _isAutofilled = false;
 
   @override
   void initState() {
@@ -107,55 +107,13 @@ class _NewregistrationState extends State<Newregistration> {
     }
   }
 
-  void _onPhoneControllerChange() {
-    final phoneNumber = _phoneController.text;
-
-    if (!_isAutofilled) {
-      final cleanedNumber = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
-
-      if (_isPhoneNumberValid(cleanedNumber, _selectedCountryCode)) {
-        _isAutofilled = true;
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        actions: [
-          DropdownButton<String>(
-            value: _selectedCountryCode,
-            focusColor: Colors.white,
-            underline: Container(),
-            onChanged: (String? newValue) {
-              if (newValue != null) {
-                setState(() {
-                  _selectedCountryCode = newValue;
-                  _hintText = _getHintTextForCountry(newValue);
-                });
-              }
-            },
-            items: <String>['IN', 'US', 'AE']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Row(
-                  children: [
-                    CountryFlag.fromCountryCode(
-                      value,
-                      height: 20,
-                      width: 30,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(value),
-                  ],
-                ),
-              );
-            }).toList(),
-          ),
-        ],
+        actions: [],
       ),
       body: Column(
         children: [
@@ -172,7 +130,7 @@ class _NewregistrationState extends State<Newregistration> {
                       width: 70,
                     ),
                     const Text(
-                      'Welcome to Pay',
+                      'Welcome to Torus Pay',
                       style: TextStyle(
                         fontSize: 25,
                       ),
@@ -193,6 +151,39 @@ class _NewregistrationState extends State<Newregistration> {
                         hintStyle: const TextStyle(fontSize: 20),
                         border: const OutlineInputBorder(
                           borderSide: BorderSide(),
+                        ),
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: DropdownButton<String>(
+                            value: _selectedCountryCode,
+                            focusColor: Colors.white,
+                            underline: Container(),
+                            onChanged: (String? newValue) {
+                              if (newValue != null) {
+                                setState(() {
+                                  _selectedCountryCode = newValue;
+                                  _hintText = _getHintTextForCountry(newValue);
+                                });
+                              }
+                            },
+                            items: <String>['IN', 'US', 'AE']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Row(
+                                  children: [
+                                    CountryFlag.fromCountryCode(
+                                      value,
+                                      height: 20,
+                                      width: 30,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(value),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
                       onSubmitted: (val) {

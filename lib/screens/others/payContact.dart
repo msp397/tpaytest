@@ -1,6 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tpay/permissions_service.dart';
 import 'package:tpay/screens/others/payments/amount.dart';
 
 class PayContact extends StatefulWidget {
@@ -19,6 +20,7 @@ class _PayContactState extends State<PayContact> {
   @override
   void initState() {
     super.initState();
+    getPermission();
     _loadContacts();
     _searchController.addListener(() {
       _filterContacts(_searchController.text);
@@ -41,6 +43,10 @@ class _PayContactState extends State<PayContact> {
         }).toList();
       }
     });
+  }
+
+  Future<void> getPermission() async {
+    await requestPermissions();
   }
 
   Future<void> _loadContacts() async {

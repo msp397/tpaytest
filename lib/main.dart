@@ -6,14 +6,11 @@ import 'package:tpay/providers/themeProvider.dart';
 import 'package:tpay/screens/others/dashboard.dart';
 import 'package:tpay/screens/spalash/spalashScreen.dart';
 import 'package:tpay/themes/theme.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'account_service.dart';
-import 'permissions_service.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DependencyInjection.init();
-  await requestPermissions();
   runApp(
     ChangeNotifierProvider<ThemeProvider>(
       create: (_) => ThemeProvider(lightTheme),
