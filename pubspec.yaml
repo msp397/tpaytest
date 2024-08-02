@@ -41,8 +41,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/gifs/tenor.gif
-    - assets/images/gifs/mobile.gif
     - assets/images/png/intro_vector.jpg
     - assets/images/png/mobileNumber.png
     - assets/images/png/auth.jpg
