@@ -18,6 +18,8 @@ import 'package:tpay/screens/others/paymentcategory/dthrecharge.dart';
 import 'package:tpay/screens/others/paymentcategory/electricitybill.dart';
 import 'package:tpay/screens/others/paymentcategory/mobileRecharge.dart';
 import 'package:tpay/screens/others/payments/chart.dart';
+import 'package:tpay/screens/others/payments/managemoney.dart';
+import 'package:tpay/screens/others/payments/transactionhistory.dart';
 import 'package:tpay/screens/others/profiledetail.dart';
 import 'package:tpay/screens/others/scanner.dart';
 
@@ -595,30 +597,48 @@ class _DashboardState extends State<Dashboard> {
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
-                      const GFListTile(
-                        avatar: Icon(
+                      ListTile(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const Managemoney(), // Ensure this widget is defined
+                            ),
+                          );
+                        },
+                        leading: const Icon(
                           Icons.account_balance,
                           size: 20,
                         ),
-                        title: Text(
+                        title: const Text(
                           'Check bank balance',
                           style: TextStyle(fontSize: 15),
                         ),
-                        icon: Icon(
+                        trailing: const Icon(
                           Icons.arrow_forward_ios,
                           size: 12,
                         ),
                       ),
-                      const GFListTile(
-                        avatar: Icon(
+                      GFListTile(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const Transactionhistory(), // Ensure this widget is defined
+                            ),
+                          );
+                        },
+                        avatar: const Icon(
                           Icons.history,
                           size: 20,
                         ),
-                        title: Text(
+                        title: const Text(
                           'See transaction history',
                           style: TextStyle(fontSize: 15),
                         ),
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_forward_ios,
                           size: 12,
                         ),
