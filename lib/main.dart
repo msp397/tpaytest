@@ -7,7 +7,6 @@ import 'package:tpay/screens/others/dashboard.dart';
 import 'package:tpay/screens/spalash/spalashScreen.dart';
 import 'package:tpay/themes/theme.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DependencyInjection.init();
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
       builder: (context, themeProvider, _) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'TPAY',
+          title: 'Torus Pay',
           theme: themeProvider.getTheme(),
           routes: {
             '/dashboard': (context) => const Dashboard(),

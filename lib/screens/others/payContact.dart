@@ -1,8 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:tpay/permissions_service.dart';
 import 'package:tpay/screens/others/payments/amount.dart';
 
 class PayContact extends StatefulWidget {
@@ -17,6 +15,7 @@ class _PayContactState extends State<PayContact> {
   List<Contact> _allContacts = [];
   List<Contact> _filteredContacts = [];
   bool _loading = true;
+  bool _permissionDenied = false;
 
   @override
   void initState() {
@@ -47,12 +46,13 @@ class _PayContactState extends State<PayContact> {
   }
 
   Future<void> getPermission() async {
-    await requestPermissions();
+    await Permission.contacts.request();
   }
 
   Future<void> _loadContacts() async {
     try {
       var permissionStatus = await Permission.contacts.request();
+
       if (permissionStatus.isGranted) {
         try {
           List<Contact> contacts =
@@ -60,24 +60,51 @@ class _PayContactState extends State<PayContact> {
           setState(() {
             _allContacts = contacts;
             _filteredContacts = contacts;
-            _loading = false;
+            _permissionDenied = false;
           });
         } catch (e) {
-          setState(() {
-            _loading = false;
-          });
           print('Error fetching contacts: $e');
         }
       } else {
         setState(() {
-          _loading = false;
+          _permissionDenied = false;
         });
       }
-    } on PlatformException {
-      getPermission();
+      setState(() {
+        _loading = false;
+      });
     } catch (e) {
-      print(e);
+      _loading = false;
+      _permissionDenied = true;
+      print('Exception while requesting permission: $e');
     }
+  }
+
+  ListTile _showErrorTile(String errorMessgae) {
+    return ListTile(
+      title: const Text(
+        'Pay friends who are also on Torus Pay',
+        style: TextStyle(fontSize: 12),
+      ),
+      leading: const Icon(
+        Icons.contact_page_outlined,
+        size: 30,
+      ),
+      subtitle: Align(
+        alignment: Alignment.centerLeft,
+        child: GestureDetector(
+          onTap: () {
+            openAppSettings();
+          },
+          child: Text(
+            'Sync contacts',
+            style: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).primaryColorDark),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -86,34 +113,23 @@ class _PayContactState extends State<PayContact> {
     super.dispose();
   }
 
-  // ListTile _buildListTile(String title, String imageUrl, String logMessage) {
-  //   return ListTile(
-  //     leading: Image.network(
-  //       imageUrl,
-  //       width: 40,
-  //       height: 40,
-  //       fit: BoxFit.cover,
-  //     ),
-  //     title: Text(title),
-  //     onTap: () {
-  //       print('$logMessage selected');
-  //     },
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Container(
-          height: 40.0,
+          height: 45.0,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20.0),
             boxShadow: [
               BoxShadow(color: Colors.grey.shade300, blurRadius: 5.0)
             ],
+            border: Border.all(
+              color: Colors.black,
+              width: 1.0,
+            ),
           ),
           child: Row(
             children: [
@@ -130,7 +146,8 @@ class _PayContactState extends State<PayContact> {
                     border: InputBorder.none,
                     hintText: 'Search...',
                     hintStyle: TextStyle(color: Colors.grey),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
                   ),
                 ),
               ),
@@ -166,6 +183,7 @@ class _PayContactState extends State<PayContact> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            _permissionDenied ? _showErrorTile('') : const SizedBox(),
             const SizedBox(height: 12),
             _loading
                 ? const Center(

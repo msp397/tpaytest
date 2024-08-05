@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:getwidget/components/avatar/gf_avatar.dart';
 import 'package:getwidget/components/list_tile/gf_list_tile.dart';
 import 'package:getwidget/shape/gf_avatar_shape.dart';
+import 'package:share/share.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tpay/components/animatedHintText.dart';
 import 'package:tpay/components/custom/dashboardTile.dart';
@@ -13,6 +14,7 @@ import 'package:tpay/screens/others/bankTransfer.dart';
 import 'package:tpay/screens/others/billsrecharges.dart';
 import 'package:tpay/screens/others/business/business.dart';
 import 'package:tpay/screens/others/payContact.dart';
+import 'package:tpay/screens/others/payPhoneNumber.dart';
 import 'package:tpay/screens/others/payUPI.dart';
 import 'package:tpay/screens/others/paymentcategory/creditcard.dart';
 import 'package:tpay/screens/others/paymentcategory/dthrecharge.dart';
@@ -223,7 +225,7 @@ class _DashboardState extends State<Dashboard> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            const PayContact(),
+                                            const PayPhoneNumber(),
                                       ),
                                     );
                                   },
@@ -252,13 +254,13 @@ class _DashboardState extends State<Dashboard> {
                                   Icons.person,
                                   "Self \ntransfer",
                                   () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const PayContact(),
-                                      ),
-                                    );
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) =>
+                                    //         const PayContact(),
+                                    //   ),
+                                    // );
                                   },
                                 ),
                                 _buildMenuItem(
@@ -326,7 +328,7 @@ class _DashboardState extends State<Dashboard> {
                                         ));
                                   },
                                   child: CircleAvatar(
-                                    radius: 20,
+                                    radius: 25,
                                     backgroundImage:
                                         users[index].avatar.isNotEmpty
                                             ? AssetImage(users[index].avatar)
@@ -418,7 +420,7 @@ class _DashboardState extends State<Dashboard> {
                           _buildMenuItem(
                             Theme.of(context).primaryColor,
                             Icons.tv,
-                            "DTH / Cable",
+                            "DTH / \nCable",
                             () {
                               Navigator.push(
                                   context,
@@ -485,13 +487,13 @@ class _DashboardState extends State<Dashboard> {
                                 CircleAvatar(
                                   backgroundImage: AssetImage(
                                       'assets/images/png/redbus.png'),
-                                  radius: 20,
+                                  radius: 25,
                                 ),
                                 SizedBox(
                                   height: 5,
                                 ),
                                 Text(
-                                  'redBus',
+                                  '    redBus     ',
                                   style: TextStyle(
                                     fontSize: 12,
                                   ),
@@ -503,7 +505,7 @@ class _DashboardState extends State<Dashboard> {
                                 CircleAvatar(
                                   backgroundImage: AssetImage(
                                       'assets/images/png/confirmtlk.png'),
-                                  radius: 20,
+                                  radius: 25,
                                 ),
                                 SizedBox(
                                   height: 5,
@@ -521,7 +523,7 @@ class _DashboardState extends State<Dashboard> {
                                 CircleAvatar(
                                   backgroundImage:
                                       AssetImage('assets/images/png/png.png'),
-                                  radius: 20,
+                                  radius: 25,
                                 ),
                                 SizedBox(
                                   height: 5,
@@ -539,7 +541,7 @@ class _DashboardState extends State<Dashboard> {
                                 CircleAvatar(
                                   backgroundImage: AssetImage(
                                       'assets/images/png/channels4_profile.jpg'),
-                                  radius: 20,
+                                  radius: 25,
                                 ),
                                 SizedBox(
                                   height: 5,
@@ -568,90 +570,84 @@ class _DashboardState extends State<Dashboard> {
                       const SizedBox(
                         height: 5,
                       ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        'https://th.bing.com/th/id/OIP.SgdT7mClMheXgjgx5yEKsAHaHa?rs=1&pid=ImgDetMain'),
-                                    radius: 20,
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    'Rewards',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(right: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
                               children: [
                                 CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      'https://thumbs.dreamstime.com/b/two-connected-mobile-phones-25729761.jpg'),
-                                  radius: 20,
+                                  backgroundImage: AssetImage(
+                                      'assets/images/png/offers.png'),
+                                  radius: 25,
                                 ),
                                 SizedBox(
                                   height: 5,
                                 ),
                                 Text(
-                                  'Refer a \n friend',
+                                  'Rewards',
                                   style: TextStyle(
                                     fontSize: 12,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          Column(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius: 20,
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        'assets/images/png/rewards.png'),
+                                    radius: 25,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    'Offers',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                '',
-                                style: TextStyle(
-                                  fontSize: 12,
+                            ),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: AssetImage(
+                                      'assets/images/png/referals.png'),
+                                  radius: 25,
                                 ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius: 20,
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                '',
-                                style: TextStyle(
-                                  fontSize: 12,
+                                SizedBox(
+                                  height: 5,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                Text(
+                                  'Refferals',
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 25,
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'InstaMoney',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.white),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                       const SizedBox(
                         height: 20,
@@ -667,7 +663,7 @@ class _DashboardState extends State<Dashboard> {
                         onTap: () {},
                         avatar: const Icon(
                           Icons.compass_calibration,
-                          size: 20,
+                          size: 25,
                         ),
                         title: const Text(
                           'Check your CIBIL score for \nfree',
@@ -700,7 +696,7 @@ class _DashboardState extends State<Dashboard> {
                         // ),
                         icon: const Icon(
                           Icons.arrow_forward_ios,
-                          size: 12,
+                          size: 16,
                         ),
                       ),
                       GFListTile(
@@ -714,7 +710,7 @@ class _DashboardState extends State<Dashboard> {
                         },
                         avatar: const Icon(
                           Icons.account_balance,
-                          size: 20,
+                          size: 25,
                         ),
                         title: const Text(
                           'Check bank balance',
@@ -722,7 +718,7 @@ class _DashboardState extends State<Dashboard> {
                         ),
                         icon: const Icon(
                           Icons.arrow_forward_ios,
-                          size: 12,
+                          size: 16,
                         ),
                       ),
                       GFListTile(
@@ -736,7 +732,7 @@ class _DashboardState extends State<Dashboard> {
                         },
                         avatar: const Icon(
                           Icons.history,
-                          size: 20,
+                          size: 25,
                         ),
                         title: const Text(
                           'See transaction history',
@@ -744,7 +740,7 @@ class _DashboardState extends State<Dashboard> {
                         ),
                         icon: const Icon(
                           Icons.arrow_forward_ios,
-                          size: 12,
+                          size: 16,
                         ),
                       ),
                     ],
@@ -764,7 +760,7 @@ class _DashboardState extends State<Dashboard> {
       Color color, IconData icon, String label, void Function() onTap) {
     return InkWell(
       onTap: onTap,
-      child: Container(
+      child: SizedBox(
         height: 100,
         width: 80,
         child: Column(
@@ -781,7 +777,7 @@ class _DashboardState extends State<Dashboard> {
                   style: TextStyle(
                     color: color,
                     fontSize: 14,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w400,
                   ),
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
@@ -806,31 +802,64 @@ class _DashboardState extends State<Dashboard> {
               children: [
                 TextSpan(
                   text: 'Invite friends to get ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                TextSpan(
+                  text: ' र 201',
                   style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                TextSpan(
-                  text: '201',
-                  style: TextStyle(fontWeight: FontWeight.w100),
-                ),
-                TextSpan(
-                  text:
-                      '\nInvite friends to Google Pay and get 201 when your friend sends their first payment. They get 21.\n'
-                      'Copy your code \n a5pv9z ',
                 ),
               ],
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.content_copy),
-            onPressed: () {
-              Clipboard.setData(ClipboardData(text: 'a5pv9z')).then((_) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('copied to clipboard'),
+          const SizedBox(height: 8),
+          const Text(
+              '\nInvite friends to Google Pay and get र 201 when your friend sends their first payment. They get र 21.\n'),
+          Row(
+            children: [
+              const Text('Copy your code a5pv9z'),
+              IconButton(
+                icon: const Icon(Icons.content_copy),
+                onPressed: () {
+                  Clipboard.setData(const ClipboardData(text: 'a5pv9z'))
+                      .then((_) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('copied to clipboard'),
+                      ),
+                    );
+                  });
+                },
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  //Share.share('Check out this invitation code: a5pv9z');
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 2,
+                  backgroundColor: Theme.of(context).cardColor,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.horizontal(
+                      left: Radius.circular(50),
+                      right: Radius.circular(50),
+                    ),
                   ),
-                );
-              });
-            },
+                ),
+                child: Text(
+                  'Invite',
+                  style: TextStyle(color: Theme.of(context).primaryColorDark),
+                ),
+              ),
+              SizedBox(
+                height: 100,
+                width: 200,
+                child: Image.asset('assets/images/png/invite_bg.png'),
+              ),
+            ],
           ),
         ],
       ),

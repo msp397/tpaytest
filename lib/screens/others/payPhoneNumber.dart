@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:tpay/screens/others/payments/amount.dart';
 
-class PayUPI extends StatefulWidget {
-  const PayUPI({super.key});
+class PayPhoneNumber extends StatefulWidget {
+  const PayPhoneNumber({super.key});
 
   @override
-  State<PayUPI> createState() => _PayUPIState();
+  State<PayPhoneNumber> createState() => _PayPhoneNumberState();
 }
 
-class _PayUPIState extends State<PayUPI> {
+class _PayPhoneNumberState extends State<PayPhoneNumber> {
   final TextEditingController controller = TextEditingController();
   bool validForm = false;
-
   void _updateFormState(String text) {
     setState(() {
-      validForm = text.length > 5;
+      validForm = text.length == 10 ? true : false;
     });
   }
 
@@ -38,7 +37,7 @@ class _PayUPIState extends State<PayUPI> {
                     const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Enter UPI ID or number',
+                        'Enter a phone number',
                         style: TextStyle(fontSize: 25),
                       ),
                     ),
@@ -59,7 +58,7 @@ class _PayUPIState extends State<PayUPI> {
                           ),
                           const SizedBox(width: 5),
                           const Text(
-                            'app using UPI ID or number',
+                            'app using phone number',
                             style: TextStyle(fontSize: 15),
                           ),
                         ],
@@ -68,8 +67,9 @@ class _PayUPIState extends State<PayUPI> {
                     const SizedBox(height: 20),
                     TextFormField(
                       controller: controller,
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        labelText: 'Enter UPI or number',
+                        labelText: 'Enter phone number',
                         border: const OutlineInputBorder(),
                         suffixIcon: controller.text.isNotEmpty
                             ? IconButton(

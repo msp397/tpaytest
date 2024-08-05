@@ -16,6 +16,7 @@ class _MobileRechargeState extends State<MobileRecharge> {
   List<Contact> _filteredContacts = [];
   bool _loading = true;
   final TextEditingController _phoneController = TextEditingController();
+  bool _permissionDenied = false;
 
   @override
   void initState() {
@@ -84,26 +85,34 @@ class _MobileRechargeState extends State<MobileRecharge> {
   }
 
   Future<void> _loadContacts() async {
-    var permissionStatus = await Permission.contacts.request();
+    try {
+      var permissionStatus = await Permission.contacts.request();
 
-    if (permissionStatus.isGranted) {
-      try {
-        List<Contact> contacts = (await ContactsService.getContacts()).toList();
+      if (permissionStatus.isGranted) {
+        try {
+          List<Contact> contacts =
+              (await ContactsService.getContacts()).toList();
+          setState(() {
+            _allContacts = contacts;
+            _filteredContacts = contacts;
+          });
+        } catch (e) {
+          print('Error fetching contacts: $e');
+        }
+      } else {
         setState(() {
-          _allContacts = contacts;
-          _filteredContacts = contacts;
-          _loading = false;
+          _permissionDenied = false;
         });
-      } catch (e) {
-        setState(() {
-          _loading = false;
-        });
-        print('Error fetching contacts: $e');
       }
-    } else {
       setState(() {
         _loading = false;
       });
+    } catch (e) {
+      setState(() {
+        _loading = false;
+        _permissionDenied = true;
+      });
+      print('Exception while requesting permission: $e');
     }
   }
 
@@ -119,6 +128,33 @@ class _MobileRechargeState extends State<MobileRecharge> {
       onTap: () {
         print('$logMessage selected');
       },
+    );
+  }
+
+  ListTile _showErrorTile(String errorMessgae) {
+    return ListTile(
+      title: const Text(
+        'Pay friends who are also on Torus Pay',
+        style: TextStyle(fontSize: 12),
+      ),
+      leading: const Icon(
+        Icons.contact_page_outlined,
+        size: 30,
+      ),
+      subtitle: Align(
+        alignment: Alignment.centerLeft,
+        child: GestureDetector(
+          onTap: () {
+            openAppSettings();
+          },
+          child: Text(
+            'Sync contacts',
+            style: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).primaryColorDark),
+          ),
+        ),
+      ),
     );
   }
 
@@ -186,41 +222,44 @@ class _MobileRechargeState extends State<MobileRecharge> {
                 style: TextStyle(fontSize: 18),
               ),
             ),
-            _loading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : _filteredContacts.isNotEmpty
-                    ? Expanded(
-                        child: ListView.builder(
-                          itemCount: _filteredContacts.length,
-                          itemBuilder: (context, index) {
-                            final contact = _filteredContacts[index];
-                            return Column(
-                              children: [
-                                ListTile(
-                                  leading: contact.avatar != null &&
-                                          contact.avatar!.isNotEmpty
-                                      ? CircleAvatar(
-                                          backgroundImage:
-                                              MemoryImage(contact.avatar!),
-                                        )
-                                      : CircleAvatar(
-                                          child: Text(contact.displayName
-                                              .toString()[0]),
-                                        ),
-                                  title: Text(contact.displayName ?? 'No Name'),
-                                  subtitle: contact.phones!.isNotEmpty
-                                      ? Text(contact.phones!.first.value ??
-                                          'No Phone Number')
-                                      : null,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
+            _permissionDenied
+                ? _showErrorTile('')
+                : _loading
+                    ? const Center(
+                        child: CircularProgressIndicator(),
                       )
-                    : const SizedBox(height: 10),
+                    : _filteredContacts.isNotEmpty
+                        ? Expanded(
+                            child: ListView.builder(
+                              itemCount: _filteredContacts.length,
+                              itemBuilder: (context, index) {
+                                final contact = _filteredContacts[index];
+                                return Column(
+                                  children: [
+                                    ListTile(
+                                      leading: contact.avatar != null &&
+                                              contact.avatar!.isNotEmpty
+                                          ? CircleAvatar(
+                                              backgroundImage:
+                                                  MemoryImage(contact.avatar!),
+                                            )
+                                          : CircleAvatar(
+                                              child: Text(contact.displayName
+                                                  .toString()[0]),
+                                            ),
+                                      title: Text(
+                                          contact.displayName ?? 'No Name'),
+                                      subtitle: contact.phones!.isNotEmpty
+                                          ? Text(contact.phones!.first.value ??
+                                              'No Phone Number')
+                                          : null,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          )
+                        : const SizedBox(height: 10),
           ],
         ),
       ),

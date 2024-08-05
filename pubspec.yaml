@@ -32,6 +32,8 @@ dependencies:
   country_flags: ^3.0.0
   shared_preferences: ^2.2.3
   image_picker: ^1.1.2
+  open_settings: ^2.0.2
+  share: ^2.0.4
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +67,11 @@ flutter:
     - assets/images/png/Outdoors.jpg
     - assets/images/png/pexels.jpeg
     - assets/images/png/torus_logo.png
+    - assets/images/png/upi_logo.png
+    - assets/images/png/rewards.png
+    - assets/images/png/offers.png
+    - assets/images/png/referals.png
+    - assets/images/png/invite_bg.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
