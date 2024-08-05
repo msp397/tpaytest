@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class AnimatedHintTextField extends StatefulWidget {
@@ -15,23 +17,49 @@ class _AnimatedHintTextFieldState extends State<AnimatedHintTextField>
   late AnimationController _controller;
   late Animation<double> _animation;
 
+  List<String> hintList = [
+    'Pay anyone on UPI...',
+    'Enter the amount',
+    'UPI ID or Phone Number',
+  ];
+
+  int currentHintIndex = 0;
+  Timer? _timer;
+
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 2000),
+      duration:
+          const Duration(milliseconds: 2000), // Animation duration per hint
       vsync: this,
-    )..repeat(reverse: true);
+    );
 
     _animation = CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
     );
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _timer = Timer(Duration(seconds: 2), () {
+          _controller.reverse();
+        });
+      } else if (status == AnimationStatus.dismissed) {
+        setState(() {
+          currentHintIndex = (currentHintIndex + 1) % hintList.length;
+        });
+        _controller.forward();
+      }
+    });
+
+    _controller.forward();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -43,7 +71,7 @@ class _AnimatedHintTextFieldState extends State<AnimatedHintTextField>
         controller: widget.controller,
         decoration: InputDecoration(
           border: InputBorder.none,
-          hintText: 'Pay anyone on UPI...',
+          hintText: hintList[currentHintIndex],
           hintStyle: TextStyle(color: Colors.grey.withOpacity(0.8)),
           // contentPadding:
           //     const EdgeInsets.symmetric(horizontal: 10, vertical: 15),

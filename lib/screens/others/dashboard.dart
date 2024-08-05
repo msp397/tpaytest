@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:getwidget/components/avatar/gf_avatar.dart';
 import 'package:getwidget/components/list_tile/gf_list_tile.dart';
@@ -723,8 +724,7 @@ class _DashboardState extends State<Dashboard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const Transactionhistory(), // Ensure this widget is defined
+                              builder: (context) => const Transactionhistory(),
                             ),
                           );
                         },
@@ -745,8 +745,8 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              _buildFooter(),
+              const SizedBox(height: 30),
+              _buildFooter(context),
             ],
           ),
         ),
@@ -788,8 +788,47 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  Widget _buildFooter() {
-    return const SizedBox();
+  Widget _buildFooter(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          RichText(
+            text: const TextSpan(
+              style: TextStyle(fontSize: 14.0, color: Colors.black),
+              children: [
+                TextSpan(
+                  text: 'Invite friends to get ',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: '201',
+                  style: TextStyle(fontWeight: FontWeight.w100),
+                ),
+                TextSpan(
+                  text:
+                      '\nInvite friends to Google Pay and get 201 when your friend sends their first payment. They get 21.\n'
+                      'Copy your code \n a5pv9z ',
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.content_copy),
+            onPressed: () {
+              Clipboard.setData(ClipboardData(text: 'a5pv9z')).then((_) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('copied to clipboard'),
+                  ),
+                );
+              });
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
 
