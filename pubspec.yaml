@@ -72,6 +72,9 @@ flutter:
     - assets/images/png/offers.png
     - assets/images/png/referals.png
     - assets/images/png/invite_bg.png
+    - assets/images/png/CANBK.NS.png
+    - assets/images/png/SBI-logo.png
+    - assets/images/png/HDFCBANK.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
