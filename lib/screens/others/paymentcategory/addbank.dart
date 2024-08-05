@@ -98,31 +98,11 @@ class _AddBankState extends State<AddBank> {
           children: [
             SizedBox(height: 20),
             _buildIconWithText("Add Bank", Icons.account_balance),
+            _buildIconWithText("Add Credit/Debit Card", Icons.credit_card),
+            _buildIconWithText("Set Up UPI Lite", Icons.add),
             SizedBox(height: 20),
             Column(
-              children: [
-                _buildMenuItem(
-                  Icons.credit_card,
-                  'Add Credit/Debit Card',
-                  () {
-                    // Handle the tap event for adding a card
-                  },
-                ),
-                _buildMenuItem(
-                  Icons.account_balance,
-                  'Add Bank',
-                  () {
-                    // Handle the tap event for adding a bank
-                  },
-                ),
-                _buildMenuItem(
-                  Icons.money_off,
-                  'Set Up UPI Lite',
-                  () {
-                    // Handle the tap event for setting up UPI Lite
-                  },
-                ),
-              ],
+              children: [],
             ),
           ],
         ),

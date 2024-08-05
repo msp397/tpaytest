@@ -18,7 +18,7 @@ import 'package:tpay/screens/others/paymentcategory/creditcard.dart';
 import 'package:tpay/screens/others/paymentcategory/dthrecharge.dart';
 import 'package:tpay/screens/others/paymentcategory/electricitybill.dart';
 import 'package:tpay/screens/others/paymentcategory/mobileRecharge.dart';
-import 'package:tpay/screens/others/payments/chart.dart';
+import 'package:tpay/screens/others/payments/chat.dart';
 import 'package:tpay/screens/others/payments/managemoney.dart';
 import 'package:tpay/screens/others/payments/transactionhistory.dart';
 import 'package:tpay/screens/others/profiledetail.dart';
@@ -222,7 +222,8 @@ class _DashboardState extends State<Dashboard> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const PayUPI(),
+                                        builder: (context) =>
+                                            const PayContact(),
                                       ),
                                     );
                                   },
@@ -241,7 +242,7 @@ class _DashboardState extends State<Dashboard> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const MyScanner(),
+                                        builder: (context) => const PayUPI(),
                                       ),
                                     );
                                   },
@@ -268,7 +269,8 @@ class _DashboardState extends State<Dashboard> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const MyScanner(),
+                                        builder: (context) =>
+                                            const BillsRecharges(),
                                       ),
                                     );
                                   },
@@ -316,7 +318,11 @@ class _DashboardState extends State<Dashboard> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => const Chart(),
+                                          builder: (context) => Chart(
+                                            imageUrl:
+                                                users[index].avatar.toString(),
+                                            name: users[index].name.toString(),
+                                          ),
                                         ));
                                   },
                                   child: CircleAvatar(
@@ -667,31 +673,31 @@ class _DashboardState extends State<Dashboard> {
                           'Check your CIBIL score for \nfree',
                           style: TextStyle(fontSize: 15),
                         ),
-                        subTitle: Column(
-                          children: [
-                            const SizedBox(height: 10),
-                            Container(
-                              padding: const EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              constraints: const BoxConstraints(
-                                maxWidth: 200,
-                                maxHeight: 30,
-                              ),
-                              alignment: Alignment.topCenter,
-                              child: const Text(
-                                'New score available',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white, // Text color
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        // subTitle: Column(
+                        //   children: [
+                        //     const SizedBox(height: 10),
+                        //     Container(
+                        //       padding: const EdgeInsets.all(5.0),
+                        //       decoration: BoxDecoration(
+                        //         color: Colors.blue,
+                        //         borderRadius: BorderRadius.circular(50),
+                        //       ),
+                        //       constraints: const BoxConstraints(
+                        //         maxWidth: 200,
+                        //         maxHeight: 30,
+                        //       ),
+                        //       alignment: Alignment.topCenter,
+                        //       child: const Text(
+                        //         'New score available',
+                        //         textAlign: TextAlign.center,
+                        //         style: TextStyle(
+                        //           color: Colors.white, // Text color
+                        //           fontSize: 12,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         icon: const Icon(
                           Icons.arrow_forward_ios,
                           size: 12,

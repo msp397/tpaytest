@@ -64,6 +64,7 @@ flutter:
     - assets/images/png/istockphoto.jpg
     - assets/images/png/Outdoors.jpg
     - assets/images/png/pexels.jpeg
+    - assets/images/png/torus_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

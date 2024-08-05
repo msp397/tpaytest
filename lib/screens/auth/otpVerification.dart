@@ -56,7 +56,6 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
     if (mounted) {
       setState(() {
         _code = code;
-        // Automatically fill the OTP if it's detected
         if (_code != null && _code!.length == 6) {
           _submit(context);
         }
@@ -68,15 +67,18 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
   void dispose() {
     _otpController.dispose();
     _timer?.cancel();
+    _code = '';
     cancel();
     super.dispose();
   }
 
   void _submit(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-          builder: (BuildContext context) => const SelectAuthPinType()),
-    );
+    if (_code!.length == 6) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+            builder: (BuildContext context) => const SelectAuthPinType()),
+      );
+    }
   }
 
   void _resendOtp() {
@@ -102,9 +104,9 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
                     Padding(
                       padding: const EdgeInsets.only(right: 100),
                       child: Image.asset(
-                        'assets/images/png/gpay_logo.png',
+                        'assets/images/png/torus_logo.png',
                         height: 90,
-                        width: 70,
+                        width: 90,
                       ),
                     ),
                     const Text(
@@ -146,15 +148,38 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
           const SizedBox(height: 10),
           Column(
             children: [
-              if (_code != null &&
-                  _code!.isNotEmpty &&
-                  _start > 0 &&
-                  _code!.length == 6)
+              // if (_code != null &&
+              //     _code!.isNotEmpty &&
+              //     _start > 0 &&
+              //     _code!.length == 6)
+              //   Padding(
+              //     padding: const EdgeInsets.all(20),
+              //     child: ElevatedButton(
+              //       onPressed: () {
+              //         _submit(context);
+              //       },
+              //       style: ElevatedButton.styleFrom(
+              //         shadowColor: Colors.transparent,
+              //         backgroundColor: Theme.of(context).primaryColorDark,
+              //         foregroundColor: Theme.of(context).primaryColorLight,
+              //         padding: EdgeInsets.zero,
+              //         minimumSize: const Size(double.infinity, 50),
+              //       ),
+              //       child: const Text('Verify'),
+              //     ),
+              //   ),
+              if (!isResendEnabled)
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: ElevatedButton(
                     onPressed: () {
-                      _submit(context);
+                      if (_code!.length == 6) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const SelectAuthPinType()),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       shadowColor: Colors.transparent,
@@ -163,22 +188,11 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
                       padding: EdgeInsets.zero,
                       minimumSize: const Size(double.infinity, 50),
                     ),
-                    child: const Text('Verify'),
-                  ),
-                ),
-              if (!isResendEnabled)
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shadowColor: Colors.transparent,
-                      backgroundColor: Theme.of(context).primaryColorDark,
-                      foregroundColor: Theme.of(context).primaryColorLight,
-                      padding: EdgeInsets.zero,
-                      minimumSize: const Size(double.infinity, 50),
-                    ),
-                    child: Text('Resend in $_start seconds'),
+                    child: Text(_code != null
+                        ? _code!.length == 6
+                            ? 'Verify'
+                            : 'Resend in $_start seconds'
+                        : 'Resend in $_start seconds'),
                   ),
                 )
               else
@@ -186,7 +200,15 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
                   padding: const EdgeInsets.all(20),
                   child: ElevatedButton(
                     onPressed: () {
-                      _resendOtp();
+                      if (_code!.length == 6) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const SelectAuthPinType()),
+                        );
+                      } else {
+                        _resendOtp();
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       shadowColor: Colors.transparent,
@@ -195,7 +217,11 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
                       padding: EdgeInsets.zero,
                       minimumSize: const Size(double.infinity, 50),
                     ),
-                    child: const Text('Resend'),
+                    child: Text(_code != null
+                        ? _code!.length == 6
+                            ? 'Verify'
+                            : 'Resend'
+                        : 'Resend'),
                   ),
                 ),
             ],
