@@ -95,9 +95,9 @@ class _AccountSelectionState extends State<AccountSelection> {
                 Padding(
                   padding: const EdgeInsets.only(right: 100),
                   child: Image.asset(
-                    'assets/images/png/gpay_logo.png',
+                    'assets/images/png/torus_logo.png',
                     height: 90,
-                    width: 70,
+                    width: 90,
                   ),
                 ),
                 const Text(

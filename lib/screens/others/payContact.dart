@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tpay/permissions_service.dart';
 import 'package:tpay/screens/others/payments/amount.dart';
@@ -50,26 +51,32 @@ class _PayContactState extends State<PayContact> {
   }
 
   Future<void> _loadContacts() async {
-    var permissionStatus = await Permission.contacts.request();
-
-    if (permissionStatus.isGranted) {
-      try {
-        List<Contact> contacts = (await ContactsService.getContacts()).toList();
+    try {
+      var permissionStatus = await Permission.contacts.request();
+      if (permissionStatus.isGranted) {
+        try {
+          List<Contact> contacts =
+              (await ContactsService.getContacts()).toList();
+          setState(() {
+            _allContacts = contacts;
+            _filteredContacts = contacts;
+            _loading = false;
+          });
+        } catch (e) {
+          setState(() {
+            _loading = false;
+          });
+          print('Error fetching contacts: $e');
+        }
+      } else {
         setState(() {
-          _allContacts = contacts;
-          _filteredContacts = contacts;
           _loading = false;
         });
-      } catch (e) {
-        setState(() {
-          _loading = false;
-        });
-        print('Error fetching contacts: $e');
       }
-    } else {
-      setState(() {
-        _loading = false;
-      });
+    } on PlatformException {
+      getPermission();
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -79,20 +86,20 @@ class _PayContactState extends State<PayContact> {
     super.dispose();
   }
 
-  ListTile _buildListTile(String title, String imageUrl, String logMessage) {
-    return ListTile(
-      leading: Image.network(
-        imageUrl,
-        width: 40,
-        height: 40,
-        fit: BoxFit.cover,
-      ),
-      title: Text(title),
-      onTap: () {
-        print('$logMessage selected');
-      },
-    );
-  }
+  // ListTile _buildListTile(String title, String imageUrl, String logMessage) {
+  //   return ListTile(
+  //     leading: Image.network(
+  //       imageUrl,
+  //       width: 40,
+  //       height: 40,
+  //       fit: BoxFit.cover,
+  //     ),
+  //     title: Text(title),
+  //     onTap: () {
+  //       print('$logMessage selected');
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -50,11 +50,6 @@ class _NewregistrationState extends State<Newregistration> {
     return countryCodeToLength[countryCode] ?? 10;
   }
 
-  // bool _isPhoneNumberValid(String phoneNumber, String countryCode) {
-  //   final length = _getPhoneNumberLengthForCountry(countryCode);
-  //   return phoneNumber.length == length;
-  // }
-
   bool _isPhoneNumberValid(String phoneNumber, String countryCode) {
     final cleanedNumber = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
 
@@ -125,9 +120,9 @@ class _NewregistrationState extends State<Newregistration> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.asset(
-                      'assets/images/png/gpay_logo.png',
+                      'assets/images/png/torus_logo.png',
                       height: 90,
-                      width: 70,
+                      width: 90,
                     ),
                     const Text(
                       'Welcome to Torus Pay',
@@ -249,8 +244,6 @@ class CustomTextField extends StatelessWidget {
         PhoneNumberFormatter(countryCode),
       ],
       decoration: decoration,
-      // keyboardType: TextInputType.phone,
-      // onSubmitted: onSubmitted,
     );
   }
 }

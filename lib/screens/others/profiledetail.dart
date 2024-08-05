@@ -79,7 +79,7 @@ class _ProfiledetailState extends State<Profiledetail> {
                   //       NetworkImage('https://via.placeholder.com/120'),
                   // ),
                   _widgetProfile(),
-                  const SizedBox(width: 20),
+                  const SizedBox(width: 10),
                   const Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,7 +98,7 @@ class _ProfiledetailState extends State<Profiledetail> {
                         ),
                         SizedBox(height: 5),
                         Text(
-                          "BobJohn.gpay@com",
+                          "rahulsakthi.gpay@com",
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                         SizedBox(height: 10),
@@ -107,15 +107,15 @@ class _ProfiledetailState extends State<Profiledetail> {
                             Text(
                               "\u20B9 128",
                               style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),
                             SizedBox(width: 10),
                             Text(
-                              "Reward earned",
+                              "Cashback earned",
                               style:
-                                  TextStyle(fontSize: 16, color: Colors.white),
+                                  TextStyle(fontSize: 12, color: Colors.white),
                             ),
                           ],
                         ),
@@ -128,7 +128,7 @@ class _ProfiledetailState extends State<Profiledetail> {
             const SizedBox(height: 20),
             Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
-                padding: const EdgeInsets.all(8),
+                //padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   // color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -165,7 +165,11 @@ class _ProfiledetailState extends State<Profiledetail> {
                             child: const Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.account_balance, color: Colors.blue),
+                                Icon(
+                                  Icons.account_balance,
+                                  color: Colors.blue,
+                                  size: 30,
+                                ),
                                 SizedBox(height: 4),
                                 Text(
                                   'Bank',
@@ -186,10 +190,14 @@ class _ProfiledetailState extends State<Profiledetail> {
                             child: const Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.credit_card, color: Colors.blue),
+                                Icon(
+                                  Icons.credit_card,
+                                  color: Colors.blue,
+                                  size: 30,
+                                ),
                                 SizedBox(height: 4),
                                 Text(
-                                  'credit',
+                                  'Credit cards',
                                   style: TextStyle(fontSize: 12),
                                 ),
                               ],
@@ -207,7 +215,11 @@ class _ProfiledetailState extends State<Profiledetail> {
                             child: const Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.add, color: Colors.blue),
+                                Icon(
+                                  Icons.add,
+                                  color: Colors.blue,
+                                  size: 30,
+                                ),
                                 SizedBox(height: 4),
                                 Text(
                                   'UPI',
@@ -219,10 +231,10 @@ class _ProfiledetailState extends State<Profiledetail> {
                         ],
                       ),
                     ])),
-            const SizedBox(height: 20),
+            const SizedBox(height: 25),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.all(16),
+              //padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 // color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
