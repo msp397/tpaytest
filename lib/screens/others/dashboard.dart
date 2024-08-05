@@ -12,6 +12,7 @@ import 'package:tpay/components/custom/dashboardTile.dart';
 import 'package:tpay/screens/others/bankTransfer.dart';
 import 'package:tpay/screens/others/billsrecharges.dart';
 import 'package:tpay/screens/others/business/business.dart';
+import 'package:tpay/screens/others/cibil.dart';
 import 'package:tpay/screens/others/payContact.dart';
 import 'package:tpay/screens/others/payUPI.dart';
 import 'package:tpay/screens/others/paymentcategory/creditcard.dart';
@@ -23,6 +24,7 @@ import 'package:tpay/screens/others/payments/managemoney.dart';
 import 'package:tpay/screens/others/payments/transactionhistory.dart';
 import 'package:tpay/screens/others/profiledetail.dart';
 import 'package:tpay/screens/others/scanner.dart';
+import 'package:tpay/screens/others/selftransfer.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -256,7 +258,7 @@ class _DashboardState extends State<Dashboard> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            const PayContact(),
+                                            const Selftransfer(),
                                       ),
                                     );
                                   },
@@ -664,7 +666,12 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ),
                       GFListTile(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Cibilscore()));
+                        },
                         avatar: const Icon(
                           Icons.compass_calibration,
                           size: 20,
@@ -730,7 +737,7 @@ class _DashboardState extends State<Dashboard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Transactionhistory(),
+                              builder: (context) => const TransactionHistory(),
                             ),
                           );
                         },

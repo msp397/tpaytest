@@ -19,8 +19,8 @@ class _AnimatedHintTextFieldState extends State<AnimatedHintTextField>
 
   List<String> hintList = [
     'Pay anyone on UPI...',
-    'Enter the amount',
-    'UPI ID or Phone Number',
+    'Pay Merchants & Friends',
+    'Pay UPI ID or Phone Number',
   ];
 
   int currentHintIndex = 0;
@@ -30,8 +30,7 @@ class _AnimatedHintTextFieldState extends State<AnimatedHintTextField>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration:
-          const Duration(milliseconds: 2000), // Animation duration per hint
+      duration: const Duration(milliseconds: 2000),
       vsync: this,
     );
 
