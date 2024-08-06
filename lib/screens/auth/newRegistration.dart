@@ -194,7 +194,7 @@ class _NewregistrationState extends State<Newregistration> {
           Container(
             color: Colors.white,
             child: Image.asset(
-              'assets/images/png/auth.jpg',
+              'assets/images/png/deposit.jpg',
               width: double.infinity,
               height: 200,
               cacheHeight: 200,
