@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:tpay/account_service.dart';
 import 'package:tpay/screens/auth/otpVerification.dart';
@@ -15,28 +15,31 @@ class AccountSelection extends StatefulWidget {
 class _AccountSelectionState extends State<AccountSelection> {
   List<String> _googleAccounts = [];
   final AccountService _accountService = AccountService();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   void initState() {
     super.initState();
-    _loadGoogleAccounts();
+    _signInWithGoogle();
   }
 
-  Future<void> _loadGoogleAccounts() async {
-    //var permissionStatus = await Permission.contacts.request();
+  Future<void> _signInWithGoogle() async {
     try {
-      List<String> accounts = await _accountService.getGoogleAccounts();
-      setState(() {
-        _googleAccounts = accounts;
-      });
-    } catch (e) {
-      print('Error fetching Google accounts: $e');
-    }
-    // if (permissionStatus.isGranted) {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser != null) {
+        // Fetch user details
+        final googleAuth = await googleUser.authentication;
+        final String? accountName = googleUser.displayName;
 
-    // } else {
-    //   print('Permission denied to access contacts.');
-    // }
+        if (accountName != null) {
+          setState(() {
+            _googleAccounts = [accountName];
+          });
+        }
+      }
+    } catch (e) {
+      print('Error signing in with Google: $e');
+    }
   }
 
   String _getAvatarText(String name) {
@@ -62,16 +65,17 @@ class _AccountSelectionState extends State<AccountSelection> {
     );
   }
 
-  void _submit(String account) async {
+  Future<void> _submit(String account) async {
     var appSignatureID = await SmsAutoFill().getAppSignature;
-    Map sendOtpData = {
+    Map<String, String> sendOtpData = {
       "mobile_number": widget.phoneNumber,
       "app_signature_id": appSignatureID,
       "account": account
     };
     print(sendOtpData);
+
+    // Navigate to Otpverification screen
     Navigator.push(
-      // ignore: use_build_context_synchronously
       context,
       MaterialPageRoute(
         builder: (context) => Otpverification(
@@ -140,40 +144,44 @@ class _AccountSelectionState extends State<AccountSelection> {
                       RichText(
                         textAlign: TextAlign.justify,
                         text: const TextSpan(
-                            text: 'By continuing you agree to the combined ',
-                            style: TextStyle(fontSize: 11, color: Colors.black),
-                            children: [
-                              TextSpan(
-                                  text: 'Google Pay Terms',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.blue)),
-                              TextSpan(
-                                  text:
-                                      '\n    The Privacy Policy describes how your data is handled. \nGoogle Pay will periodically send your contacts and location \nto Google servers. People with your number can contact you \n access google services and see your public information like \nname and photo. The phone number you have provided can \n                 be used on different Google Services')
-                            ]),
+                          text: 'By continuing you agree to the combined ',
+                          style: TextStyle(fontSize: 11, color: Colors.black),
+                          children: [
+                            TextSpan(
+                              text: 'Google Pay Terms',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.blue,
+                              ),
+                            ),
+                            TextSpan(
+                              text:
+                                  '\n    The Privacy Policy describes how your data is handled. \nGoogle Pay will periodically send your contacts and location \nto Google servers. People with your number can contact you \n access Google services and see your public information like \nname and photo. The phone number you have provided can \n                 be used on different Google Services',
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: ElevatedButton(
-                            onPressed: () {
+                          onPressed: () {
+                            if (_googleAccounts.isNotEmpty) {
+                              _submit(_googleAccounts.first);
+                            } else {
                               _submit('');
-                              if (_googleAccounts.isNotEmpty) {
-                                _submit(_googleAccounts
-                                    .first); // Or handle multiple selections
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shadowColor: Colors.transparent,
-                              backgroundColor:
-                                  Theme.of(context).primaryColorDark,
-                              foregroundColor:
-                                  Theme.of(context).primaryColorLight,
-                              padding: EdgeInsets.zero,
-                              minimumSize: const Size(double.infinity, 50),
-                            ),
-                            child: const Text('Accept and continue')),
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shadowColor: Colors.transparent,
+                            backgroundColor: Theme.of(context).primaryColorDark,
+                            foregroundColor:
+                                Theme.of(context).primaryColorLight,
+                            padding: EdgeInsets.zero,
+                            minimumSize: const Size(double.infinity, 50),
+                          ),
+                          child: const Text('Accept and continue'),
+                        ),
                       ),
                     ],
                   ),
