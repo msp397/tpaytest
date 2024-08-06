@@ -17,15 +17,15 @@ class _SelftransferState extends State<Selftransfer> {
   final List<Map<String, String>> _banks = [
     {
       'imagePath': 'assets/images/png/CANBK.NS.png',
-      'bankName': 'Caradio Bank',
+      'bankName': 'Canara bank',
     },
     {
       'imagePath': 'assets/images/png/SBI-logo.png',
-      'bankName': 'SBI Bank',
+      'bankName': 'SBI bank',
     },
     {
       'imagePath': 'assets/images/png/HDFCBANK.png',
-      'bankName': 'HDFC Bank',
+      'bankName': 'HDFC bank',
     },
   ];
 

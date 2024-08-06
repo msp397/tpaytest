@@ -10,6 +10,7 @@ import 'package:share/share.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tpay/components/animatedHintText.dart';
 import 'package:tpay/components/custom/dashboardTile.dart';
+import 'package:tpay/components/dashedBorderButton.dart';
 import 'package:tpay/screens/others/bankTransfer.dart';
 import 'package:tpay/screens/others/billsrecharges.dart';
 import 'package:tpay/screens/others/business/business.dart';
@@ -27,6 +28,7 @@ import 'package:tpay/screens/others/payments/transactionhistory.dart';
 import 'package:tpay/screens/others/profiledetail.dart';
 import 'package:tpay/screens/others/scanner.dart';
 import 'package:tpay/screens/others/selftransfer.dart';
+import 'package:tpay/screens/others/upiIDwithQR.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -46,7 +48,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void setLoaderState() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 3));
     if (mounted) {
       setState(() {
         _loading = false;
@@ -293,9 +295,35 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ],
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                DashedBorderButton(
+                                  iconData: Icons.add_rounded,
+                                  onPressed: () {},
+                                  text: 'Activate UPI Lite',
+                                ),
+                                const SizedBox(width: 20),
+                                DashedBorderButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const UPIInfoWithQR(
+                                                  imageUrl:
+                                                      'assets/images/png/360_F.jpg',
+                                                  name: 'Alex',
+                                                )));
+                                  },
+                                  text: 'UPI ID: rahulsakth@sbi',
+                                )
+                              ],
+                            ),
                           ],
                         ),
                       ),
+                      const SizedBox(height: 20),
                       const Padding(
                         padding: EdgeInsets.only(left: 15, bottom: 12),
                         child: Text(
@@ -661,6 +689,7 @@ class _DashboardState extends State<Dashboard> {
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
+                      _cards(),
                       GFListTile(
                         onTap: () {
                           Navigator.push(
@@ -879,4 +908,75 @@ class User {
   final String avatar;
 
   User({required this.name, required this.avatar});
+}
+
+Container _cards() {
+  return Container(
+    padding: const EdgeInsets.all(16.0),
+    child: SizedBox(
+      height: 200,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: <Widget>[
+          _buildCard('Get a credit card', Colors.white),
+          _buildCard('Get a loan ', Colors.white),
+          //_buildCard('Card 3', Colors.white),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _buildCard(String title, Color color) {
+  return Container(
+    width: 300,
+    margin: const EdgeInsets.symmetric(horizontal: 8.0),
+    child: Card(
+      color: color,
+      elevation: 5,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(Icons.credit_card_sharp),
+                  Text('₹0 joining fee'),
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () {},
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(fontSize: 22, color: Colors.black),
+                    ),
+                    const Text(
+                      'Save up to ₹ 12,000 yearly',
+                      style: TextStyle(fontSize: 12, color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () {},
+                child: const Text('Apply now'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

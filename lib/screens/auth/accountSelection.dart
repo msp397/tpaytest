@@ -23,7 +23,7 @@ class _AccountSelectionState extends State<AccountSelection> {
   }
 
   Future<void> _loadGoogleAccounts() async {
-    //var permissionStatus = await Permission.contacts.request();
+    // var permissionStatus = await Permission.contacts.request();
     try {
       List<String> accounts = await _accountService.getGoogleAccounts();
       setState(() {
