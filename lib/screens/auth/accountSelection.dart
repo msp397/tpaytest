@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-import 'package:tpay/account_service.dart';
 import 'package:tpay/providers/googleAccountsProvide.dart';
 import 'package:tpay/screens/auth/otpVerification.dart';
 
@@ -29,7 +27,6 @@ class _AccountSelectionState extends State<AccountSelection> {
 
   Future<void> _loadGoogleAccounts() async {
     final accounts = await _accountProvider.getGoogleAccounts();
-    print(_googleAccounts);
     setState(() {
       _googleAccounts = accounts;
     });
@@ -70,7 +67,7 @@ class _AccountSelectionState extends State<AccountSelection> {
       radius: 24,
       child: Text(
         _getAvatarText(name),
-        style: const TextStyle(color: Colors.white),
+        style: Theme.of(context).textTheme.labelLarge,
       ),
     );
   }
@@ -82,10 +79,9 @@ class _AccountSelectionState extends State<AccountSelection> {
       "app_signature_id": appSignatureID,
       "account": account
     };
-    print(sendOtpData);
 
-    // Navigate to Otpverification screen
     Navigator.push(
+      // ignore: use_build_context_synchronously
       context,
       MaterialPageRoute(
         builder: (context) => Otpverification(
@@ -114,18 +110,14 @@ class _AccountSelectionState extends State<AccountSelection> {
                     width: 90,
                   ),
                 ),
-                const Text(
+                Text(
                   'Choose your account',
-                  style: TextStyle(
-                    fontSize: 25,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   'This is how people on torus pay will see you',
-                  style: TextStyle(
-                    fontSize: 12,
-                  ),
+                  style: Theme.of(context).textTheme.labelMedium,
                 ),
                 const SizedBox(height: 30),
                 Expanded(
@@ -138,7 +130,10 @@ class _AccountSelectionState extends State<AccountSelection> {
                         child: ListTile(
                           contentPadding:
                               const EdgeInsets.symmetric(horizontal: 12.0),
-                          title: Text(account),
+                          title: Text(
+                            account,
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
                           leading: _buildAvatar(account),
                           onTap: () => _submit(account),
                         ),
@@ -153,13 +148,14 @@ class _AccountSelectionState extends State<AccountSelection> {
                     children: [
                       RichText(
                         textAlign: TextAlign.justify,
-                        text: const TextSpan(
+                        text: TextSpan(
                           text: 'By continuing you agree to the combined ',
-                          style: TextStyle(fontSize: 11, color: Colors.black),
-                          children: [
+                          style: Theme.of(context).textTheme.displaySmall,
+                          children: const [
                             TextSpan(
                               text: 'Google Pay Terms',
                               style: TextStyle(
+                                fontSize: 10,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.blue,
                               ),

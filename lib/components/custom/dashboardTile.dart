@@ -11,22 +11,14 @@ class DashboardTile extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 25),
-          const Text(
+          Text(
             'Start with your bank',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 24,
-              fontWeight: FontWeight.normal,
-            ),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 8),
-          const Text(
+          Text(
             'Send and receive money securely',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 15,
-              fontWeight: FontWeight.normal,
-            ),
+            style: Theme.of(context).textTheme.labelMedium,
           ),
           const SizedBox(height: 20),
           SizedBox(
@@ -44,7 +36,10 @@ class DashboardTile extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 minimumSize: const Size(double.infinity, 50),
               ),
-              child: const Text('Add your bank account'),
+              child: Text(
+                'Add your bank account',
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
             ),
           ),
           const SizedBox(height: 20),

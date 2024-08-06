@@ -68,6 +68,7 @@ class _AnimatedHintTextFieldState extends State<AnimatedHintTextField>
       opacity: _animation,
       child: TextField(
         controller: widget.controller,
+        style: Theme.of(context).textTheme.labelMedium,
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hintList[currentHintIndex],

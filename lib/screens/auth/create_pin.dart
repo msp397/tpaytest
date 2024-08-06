@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-import 'package:tpay/main.dart';
 import 'package:tpay/screens/others/dashboard.dart';
 
 class CreatePin extends StatefulWidget {
@@ -49,7 +48,7 @@ class _CreatePinState extends State<CreatePin> {
                   children: [
                     const Align(
                       alignment: Alignment.centerLeft,
-                      child: const Text(
+                      child: Text(
                         'Create your new PIN',
                         style: TextStyle(fontSize: 25),
                       ),

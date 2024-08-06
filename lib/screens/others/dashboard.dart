@@ -156,12 +156,12 @@ class _DashboardState extends State<Dashboard> {
                 enabled: _loading,
                 child: Container(
                   width: double.infinity,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(0),
                       topRight: Radius.circular(0),
                     ),
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

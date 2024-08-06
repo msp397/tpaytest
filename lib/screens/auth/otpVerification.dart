@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-import 'package:tpay/screens/auth/selectAuthPintype.dart';
+import 'package:tpay/screens/auth/select_auth_type.dart';
 import 'package:tpay/screens/others/dashboard.dart';
 
 class Otpverification extends StatefulWidget {
@@ -76,7 +76,7 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
     if (_code!.length == 6) {
       Navigator.of(context).push(
         MaterialPageRoute(
-            builder: (BuildContext context) => const SelectAuthPinType()),
+            builder: (BuildContext context) => const SelectAuthType()),
       );
     }
   }
@@ -109,37 +109,45 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
                         width: 90,
                       ),
                     ),
-                    const Text(
+                    Text(
                       'Verify your phone number',
-                      style: TextStyle(fontSize: 25),
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
                     Text(
                       'Enter the OTP sent to ${widget.phonenumber}',
-                      style: const TextStyle(fontSize: 15),
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                     const SizedBox(height: 20),
-                    PinFieldAutoFill(
-                      currentCode: _code,
-                      keyboardType: TextInputType.number,
-                      autoFocus: true,
-                      enabled: true,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      onCodeChanged: (val) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          if (mounted) {
-                            setState(() {
-                              _code = val;
-                            });
-                          }
-                        });
-                        print("OTP changed: $val");
-                      },
-                      onCodeSubmitted: (val) {
-                        _submit(context);
-                      },
-                      codeLength: 6,
-                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: PinFieldAutoFill(
+                        currentCode: _code,
+                        keyboardType: TextInputType.number,
+                        autoFocus: true,
+                        enabled: true,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        onCodeChanged: (val) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (mounted) {
+                              setState(() {
+                                _code = val;
+                              });
+                            }
+                          });
+                        },
+                        onCodeSubmitted: (val) {
+                          _submit(context);
+                        },
+                        codeLength: 6,
+                        // You might need to add additional properties here if PinFieldAutoFill supports them
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -177,7 +185,7 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  const SelectAuthPinType()),
+                                  const SelectAuthType()),
                         );
                       }
                     },
@@ -204,7 +212,7 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  const SelectAuthPinType()),
+                                  const SelectAuthType()),
                         );
                       } else {
                         _resendOtp();

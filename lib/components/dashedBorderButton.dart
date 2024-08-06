@@ -20,12 +20,12 @@ class DashedBorderButton extends StatelessWidget {
       painter: DottedBorderPainter(),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(50),
         ),
         child: TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).cardColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
@@ -35,7 +35,7 @@ class DashedBorderButton extends StatelessWidget {
             children: [
               Text(
                 text,
-                style: const TextStyle(color: Colors.black, fontSize: 12),
+                style: Theme.of(context).textTheme.labelSmall,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
@@ -52,7 +52,7 @@ class DottedBorderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color = Colors.black
+      ..color = Colors.white
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.5;
 

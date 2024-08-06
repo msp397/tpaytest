@@ -106,10 +106,8 @@ class _NewregistrationState extends State<Newregistration> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        actions: [],
-      ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(),
       body: Column(
         children: [
           Expanded(
@@ -124,18 +122,12 @@ class _NewregistrationState extends State<Newregistration> {
                       height: 90,
                       width: 90,
                     ),
-                    const Text(
-                      'Welcome to Torus Pay',
-                      style: TextStyle(
-                        fontSize: 25,
-                      ),
-                    ),
+                    Text('Welcome to Torus Pay',
+                        style: Theme.of(context).textTheme.titleMedium),
                     const SizedBox(height: 8),
-                    const Text(
+                    Text(
                       'Enter your phone number',
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                     const SizedBox(height: 30),
                     CustomTextField(
@@ -173,7 +165,12 @@ class _NewregistrationState extends State<Newregistration> {
                                       width: 30,
                                     ),
                                     const SizedBox(width: 10),
-                                    Text(value),
+                                    Text(
+                                      value,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
+                                    ),
                                   ],
                                 ),
                               );

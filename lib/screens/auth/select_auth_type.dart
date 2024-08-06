@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:tpay/screens/auth/createPin.dart';
+import 'package:tpay/screens/auth/create_pin.dart';
 import 'package:tpay/screens/others/dashboard.dart';
 
-class SelectAuthPinType extends StatefulWidget {
-  const SelectAuthPinType({super.key});
+class SelectAuthType extends StatefulWidget {
+  const SelectAuthType({super.key});
 
   @override
-  State<SelectAuthPinType> createState() => _SelectAuthPinTypeState();
+  State<SelectAuthType> createState() => _SelectAuthTypeState();
 }
 
-class _SelectAuthPinTypeState extends State<SelectAuthPinType> {
+class _SelectAuthTypeState extends State<SelectAuthType> {
   int? _selectedOption = 1;
 
   void _handleRadioValueChange(int? value) {
@@ -45,14 +45,14 @@ class _SelectAuthPinTypeState extends State<SelectAuthPinType> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 8),
-                    const Text(
+                    Text(
                       'Secure Google Pay',
-                      style: TextStyle(fontSize: 25),
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
-                    const Text(
+                    Text(
                       'Choose your preferred security method',
-                      style: TextStyle(fontSize: 15),
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                     const SizedBox(height: 20),
                     Column(
@@ -64,16 +64,15 @@ class _SelectAuthPinTypeState extends State<SelectAuthPinType> {
                             groupValue: _selectedOption,
                             onChanged: _handleRadioValueChange,
                           ),
-                          title: const Text(
+                          title: Text(
                             'Use your screen lock ',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.labelLarge,
                           ),
-                          subtitle: const Padding(
-                            padding: EdgeInsets.only(top: 5),
+                          subtitle: Padding(
+                            padding: const EdgeInsets.only(top: 5),
                             child: Text(
                               'Protect Google Pay by using your nexisting phone screen lock or biometric',
-                              style: TextStyle(fontSize: 15),
+                              style: Theme.of(context).textTheme.labelSmall,
                             ),
                           ),
                           onTap: () {
@@ -87,16 +86,15 @@ class _SelectAuthPinTypeState extends State<SelectAuthPinType> {
                             groupValue: _selectedOption,
                             onChanged: _handleRadioValueChange,
                           ),
-                          title: const Text(
+                          title: Text(
                             'Create Google PIN',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.labelLarge,
                           ),
                           subtitle: Padding(
                             padding: const EdgeInsets.only(top: 5),
-                            child: const Text(
+                            child: Text(
                               "Create a 4-digit Google PIN . You'll need to be connected to the internet to verify \nyour PIN",
-                              style: TextStyle(fontSize: 15),
+                              style: Theme.of(context).textTheme.labelSmall,
                             ),
                           ),
                           onTap: () {
