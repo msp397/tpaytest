@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
+  final String? upiId;
+  const PaymentScreen({super.key, this.upiId});
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -11,6 +12,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   double amount = 0.0;
   final TextEditingController _amountController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+  String upi = "";
 
   @override
   void initState() {
@@ -19,6 +21,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
     });
+    var uri = Uri.parse(widget.upiId ?? "");
+    var upiId = uri.queryParameters['pa'];
+    upi = upiId ?? "";
   }
 
   @override
@@ -70,22 +75,24 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CircleAvatar(
-                              radius: 22,
+                              radius: 27,
                               child: CircleAvatar(
-                                radius: 20,
-                                backgroundImage: NetworkImage(
-                                    'https://randomuser.me/api/portraits/men/1.jpg'),
+                                radius: 25,
+                                backgroundImage:
+                                    AssetImage('assets/images/png/2f41fd.jpg'),
                               ),
                             ),
+                            SizedBox(width: 10),
                             Icon(
                               Icons.arrow_forward,
                             ),
+                            SizedBox(width: 10),
                             CircleAvatar(
-                              radius: 22,
+                              radius: 27,
                               child: CircleAvatar(
-                                radius: 20,
-                                backgroundImage: NetworkImage(
-                                    'https://randomuser.me/api/portraits/men/4.jpg'),
+                                radius: 25,
+                                backgroundImage:
+                                    AssetImage('assets/images/png/pexels.jpeg'),
                               ),
                             ),
                           ],
@@ -95,20 +102,29 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Paying via",
-                              style: Theme.of(context).textTheme.titleSmall,
+                              "Paying ${upi.isEmpty ? 'via ' : 'to '}",
                             ),
-                            const SizedBox(width: 10),
-                            const CircleAvatar(
-                              radius: 10,
-                              backgroundImage: NetworkImage(
-                                  'https://th.bing.com/th/id/R.7c8f0d5c7a17a4501ff796a85f91a076?rik=prscf5ZgGFmN8A&riu=http%3a%2f%2flogos-download.com%2fwp-content%2fuploads%2f2016%2f07%2fJio_logo.png&ehk=ez%2fwnkmTwDRiHu7FRE76x%2fu5DKlXSP22m%2bgBOUnuu94%3d&risl=&pid=ImgRaw&r=0'),
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              "prepaid",
-                              style: Theme.of(context).textTheme.titleSmall,
-                            ),
+                            upi.isEmpty
+                                ? Row(
+                                    children: [
+                                      const SizedBox(width: 10),
+                                      const CircleAvatar(
+                                        radius: 10,
+                                        backgroundImage: AssetImage(
+                                            'assets/images/png/jio.png'),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Text("prepaid",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelSmall),
+                                    ],
+                                  )
+                                : Text(
+                                    upi,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600),
+                                  ),
                           ],
                         ),
                       ],
@@ -143,7 +159,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
               child: TextField(
                 controller: _amountController,
                 focusNode: _focusNode,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                 ),

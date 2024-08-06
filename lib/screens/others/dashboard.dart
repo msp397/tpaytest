@@ -1,11 +1,7 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:getwidget/components/avatar/gf_avatar.dart';
 import 'package:getwidget/components/list_tile/gf_list_tile.dart';
-import 'package:getwidget/shape/gf_avatar_shape.dart';
 import 'package:share/share.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tpay/components/animatedHintText.dart';
@@ -838,18 +834,20 @@ class _DashboardState extends State<Dashboard> {
               children: [
                 TextSpan(
                   text: 'Invite friends to get ',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 TextSpan(
                   text: ' र 201',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 8),
           const Text(
-              '\nInvite friends to Google Pay and get र 201 when your friend sends their first payment. They get र 21.\n'),
+            '\nInvite friends to Google Pay and get र 201 when your friend sends their first payment. They get र 21.\n',
+            style: TextStyle(fontSize: 14),
+          ),
           Row(
             children: [
               const Text('Copy your code a5pv9z'),
@@ -873,7 +871,8 @@ class _DashboardState extends State<Dashboard> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  //Share.share('Check out this invitation code: a5pv9z');
+                  Share.share(
+                      'Continue with Torus Pay Invitation code: a5pv9z');
                 },
                 style: ElevatedButton.styleFrom(
                   elevation: 2,

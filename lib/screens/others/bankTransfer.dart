@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tpay/screens/others/payments/amount.dart';
+import 'package:tpay/screens/others/payments/pay.dart';
 
 class Banktransfer extends StatefulWidget {
   const Banktransfer({super.key});

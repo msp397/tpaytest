@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tpay/screens/others/payments/amount.dart';
+import 'package:tpay/screens/others/payments/pay.dart';
 
 class PayPhoneNumber extends StatefulWidget {
   const PayPhoneNumber({super.key});

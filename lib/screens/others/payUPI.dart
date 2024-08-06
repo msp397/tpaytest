@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tpay/screens/others/payments/amount.dart';
+import 'package:tpay/screens/others/payments/pay.dart';
 
 class PayUPI extends StatefulWidget {
   const PayUPI({super.key});

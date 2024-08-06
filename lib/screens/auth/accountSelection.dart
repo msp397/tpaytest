@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:tpay/account_service.dart';
+import 'package:tpay/providers/googleAccountsProvide.dart';
 import 'package:tpay/screens/auth/otpVerification.dart';
 
 class AccountSelection extends StatefulWidget {
@@ -13,34 +14,43 @@ class AccountSelection extends StatefulWidget {
 }
 
 class _AccountSelectionState extends State<AccountSelection> {
+  // List<String> _googleAccounts = [];
+  // // final AccountService _accountService = AccountService();
+  // final GoogleSignIn _googleSignIn = GoogleSignIn();
   List<String> _googleAccounts = [];
-  final AccountService _accountService = AccountService();
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleAccountProvider _accountProvider = GoogleAccountProvider();
 
   @override
   void initState() {
     super.initState();
-    _signInWithGoogle();
+    // _signInWithGoogle();
+    _loadGoogleAccounts();
   }
 
-  Future<void> _signInWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      if (googleUser != null) {
-        // Fetch user details
-        final googleAuth = await googleUser.authentication;
-        final String? accountName = googleUser.displayName;
-
-        if (accountName != null) {
-          setState(() {
-            _googleAccounts = [accountName];
-          });
-        }
-      }
-    } catch (e) {
-      print('Error signing in with Google: $e');
-    }
+  Future<void> _loadGoogleAccounts() async {
+    final accounts = await _accountProvider.getGoogleAccounts();
+    print(_googleAccounts);
+    setState(() {
+      _googleAccounts = accounts;
+    });
   }
+  // Future<void> _signInWithGoogle() async {
+  //   try {
+  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+  //     if (googleUser != null) {
+  //       //final googleAuth = await googleUser.authentication;
+  //       final String? accountName = googleUser.displayName;
+
+  //       if (accountName != null) {
+  //         setState(() {
+  //           _googleAccounts = [accountName];
+  //         });
+  //       }
+  //     }
+  //   } catch (e) {
+  //     print('Error signing in with Google: $e');
+  //   }
+  // }
 
   String _getAvatarText(String name) {
     if (name.isEmpty) {
@@ -112,9 +122,9 @@ class _AccountSelectionState extends State<AccountSelection> {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'This is how people on pay will see you',
+                  'This is how people on torus pay will see you',
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 12,
                   ),
                 ),
                 const SizedBox(height: 30),
