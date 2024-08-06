@@ -1,7 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:tpay/screens/others/payments/amount.dart';
+import 'package:tpay/screens/others/payments/pay.dart';
 
 class PayContact extends StatefulWidget {
   const PayContact({super.key});
@@ -183,6 +183,7 @@ class _PayContactState extends State<PayContact> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //_showErrorTile(''),
             _permissionDenied ? _showErrorTile('') : const SizedBox(),
             const SizedBox(height: 12),
             _loading

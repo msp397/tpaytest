@@ -1,18 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:tpay/screens/others/payments/amount.dart';
+import 'package:tpay/screens/others/payments/pay.dart';
 
 class MyScanner extends StatefulWidget {
   const MyScanner({super.key});
 
   @override
-  _MyScannerState createState() => _MyScannerState();
+  State<MyScanner> createState() => _MyScannerState();
 }
 
 class _MyScannerState extends State<MyScanner> {
   String scannedData = "Scan a code";
   late QRViewController controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    setState(() {
+      this.controller = controller;
+    });
+
+    controller.scannedDataStream.listen((scanData) {
+      if (scanData.code != null && scanData.code!.isNotEmpty) {
+        controller.pauseCamera();
+        setState(() {
+          scannedData = scanData.code!;
+        });
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PaymentScreen(
+              upiId: scannedData.toString(),
+            ),
+          ),
+        ).then((_) {
+          controller.resumeCamera();
+        });
+      }
+    });
+  }
+
+  Future<void> scanQR() async {
+    try {
+      await controller.toggleFlash();
+    } catch (e) {
+      print('Error toggling flash: $e');
+    }
+  }
 
   @override
   void dispose() {
@@ -22,9 +61,10 @@ class _MyScannerState extends State<MyScanner> {
 
   @override
   Widget build(BuildContext context) {
+    print(scannedData);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Scanner'),
+        title: const Text('Scan and Pay'),
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -49,51 +89,21 @@ class _MyScannerState extends State<MyScanner> {
                 height: 40,
                 child: FloatingActionButton(
                   backgroundColor: Colors.black54,
-                  child: Icon(Icons.flash_on, color: Colors.white),
                   onPressed: scanQR,
+                  child: const Icon(Icons.flash_on, color: Colors.white),
                 ),
               ),
             ),
           ),
-          Center(
-            child: Text(
-              scannedData,
-              style: TextStyle(fontSize: 20, color: Colors.white),
-              textAlign: TextAlign.center,
-            ),
-          ),
+          // Center(
+          //   child: Text(
+          //     scannedData,
+          //     style: const TextStyle(fontSize: 20, color: Colors.white),
+          //     textAlign: TextAlign.center,
+          //   ),
+          // ),
         ],
       ),
     );
-  }
-
-  void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
-
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        scannedData = scanData.code!;
-      });
-
-      // Navigate to AddBank page if scanned data is not empty
-      if (scannedData.isNotEmpty) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const PaymentScreen(),
-          ),
-        );
-      }
-    });
-  }
-
-  Future<void> scanQR() async {
-    try {
-      await controller.toggleFlash();
-    } catch (e) {
-      print('Error toggling flash: $e');
-    }
   }
 }
