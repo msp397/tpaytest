@@ -74,8 +74,11 @@ class _PayContactState extends State<PayContact> {
         _loading = false;
       });
     } catch (e) {
-      _loading = false;
-      _permissionDenied = true;
+      setState(() {
+        _loading = false;
+        _permissionDenied = true;
+      });
+
       print('Exception while requesting permission: $e');
     }
   }
