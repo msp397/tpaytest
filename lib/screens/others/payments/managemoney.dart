@@ -23,7 +23,7 @@ class _ManagemoneyState extends State<Managemoney> {
           children: [
             _buildBankRow(
               imagePath: 'assets/images/png/CANBK.NS.png',
-              bankName: 'Caradio Bank',
+              bankName: 'Canara bank',
               onTap: () {
                 Navigator.push(
                   context,
@@ -37,7 +37,7 @@ class _ManagemoneyState extends State<Managemoney> {
             const SizedBox(height: 16), // Add 'const' here
             _buildBankRow(
               imagePath: 'assets/images/png/SBI-logo.png',
-              bankName: 'SBI Bank',
+              bankName: 'SBI bank',
               onTap: () {
                 Navigator.push(
                   context,
@@ -51,7 +51,7 @@ class _ManagemoneyState extends State<Managemoney> {
             const SizedBox(height: 16), // Add 'const' here
             _buildBankRow(
               imagePath: 'assets/images/png/HDFCBANK.png',
-              bankName: 'HDFC Bank',
+              bankName: 'HDFC bank',
               onTap: () {
                 Navigator.push(
                   context,
@@ -84,9 +84,12 @@ class _ManagemoneyState extends State<Managemoney> {
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: Colors.grey),
             ),
-            child: Image.asset(imagePath, fit: BoxFit.cover),
+            child: Image.asset(
+              imagePath,
+              fit: BoxFit.cover,
+            ),
           ),
-          const SizedBox(width: 8), // Add 'const' here
+          const SizedBox(width: 8),
           Text(bankName),
         ],
       ),
