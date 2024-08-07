@@ -8,8 +8,11 @@ class GoogleAccountProvider {
       final List<dynamic> accounts =
           await platform.invokeMethod('getGoogleAccounts');
       return accounts.cast<String>();
-    } on PlatformException catch (e) {
-      print("Failed to get Google accounts: '${e.message}'.");
+    } on PlatformException {
+      print("Failed to get Google accounts:");
+      return [];
+    } catch (e) {
+      print(e);
       return [];
     }
   }

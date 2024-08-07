@@ -2,10 +2,9 @@ import 'dart:math';
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 import 'package:tpay/screens/auth/accountSelection.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tpay/utils/extensions/extension.dart';
 
 class Newregistration extends StatefulWidget {
   const Newregistration({super.key});
@@ -106,116 +105,123 @@ class _NewregistrationState extends State<Newregistration> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'assets/icons/torus.ico',
-                      height: 90,
-                      width: 90,
-                    ),
-                    Text(AppLocalizations.of(context)!.welcome,
-                        style: Theme.of(context).textTheme.titleMedium),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Enter your phone number',
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
-                    const SizedBox(height: 30),
-                    CustomTextField(
-                      controller: _phoneController,
-                      countryCode: _selectedCountryCode,
-                      decoration: InputDecoration(
-                        hintText: _hintText,
-                        hintStyle: const TextStyle(fontSize: 20),
-                        border: const OutlineInputBorder(
-                          borderSide: BorderSide(),
-                        ),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: DropdownButton<String>(
-                            value: _selectedCountryCode,
-                            focusColor: Colors.white,
-                            underline: Container(),
-                            onChanged: (String? newValue) {
-                              if (newValue != null) {
-                                setState(() {
-                                  _selectedCountryCode = newValue;
-                                  _hintText = _getHintTextForCountry(newValue);
-                                });
-                              }
-                            },
-                            items: <String>['IN', 'US', 'AE']
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Row(
-                                  children: [
-                                    CountryFlag.fromCountryCode(
-                                      value,
-                                      height: 20,
-                                      width: 30,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      value,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall,
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: AppBar(),
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        'assets/icons/torus.ico',
+                        height: 90,
+                        width: 90,
+                      ),
+                      Text(AppLocalizations.of(context)!.welcome,
+                          style: Theme.of(context).textTheme.titleMedium),
+                      const SizedBox(height: 8),
+                      Text(
+                        AppLocalizations.of(context)!.enter_mobile_number,
+                        style: Theme.of(context).textTheme.labelMedium,
+                      ),
+                      const SizedBox(height: 30),
+                      CustomTextField(
+                        controller: _phoneController,
+                        countryCode: _selectedCountryCode,
+                        decoration: InputDecoration(
+                          hintText: _hintText,
+                          hintStyle: const TextStyle(fontSize: 20),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide(),
+                          ),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: DropdownButton<String>(
+                              value: _selectedCountryCode,
+                              focusColor: Theme.of(context).cardColor,
+                              underline: Container(),
+                              onChanged: (String? newValue) {
+                                if (newValue != null) {
+                                  setState(() {
+                                    _selectedCountryCode = newValue;
+                                    _hintText =
+                                        _getHintTextForCountry(newValue);
+                                  });
+                                }
+                              },
+                              dropdownColor: Theme.of(context).cardColor,
+                              items: <String>[
+                                'IN',
+                                'US',
+                                'AE'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Row(
+                                      children: [
+                                        CountryFlag.fromCountryCode(
+                                          value,
+                                          height: 20,
+                                          width: 30,
+                                        ),
+                                        10.width,
+                                        Text(
+                                          value,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelSmall,
+                                        ),
+                                      ],
+                                    ));
+                              }).toList(),
+                            ),
                           ),
                         ),
+                        onSubmitted: (val) {
+                          _onContinue();
+                        },
                       ),
-                      onSubmitted: (val) {
-                        _onContinue();
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                  ],
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Container(
-            color: Theme.of(context).cardColor,
-            child: Image.asset(
-              'assets/images/png/new_registration.png',
-              width: double.infinity,
-              height: 200,
-              cacheHeight: 200,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: ElevatedButton(
-              onPressed: _onContinue,
-              style: ElevatedButton.styleFrom(
-                shadowColor: Colors.transparent,
-                backgroundColor: Theme.of(context).primaryColorDark,
-                foregroundColor: Theme.of(context).primaryColorLight,
-                padding: EdgeInsets.zero,
-                minimumSize: const Size(double.infinity, 50),
+            Container(
+              color: Theme.of(context).cardColor,
+              child: Image.asset(
+                'assets/images/png/new_registration.png',
+                width: double.infinity,
+                height: 200,
+                cacheHeight: 200,
+                fit: BoxFit.cover,
               ),
-              child: const Text('Continue'),
             ),
-          ),
-        ],
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: ElevatedButton(
+                onPressed: _onContinue,
+                style: ElevatedButton.styleFrom(
+                  shadowColor: Colors.transparent,
+                  backgroundColor: Theme.of(context).primaryColorDark,
+                  foregroundColor: Theme.of(context).primaryColorLight,
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+                child: Text(AppLocalizations.of(context)!.btn_continue),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -239,6 +245,7 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      style: Theme.of(context).textTheme.labelLarge,
       inputFormatters: <TextInputFormatter>[
         PhoneNumberFormatter(countryCode),
         FilteringTextInputFormatter.digitsOnly,
