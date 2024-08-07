@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:getwidget/components/list_tile/gf_list_tile.dart';
@@ -24,7 +23,8 @@ import 'package:tpay/screens/others/payments/transactionhistory.dart';
 import 'package:tpay/screens/others/profiledetail.dart';
 import 'package:tpay/screens/others/scanner.dart';
 import 'package:tpay/screens/others/selftransfer.dart';
-import 'package:tpay/screens/others/upiIDwithQR.dart';
+import 'package:tpay/screens/others/upi_info.dart';
+import 'package:tpay/utils/extensions/extension.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -73,7 +73,7 @@ class _DashboardState extends State<Dashboard> {
         title: Container(
           height: 40.0,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(20.0),
             boxShadow: [
               BoxShadow(color: Colors.grey.shade300, blurRadius: 5.0)
@@ -82,7 +82,7 @@ class _DashboardState extends State<Dashboard> {
           child: Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.search, color: Colors.black),
+                icon: const Icon(Icons.search),
                 onPressed: () {},
               ),
               Expanded(
@@ -107,7 +107,6 @@ class _DashboardState extends State<Dashboard> {
                 backgroundColor: Color.fromARGB(255, 240, 240, 240),
                 child: Icon(
                   Icons.person,
-                  color: Colors.blue,
                   size: 20,
                 ),
               ),
@@ -310,6 +309,7 @@ class _DashboardState extends State<Dashboard> {
                                                   imageUrl:
                                                       'assets/images/png/360_F.jpg',
                                                   name: 'Alex',
+                                                  qrData: 'rahulsakth@sbi',
                                                 )));
                                   },
                                   text: 'UPI ID: rahulsakth@sbi',
@@ -319,14 +319,15 @@ class _DashboardState extends State<Dashboard> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 12),
+                      20.height,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, bottom: 12),
                         child: Text(
                           'People',
-                          style: TextStyle(fontSize: 18),
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
+                      10.height,
                       GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -382,11 +383,12 @@ class _DashboardState extends State<Dashboard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 15, bottom: 12),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 15, bottom: 12),
                             child: Text(
                               'Bills & recharges',
-                              style: TextStyle(fontSize: 18),
+                              style: Theme.of(context).textTheme.labelLarge,
                             ),
                           ),
                           Padding(
@@ -394,7 +396,10 @@ class _DashboardState extends State<Dashboard> {
                                 const EdgeInsets.only(left: 40, bottom: 12),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
+                                side: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 1),
+                                backgroundColor: Theme.of(context).cardColor,
                                 elevation: 0,
                               ),
                               onPressed: () {
@@ -413,9 +418,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      10.height,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -472,11 +475,12 @@ class _DashboardState extends State<Dashboard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 15, bottom: 12),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 15, bottom: 12),
                             child: Text(
                               'Businesses',
-                              style: TextStyle(fontSize: 18),
+                              style: Theme.of(context).textTheme.labelLarge,
                             ),
                           ),
                           Padding(
@@ -484,7 +488,10 @@ class _DashboardState extends State<Dashboard> {
                                 const EdgeInsets.only(left: 40, bottom: 12),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
+                                side: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 1),
+                                backgroundColor: Theme.of(context).cardColor,
                                 elevation: 0,
                               ),
                               onPressed: () {
@@ -503,6 +510,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ],
                       ),
+                      10.height,
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5),
                         child: Row(
@@ -586,22 +594,22 @@ class _DashboardState extends State<Dashboard> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 12),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, bottom: 12),
                         child: Text(
                           'Offers zone',
-                          style: TextStyle(fontSize: 18),
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       const SizedBox(
                         height: 5,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Column(
+                            const Column(
                               children: [
                                 CircleAvatar(
                                   backgroundImage: AssetImage(
@@ -619,7 +627,7 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ],
                             ),
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Column(
                                 children: [
@@ -640,7 +648,7 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                             ),
-                            Column(
+                            const Column(
                               children: [
                                 CircleAvatar(
                                   backgroundImage: AssetImage(
@@ -659,33 +667,32 @@ class _DashboardState extends State<Dashboard> {
                             Column(
                               children: [
                                 CircleAvatar(
-                                  backgroundColor: Colors.white,
+                                  backgroundColor: Theme.of(context).cardColor,
                                   radius: 25,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Text(
                                   'InstaMoney',
                                   style: TextStyle(
-                                      fontSize: 12, color: Colors.white),
+                                      fontSize: 12,
+                                      color: Theme.of(context).cardColor),
                                 ),
                               ],
                             )
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 10),
+                      20.height,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, bottom: 10),
                         child: Text(
                           'Manage your money',
-                          style: TextStyle(fontSize: 18),
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
-                      _cards(),
+                      _cards(context),
                       GFListTile(
                         onTap: () {
                           Navigator.push(
@@ -909,7 +916,7 @@ class User {
   User({required this.name, required this.avatar});
 }
 
-Container _cards() {
+Container _cards(BuildContext context) {
   return Container(
     padding: const EdgeInsets.all(16.0),
     child: SizedBox(
@@ -917,16 +924,15 @@ Container _cards() {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
-          _buildCard('Get a credit card', Colors.white),
-          _buildCard('Get a loan ', Colors.white),
-          //_buildCard('Card 3', Colors.white),
+          _buildCard(context, 'Get a credit card', Colors.white),
+          _buildCard(context, 'Get a loan ', Colors.white),
         ],
       ),
     ),
   );
 }
 
-Widget _buildCard(String title, Color color) {
+Widget _buildCard(BuildContext context, String title, Color color) {
   return Container(
     width: 300,
     margin: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -937,13 +943,16 @@ Widget _buildCard(String title, Color color) {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.credit_card_sharp),
-                  Text('₹0 joining fee'),
+                  const Icon(Icons.credit_card_sharp),
+                  Text(
+                    '₹0 joining fee',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ],
               ),
             ),

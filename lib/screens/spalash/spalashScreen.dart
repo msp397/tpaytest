@@ -9,8 +9,8 @@ class Spalashscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlutterSplashScreen.gif(
       useImmersiveMode: true,
-      gifPath: 'assets/images/png/torus_logo.png',
-      gifWidth: 269,
+      gifPath: 'assets/icons/torus.ico',
+      gifWidth: 180,
       gifHeight: 474,
       backgroundColor: Theme.of(context).cardColor,
       duration: const Duration(milliseconds: 3000),

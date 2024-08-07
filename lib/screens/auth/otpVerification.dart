@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:tpay/screens/auth/select_auth_type.dart';
-import 'package:tpay/screens/others/dashboard.dart';
 
 class Otpverification extends StatefulWidget {
   final String phonenumber;
@@ -104,7 +103,7 @@ class _OtpverificationState extends State<Otpverification> with CodeAutoFill {
                     Padding(
                       padding: const EdgeInsets.only(right: 100),
                       child: Image.asset(
-                        'assets/images/png/torus_logo.png',
+                        'assets/icons/torus.ico',
                         height: 90,
                         width: 90,
                       ),

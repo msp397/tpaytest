@@ -2,31 +2,56 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
-    primaryColor: Colors.lightBlue,
+    primaryColor: Colors.blueAccent,
     hintColor: Colors.grey.shade500,
     cardColor: Colors.white,
+    iconTheme: const IconThemeData(
+      color: Colors.blueAccent,
+    ),
     textTheme: const TextTheme(
       labelSmall: TextStyle(
-          fontSize: 12.0, fontWeight: FontWeight.normal, color: Colors.black),
+        fontSize: 12.0,
+        color: Colors.black,
+      ),
       labelMedium: TextStyle(
-          fontSize: 14.0, fontWeight: FontWeight.normal, color: Colors.black),
+        fontSize: 14.0,
+        color: Colors.black,
+      ),
       labelLarge: TextStyle(
-          fontSize: 16.0, fontWeight: FontWeight.normal, color: Colors.black),
+        fontSize: 16.0,
+        color: Colors.black,
+      ),
       titleSmall: TextStyle(
-          fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black),
+        fontSize: 20.0,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ),
       titleMedium: TextStyle(
-          fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.black),
+        fontSize: 24.0,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ),
       titleLarge: TextStyle(
-          fontSize: 28.0, fontStyle: FontStyle.italic, color: Colors.black),
+        fontSize: 28.0,
+        fontStyle: FontStyle.italic,
+        color: Colors.black,
+      ),
       displaySmall: TextStyle(
-          fontSize: 10.0, fontWeight: FontWeight.normal, color: Colors.black),
+        fontSize: 10.0,
+        color: Colors.black,
+      ),
       displayLarge: TextStyle(
-          fontSize: 72.0, fontWeight: FontWeight.bold, color: Colors.black),
-      bodyMedium:
-          TextStyle(fontSize: 14.0, fontFamily: 'Arial', color: Colors.black),
+        fontSize: 72.0,
+        color: Colors.black,
+      ),
+      bodyMedium: TextStyle(
+        fontSize: 14.0,
+        fontFamily: 'Arial',
+        color: Colors.black,
+      ),
     ),
     buttonTheme: const ButtonThemeData(
-      buttonColor: Colors.lightBlue,
+      buttonColor: Colors.blueAccent,
       textTheme: ButtonTextTheme.primary,
       disabledColor: Colors.grey,
     ),
@@ -38,31 +63,50 @@ class AppTheme {
   );
 
   static ThemeData darkTheme = ThemeData(
-    primaryColor: Colors.lightBlue,
+    primaryColor: Colors.blueAccent,
     hintColor: Colors.grey.shade800,
     cardColor: Colors.black,
+    iconTheme: const IconThemeData(
+      color: Colors.blueAccent,
+    ),
     textTheme: const TextTheme(
       labelSmall: TextStyle(
-          fontSize: 12.0, fontWeight: FontWeight.normal, color: Colors.white),
+        fontSize: 12.0,
+        color: Colors.white,
+      ),
       labelMedium: TextStyle(
-          fontSize: 14.0, fontWeight: FontWeight.normal, color: Colors.white),
+        fontSize: 14.0,
+        color: Colors.white,
+      ),
       labelLarge: TextStyle(
-          fontSize: 16.0, fontWeight: FontWeight.normal, color: Colors.white),
+        fontSize: 16.0,
+        color: Colors.white,
+      ),
       titleSmall: TextStyle(
-          fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
+        fontSize: 20.0,
+        color: Colors.white,
+      ),
       titleMedium: TextStyle(
-          fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.white),
+        fontSize: 24.0,
+        color: Colors.white,
+      ),
       titleLarge: TextStyle(
-          fontSize: 28.0, fontStyle: FontStyle.italic, color: Colors.white),
+        fontSize: 28.0,
+        color: Colors.white,
+      ),
       displaySmall: TextStyle(
-          fontSize: 10.0, fontWeight: FontWeight.normal, color: Colors.white),
+        fontSize: 10.0,
+        color: Colors.white,
+      ),
       displayLarge: TextStyle(
-          fontSize: 72.0, fontWeight: FontWeight.bold, color: Colors.white),
+        fontSize: 72.0,
+        color: Colors.white,
+      ),
       bodyMedium:
           TextStyle(fontSize: 14.0, fontFamily: 'Arial', color: Colors.white),
     ),
     buttonTheme: const ButtonThemeData(
-      buttonColor: Colors.lightBlue,
+      buttonColor: Colors.blueAccent,
       textTheme: ButtonTextTheme.primary,
       disabledColor: Colors.grey,
     ),

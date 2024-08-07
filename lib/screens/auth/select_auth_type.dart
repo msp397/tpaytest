@@ -46,7 +46,7 @@ class _SelectAuthTypeState extends State<SelectAuthType> {
                   children: [
                     const SizedBox(height: 8),
                     Text(
-                      'Secure Google Pay',
+                      'Secure Torus Pay',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
@@ -93,12 +93,11 @@ class _SelectAuthTypeState extends State<SelectAuthType> {
                           subtitle: Padding(
                             padding: const EdgeInsets.only(top: 5),
                             child: Text(
-                              "Create a 4-digit Google PIN . You'll need to be connected to the internet to verify \nyour PIN",
+                              "Create a 4-digit Google PIN. You'll need to be connected to the internet to verify your PIN",
                               style: Theme.of(context).textTheme.labelSmall,
                             ),
                           ),
                           onTap: () {
-                            // Handle the tap event if needed
                             _handleRadioValueChange(2);
                           },
                         ),

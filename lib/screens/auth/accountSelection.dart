@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 import 'package:tpay/providers/googleAccountsProvide.dart';
 import 'package:tpay/screens/auth/otpVerification.dart';
 
@@ -28,6 +27,7 @@ class _AccountSelectionState extends State<AccountSelection> {
   Future<void> _loadGoogleAccounts() async {
     final accounts = await _accountProvider.getGoogleAccounts();
     setState(() {
+      print(_googleAccounts);
       _googleAccounts = accounts;
     });
   }
@@ -73,12 +73,12 @@ class _AccountSelectionState extends State<AccountSelection> {
   }
 
   Future<void> _submit(String account) async {
-    var appSignatureID = await SmsAutoFill().getAppSignature;
-    Map<String, String> sendOtpData = {
-      "mobile_number": widget.phoneNumber,
-      "app_signature_id": appSignatureID,
-      "account": account
-    };
+    // var appSignatureID = await SmsAutoFill().getAppSignature;
+    // Map<String, String> sendOtpData = {
+    //   "mobile_number": widget.phoneNumber,
+    //   "app_signature_id": appSignatureID,
+    //   "account": account
+    // };
 
     Navigator.push(
       // ignore: use_build_context_synchronously
@@ -105,7 +105,7 @@ class _AccountSelectionState extends State<AccountSelection> {
                 Padding(
                   padding: const EdgeInsets.only(right: 100),
                   child: Image.asset(
-                    'assets/images/png/torus_logo.png',
+                    'assets/icons/torus.ico',
                     height: 90,
                     width: 90,
                   ),

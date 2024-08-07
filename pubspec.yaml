@@ -35,6 +35,9 @@ dependencies:
   open_settings: ^2.0.2
   share: ^2.0.4
   google_sign_in: ^6.2.1
+  qr_flutter: ^4.1.0
+  path_provider: ^2.1.4
+  dio: ^5.5.0+1
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +83,7 @@ flutter:
     - assets/images/png/deposit.jpg
     - assets/images/png/jio.png
     - assets/images/png/new_registration.png
+    - assets/icons/torus.ico
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
