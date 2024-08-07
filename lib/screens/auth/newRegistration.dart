@@ -189,9 +189,9 @@ class _NewregistrationState extends State<Newregistration> {
             ),
           ),
           Container(
-            color: Colors.white,
+            color: Theme.of(context).cardColor,
             child: Image.asset(
-              'assets/images/png/deposit.jpg',
+              'assets/images/png/new_registration.png',
               width: double.infinity,
               height: 200,
               cacheHeight: 200,
@@ -235,12 +235,14 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PhoneFieldHint(
+    return TextField(
       controller: controller,
       inputFormatters: <TextInputFormatter>[
         PhoneNumberFormatter(countryCode),
+        FilteringTextInputFormatter.digitsOnly,
       ],
       decoration: decoration,
+      onSubmitted: onSubmitted,
     );
   }
 }

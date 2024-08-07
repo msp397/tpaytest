@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:tpay/screens/others/paymentcategory/dthrecharge.dart';
 import 'package:tpay/screens/others/paymentcategory/electricitybill.dart';
@@ -97,6 +99,28 @@ class _BillsRechargesState extends State<BillsRecharges> {
                     builder: (context) => const MobileRecharge())),
           ),
           _MenuItem(
+            icon: Icons.dvr_outlined,
+            label: 'DTH Recharge',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Dthrecharge())),
+          ),
+          _MenuItem(
+            icon: Icons.storefront,
+            label: 'Google play',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Internetbill())),
+          ),
+          _MenuItem(
+            icon: Icons.car_rental,
+            label: 'Fast Tag \nRecharge',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Internetbill())),
+          ),
+        ]),
+        const SizedBox(height: 16),
+        const Divider(),
+        _buildSectionHeader('Utility Bills', [
+          _MenuItem(
             icon: Icons.lightbulb_outline,
             label: 'Electricity \nBill',
             onTap: () => Navigator.push(
@@ -105,19 +129,17 @@ class _BillsRechargesState extends State<BillsRecharges> {
                     builder: (context) => const ElectricityBill())),
           ),
           _MenuItem(
-            icon: Icons.dvr_outlined,
-            label: 'DTH Recharge',
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Dthrecharge())),
-          ),
-          _MenuItem(
             icon: Icons.wifi,
             label: 'Internet Bill',
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const Internetbill())),
           ),
-        ]),
-        _buildSectionHeader('Utility Bills', [
+          _MenuItem(
+            icon: Icons.mobile_friendly,
+            label: 'postpaid \nBill',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Waterbill())),
+          ),
           _MenuItem(
             icon: Icons.water_drop,
             label: 'Water Bill',
@@ -125,12 +147,26 @@ class _BillsRechargesState extends State<BillsRecharges> {
                 MaterialPageRoute(builder: (context) => const Waterbill())),
           ),
           _MenuItem(
-            icon: Icons.local_gas_station,
+            icon: Icons.gas_meter,
             label: 'Gas Bill',
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const Gasbill())),
           ),
+          _MenuItem(
+            icon: Icons.local_gas_station,
+            label: 'CNG Bill',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Gasbill())),
+          ),
+          _MenuItem(
+            icon: Icons.book,
+            label: 'Education \nBill',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Gasbill())),
+          ),
         ]),
+        const SizedBox(height: 16),
+        const Divider(),
         _buildSectionHeader('Finance & Tax', [
           _MenuItem(
             icon: Icons.monetization_on,
@@ -139,10 +175,10 @@ class _BillsRechargesState extends State<BillsRecharges> {
                 MaterialPageRoute(builder: (context) => const Loanpayment())),
           ),
           _MenuItem(
-            icon: Icons.subscriptions,
-            label: 'Subscription',
+            icon: Icons.local_atm,
+            label: 'Emi Payment',
             onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Subcription())),
+                MaterialPageRoute(builder: (context) => const Taxipay())),
           ),
           _MenuItem(
             icon: Icons.taxi_alert,
@@ -151,14 +187,42 @@ class _BillsRechargesState extends State<BillsRecharges> {
                 MaterialPageRoute(builder: (context) => const Taxipay())),
           ),
         ]),
+        const SizedBox(height: 16),
+        const Divider(),
         _buildSectionHeader('More', [
+          _MenuItem(
+            icon: Icons.subscriptions,
+            label: 'Subscription',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Subcription())),
+          ),
           _MenuItem(
             icon: Icons.local_hospital,
             label: 'Hospital',
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const Hospital())),
           ),
+          _MenuItem(
+            icon: Icons.house,
+            label: 'Housing',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Hospital())),
+          ),
+          _MenuItem(
+            icon: Icons.assessment,
+            label: 'Assessment',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Hospital())),
+          ),
+          _MenuItem(
+            icon: Icons.card_giftcard,
+            label: 'Gift Card',
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Hospital())),
+          ),
         ]),
+        const SizedBox(height: 16),
+        const Divider(),
       ],
     );
   }
