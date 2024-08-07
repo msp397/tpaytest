@@ -2,8 +2,10 @@ import 'dart:math';
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:tpay/screens/auth/accountSelection.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Newregistration extends StatefulWidget {
   const Newregistration({super.key});
@@ -122,7 +124,7 @@ class _NewregistrationState extends State<Newregistration> {
                       height: 90,
                       width: 90,
                     ),
-                    Text('Welcome to Torus Pay',
+                    Text(AppLocalizations.of(context)!.welcome,
                         style: Theme.of(context).textTheme.titleMedium),
                     const SizedBox(height: 8),
                     Text(
