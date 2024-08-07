@@ -30,7 +30,6 @@ class DashboardTile extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => const AddBank()));
               },
               style: ElevatedButton.styleFrom(
-                shadowColor: Colors.transparent,
                 backgroundColor: Theme.of(context).primaryColor,
                 foregroundColor: Theme.of(context).cardColor,
                 padding: EdgeInsets.zero,

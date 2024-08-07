@@ -66,9 +66,7 @@ class _BanktransferState extends State<Banktransfer> {
         actions: [
           PopupMenuButton(
             icon: const Icon(Icons.more_vert_outlined),
-            onSelected: (dynamic value) {
-              // Handle menu actions here
-            },
+            onSelected: (dynamic value) {},
             itemBuilder: (BuildContext context) {
               return [
                 const PopupMenuItem(

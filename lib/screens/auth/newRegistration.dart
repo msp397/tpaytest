@@ -118,7 +118,7 @@ class _NewregistrationState extends State<Newregistration> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.asset(
-                      'assets/images/png/torus_logo.png',
+                      'assets/icons/torus.ico',
                       height: 90,
                       width: 90,
                     ),

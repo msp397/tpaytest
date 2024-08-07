@@ -1,16 +1,86 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:typed_data';
 
-class UPIInfoWithQR extends StatelessWidget {
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share/share.dart';
+
+class UPIInfoWithQR extends StatefulWidget {
   final String imageUrl;
   final String name;
-  const UPIInfoWithQR({super.key, required this.imageUrl, required this.name});
+  final String qrData;
+  const UPIInfoWithQR(
+      {super.key,
+      required this.imageUrl,
+      required this.name,
+      required this.qrData});
+
+  @override
+  State<UPIInfoWithQR> createState() => _UPIInfoWithQRState();
+}
+
+class _UPIInfoWithQRState extends State<UPIInfoWithQR> {
+  Uint8List? _qrImageData;
+  void _generateQrImageData() async {
+    try {
+      final image = await QrPainter(
+        data: widget.qrData,
+        version: QrVersions.auto,
+      ).toImageData(200);
+
+      setState(() {
+        _qrImageData = image!.buffer.asUint8List();
+      });
+    } catch (e) {
+      print('Error generating QR code image: $e');
+    }
+  }
+
+  void _shareQrCode() async {
+    _generateQrImageData();
+    if (_qrImageData != null) {
+      try {
+        final tempDir = await getTemporaryDirectory();
+        final file = await File('${tempDir.path}/qr_code.png').create();
+        await file.writeAsBytes(_qrImageData!);
+
+        await Share.shareFiles(
+          [file.path],
+          text: 'QR Code generated from: torus.tech',
+        );
+      } catch (e) {
+        print('Error sharing QR code: $e');
+      }
+    }
+  }
+
+  Future<void> downloadImage(String url) async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final filePath = '${directory.path}/downloaded_image.jpg';
+
+      final dio = Dio();
+      await dio.download(url, filePath);
+
+      print('Image downloaded to $filePath');
+    } catch (e) {
+      print('Download failed: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.download)),
+          IconButton(
+              onPressed: () async {
+                const imageUrl = '';
+                await downloadImage(imageUrl);
+              },
+              icon: const Icon(Icons.download)),
           PopupMenuButton(
             icon: const Icon(Icons.more_vert_outlined),
             onSelected: (dynamic value) {},
@@ -44,29 +114,50 @@ class UPIInfoWithQR extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundImage:
-                          imageUrl.isNotEmpty ? AssetImage(imageUrl) : null,
-                      child: imageUrl.isEmpty
+                      backgroundImage: widget.imageUrl.isNotEmpty
+                          ? AssetImage(widget.imageUrl)
+                          : null,
+                      child: widget.imageUrl.isEmpty
                           ? Text(
-                              name[0],
+                              widget.name[0],
                               style: const TextStyle(fontSize: 20),
                             )
                           : null,
                     ),
                     const SizedBox(width: 10),
-                    Text(name),
+                    Text(widget.name),
                   ],
                 ),
                 const SizedBox(height: 10),
-                SizedBox(
-                  height: 200,
-                  width: 200,
-                  child: Image.asset('assets/images/png/QR.png'),
-                ),
+                Center(
+                    child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    widget.qrData.isNotEmpty
+                        ? QrImageView(
+                            data: widget.qrData,
+                            version: QrVersions.auto,
+                            backgroundColor: Colors.white,
+                            size: 200,
+                          )
+                        : Text(
+                            'No Data Found',
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                    // Logo
+                    Positioned(
+                      child: Image.asset(
+                        'assets/icons/torus.ico',
+                        width: 60,
+                        height: 60,
+                      ),
+                    ),
+                  ],
+                )),
                 const SizedBox(height: 10),
-                const Text(
+                Text(
                   'Scan to pay with any UPI app',
-                  style: TextStyle(fontSize: 12),
+                  style: Theme.of(context).textTheme.labelMedium,
                 ),
               ],
             ),
@@ -81,10 +172,8 @@ class UPIInfoWithQR extends StatelessWidget {
                       height: 30,
                     ),
                     const SizedBox(width: 10),
-                    const Text(
-                      'State Bank of India 6315',
-                      style: TextStyle(fontSize: 12),
-                    ),
+                    Text('State Bank of India 6315',
+                        style: Theme.of(context).textTheme.labelMedium),
                   ],
                 ),
                 Row(
@@ -99,7 +188,6 @@ class UPIInfoWithQR extends StatelessWidget {
                     IconButton(
                       icon: const Icon(
                         Icons.content_copy,
-                        size: 16,
                       ),
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -118,7 +206,9 @@ class UPIInfoWithQR extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    side: const BorderSide(color: Colors.black, width: 1),
+                    side: BorderSide(
+                        color: Theme.of(context).primaryColor, width: 1),
+                    backgroundColor: Theme.of(context).cardColor,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.horizontal(
                         left: Radius.circular(50),
@@ -127,24 +217,26 @@ class UPIInfoWithQR extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.qr_code_2, color: Colors.black, size: 15),
-                      SizedBox(width: 5),
-                      Text(
-                        'Open scanner',
-                        style: TextStyle(color: Colors.black),
+                      const Icon(
+                        Icons.qr_code_2,
                       ),
+                      const SizedBox(width: 5),
+                      Text('Open scanner',
+                          style: Theme.of(context).textTheme.labelMedium),
                     ],
                   ),
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _shareQrCode();
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColorDark,
-                    side: const BorderSide(color: Colors.white, width: 1),
+                    side: const BorderSide(width: 1),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.horizontal(
                         left: Radius.circular(50),
@@ -153,18 +245,16 @@ class UPIInfoWithQR extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.share,
-                        color: Colors.black,
-                        size: 15,
                       ),
-                      SizedBox(width: 5),
+                      const SizedBox(width: 5),
                       Text(
                         'Share QR code',
-                        style: TextStyle(color: Colors.black),
+                        style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ],
                   ),
@@ -173,7 +263,7 @@ class UPIInfoWithQR extends StatelessWidget {
             ),
             Column(
               children: [
-                Text(
+                const Text(
                   'Powered by',
                   style: TextStyle(fontSize: 8),
                 ),

@@ -19,6 +19,7 @@ class DashedBorderButton extends StatelessWidget {
     return CustomPaint(
       painter: DottedBorderPainter(),
       child: Container(
+        height: 30,
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(50),
@@ -39,7 +40,7 @@ class DashedBorderButton extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
-              iconData != null ? Icon(iconData, size: 15) : const SizedBox(),
+              iconData != null ? Icon(iconData) : const SizedBox(),
             ],
           ),
         ),
