@@ -1,4 +1,6 @@
 {
   "hello": "Hola",
-  "welcome": "Bienvenidos a Torus Pay"
+  "welcome": "Bienvenidos a Torus Pay",
+  "enter_mobile_number" : "Ingresa tu número de teléfono",
+   "btn_continue" : "Continuar"
 }
