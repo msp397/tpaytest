@@ -14,7 +14,7 @@ void main() async {
   DependencyInjection.init();
   runApp(
     ChangeNotifierProvider<ThemeProvider>(
-      create: (_) => ThemeProvider(AppTheme.darkTheme),
+      create: (_) => ThemeProvider(AppTheme.lightTheme),
       child: const MyApp(),
     ),
   );

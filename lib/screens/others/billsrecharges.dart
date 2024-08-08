@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:tpay/screens/others/paymentcategory/dthrecharge.dart';
 import 'package:tpay/screens/others/paymentcategory/electricitybill.dart';
+import 'package:tpay/screens/others/paymentcategory/fasttag/fasttag.dart';
 import 'package:tpay/screens/others/paymentcategory/gasbill.dart';
 import 'package:tpay/screens/others/paymentcategory/hospital.dart';
 import 'package:tpay/screens/others/paymentcategory/internetbill.dart';
@@ -114,7 +115,7 @@ class _BillsRechargesState extends State<BillsRecharges> {
             icon: Icons.car_rental,
             label: 'Fast Tag \nRecharge',
             onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Internetbill())),
+                MaterialPageRoute(builder: (context) => const FastTag())),
           ),
         ]),
         const SizedBox(height: 16),

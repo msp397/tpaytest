@@ -11,6 +11,9 @@ class GoogleAccountProvider {
     } on PlatformException catch (e) {
       print("Failed to get Google accounts: '${e.message}'.");
       return [];
+    } catch (e) {
+      print(e);
+      return [];
     }
   }
 }
