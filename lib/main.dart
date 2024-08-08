@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
           supportedLocales: const [
             Locale('en'),
             Locale('es'),
+            Locale('ar'),
           ],
           routes: {
             '/dashboard': (context) => const Dashboard(),
