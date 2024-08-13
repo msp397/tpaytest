@@ -25,6 +25,7 @@ import 'package:tpay/screens/others/scanner.dart';
 import 'package:tpay/screens/others/selftransfer.dart';
 import 'package:tpay/screens/others/upi_info.dart';
 import 'package:tpay/utils/extensions/extension.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -177,7 +178,7 @@ class _DashboardState extends State<Dashboard> {
                                 _buildMenuItem(
                                   Theme.of(context).primaryColor,
                                   Icons.qr_code,
-                                  "Scan QR",
+                                  AppLocalizations.of(context)!.scan_QR,
                                   () {
                                     Navigator.push(
                                       context,
@@ -190,7 +191,7 @@ class _DashboardState extends State<Dashboard> {
                                 _buildMenuItem(
                                   Theme.of(context).primaryColor,
                                   Icons.phone_android,
-                                  "Pay \ncontacts",
+                                  AppLocalizations.of(context)!.pay_contacts,
                                   () {
                                     Navigator.push(
                                       context,
@@ -204,7 +205,7 @@ class _DashboardState extends State<Dashboard> {
                                 _buildMenuItem(
                                   Theme.of(context).primaryColor,
                                   Icons.account_balance,
-                                  "Bank \ntransfer",
+                                  AppLocalizations.of(context)!.bank_transfer,
                                   () {
                                     Navigator.push(
                                       context,
@@ -218,7 +219,8 @@ class _DashboardState extends State<Dashboard> {
                                 _buildMenuItem(
                                   Theme.of(context).primaryColor,
                                   Icons.mobile_friendly,
-                                  "Pay phone \nnumber",
+                                  AppLocalizations.of(context)!
+                                      .pay_phone_number,
                                   () {
                                     Navigator.push(
                                       context,
@@ -238,7 +240,7 @@ class _DashboardState extends State<Dashboard> {
                                 _buildMenuItem(
                                   Theme.of(context).primaryColor,
                                   Icons.payment_sharp,
-                                  "Pay UPI \nID",
+                                  AppLocalizations.of(context)!.pay_UPI_ID,
                                   () {
                                     Navigator.push(
                                       context,
@@ -251,7 +253,7 @@ class _DashboardState extends State<Dashboard> {
                                 _buildMenuItem(
                                   Theme.of(context).primaryColor,
                                   Icons.person,
-                                  "Self \ntransfer",
+                                  AppLocalizations.of(context)!.self_transfer,
                                   () {
                                     Navigator.push(
                                       context,
@@ -265,7 +267,7 @@ class _DashboardState extends State<Dashboard> {
                                 _buildMenuItem(
                                   Theme.of(context).primaryColor,
                                   Icons.credit_score,
-                                  "Pay \n bills",
+                                  AppLocalizations.of(context)!.pay_bills,
                                   () {
                                     Navigator.push(
                                       context,
@@ -279,7 +281,7 @@ class _DashboardState extends State<Dashboard> {
                                 _buildMenuItem(
                                   Theme.of(context).primaryColor,
                                   Icons.send_to_mobile,
-                                  "Mobile \nrecharge",
+                                  AppLocalizations.of(context)!.mobile_recharge,
                                   () {
                                     Navigator.push(
                                         context,
@@ -296,7 +298,8 @@ class _DashboardState extends State<Dashboard> {
                                 DashedBorderButton(
                                   iconData: Icons.add_rounded,
                                   onPressed: () {},
-                                  text: 'Activate UPI Lite',
+                                  text: AppLocalizations.of(context)!
+                                      .activate_UPI_lite,
                                 ),
                                 const SizedBox(width: 20),
                                 DashedBorderButton(
@@ -323,7 +326,7 @@ class _DashboardState extends State<Dashboard> {
                       Padding(
                         padding: const EdgeInsets.only(left: 15, bottom: 12),
                         child: Text(
-                          'People',
+                          AppLocalizations.of(context)!.people,
                           style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
@@ -387,7 +390,7 @@ class _DashboardState extends State<Dashboard> {
                             padding:
                                 const EdgeInsets.only(left: 15, bottom: 12),
                             child: Text(
-                              'Bills & recharges',
+                              AppLocalizations.of(context)!.bills_and_recharges,
                               style: Theme.of(context).textTheme.labelLarge,
                             ),
                           ),
@@ -410,7 +413,7 @@ class _DashboardState extends State<Dashboard> {
                                             const BillsRecharges()));
                               },
                               child: Text(
-                                'Explore',
+                                AppLocalizations.of(context)!.explore,
                                 style: TextStyle(
                                     color: Theme.of(context).primaryColor),
                               ),
@@ -425,7 +428,7 @@ class _DashboardState extends State<Dashboard> {
                           _buildMenuItem(
                             Theme.of(context).primaryColor,
                             Icons.send_to_mobile,
-                            "Mobile \nrecharge",
+                            AppLocalizations.of(context)!.mobile_recharge,
                             () {
                               Navigator.push(
                                   context,
@@ -437,7 +440,7 @@ class _DashboardState extends State<Dashboard> {
                           _buildMenuItem(
                             Theme.of(context).primaryColor,
                             Icons.credit_card,
-                            "Credit \ncards",
+                            AppLocalizations.of(context)!.credit_cards,
                             () {
                               Navigator.push(
                                   context,
@@ -449,7 +452,7 @@ class _DashboardState extends State<Dashboard> {
                           _buildMenuItem(
                             Theme.of(context).primaryColor,
                             Icons.tv,
-                            "DTH / \nCable",
+                            AppLocalizations.of(context)!.dth_and_cable,
                             () {
                               Navigator.push(
                                   context,
@@ -461,7 +464,7 @@ class _DashboardState extends State<Dashboard> {
                           _buildMenuItem(
                             Theme.of(context).primaryColor,
                             Icons.electric_bolt,
-                            "Electricity",
+                            AppLocalizations.of(context)!.electricity,
                             () {
                               Navigator.push(
                                   context,
@@ -479,7 +482,7 @@ class _DashboardState extends State<Dashboard> {
                             padding:
                                 const EdgeInsets.only(left: 15, bottom: 12),
                             child: Text(
-                              'Businesses',
+                              AppLocalizations.of(context)!.businesses,
                               style: Theme.of(context).textTheme.labelLarge,
                             ),
                           ),
@@ -502,7 +505,7 @@ class _DashboardState extends State<Dashboard> {
                                             const Business()));
                               },
                               child: Text(
-                                'Explore',
+                                AppLocalizations.of(context)!.explore,
                                 style: TextStyle(
                                     color: Theme.of(context).primaryColor),
                               ),

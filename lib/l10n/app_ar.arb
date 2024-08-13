@@ -2,5 +2,22 @@
   "hello": "Hello",
   "welcome": "مرحبا بكم في توروس باي",
   "enter_mobile_number" : "أدخل رقم هاتفك",
-  "btn_continue" : "استمر"
+  "btn_continue" : "استمر",
+  "scan_QR":"مسح QR",
+  "pay_contacts": "اتصالات\n الدفع",
+  "bank_transfer":"تحويل\n مصرفي",
+  "pay_phone_number": "رقم هاتف الدفع \n",
+  "pay_UPI_ID":"دفع UPI \nID",
+  "self_transfer": "النقل الذاتي",
+  "pay_bills":"دفع \n الفواتير",
+  "mobile_recharge":"إعادة شحن الهاتف المحمول",
+  "activate_UPI_lite":"تفعيل UPI لايت",
+  "people":"الناس",
+  "bills_and_recharges":"الفواتير وإعادة الشحن",
+  "explore":"يستكشف",
+  "credit_cards":"بطاقات الائتمان",
+  "dth_and_cable":"دث/كابل",
+  "electricity":"كهرباء",
+  "businesses":"الشركات"
+
 }
