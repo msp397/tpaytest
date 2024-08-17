@@ -18,6 +18,9 @@
   "credit_cards":"Tarjetas de crédito",
   "dth_and_cable":"DTH/Cable",
   "electricity":"Electricidad",
-  "businesses":"Empresas"
+  "businesses":"Empresas",
+   "chooseyouraccount":"Elige tu cuenta",
+   "thisishowpeopleontoruspaywillseeyou":"Así te verá la gente de Torus Pay",
+   "acceptandcontinue":"Aceptar y continuar"
 
 }

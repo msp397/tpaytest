@@ -18,6 +18,9 @@
   "credit_cards":"بطاقات الائتمان",
   "dth_and_cable":"دث/كابل",
   "electricity":"كهرباء",
-  "businesses":"الشركات"
+  "businesses":"الشركات",
+   "chooseyouraccount":"اختر حسابك",
+  "thisishowpeopleontoruspaywillseeyou":"هذه هي الطريقة التي سيرى بها الأشخاص الذين يستخدمون Torus Pay",
+  "acceptandcontinue":"قبول والمتابعة"
 
 }

@@ -18,6 +18,8 @@
    "credit_cards":"Credit \ncards",
    "dth_and_cable":"DTH / \nCable",
    "electricity":"Electricity",
-   "businesses":"Businesses"
-
+   "businesses":"Businesses",
+   "chooseyouraccount":"Choose your account",
+   "thisishowpeopleontoruspaywillseeyou":"This is how people on torus pay will see you",
+   "acceptandcontinue":"Accept and continue"
 }

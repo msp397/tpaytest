@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tpay/providers/googleAccountsProvide.dart';
 import 'package:tpay/screens/auth/otpVerification.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountSelection extends StatefulWidget {
   final String phoneNumber;
@@ -111,12 +112,13 @@ class _AccountSelectionState extends State<AccountSelection> {
                   ),
                 ),
                 Text(
-                  'Choose your account',
+                  AppLocalizations.of(context)!.chooseyouraccount,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'This is how people on torus pay will see you',
+                  AppLocalizations.of(context)!
+                      .thisishowpeopleontoruspaywillseeyou,
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
                 const SizedBox(height: 30),
@@ -186,7 +188,8 @@ class _AccountSelectionState extends State<AccountSelection> {
                             padding: EdgeInsets.zero,
                             minimumSize: const Size(double.infinity, 50),
                           ),
-                          child: const Text('Accept and continue'),
+                          child: Text(
+                              AppLocalizations.of(context)!.acceptandcontinue),
                         ),
                       ),
                     ],

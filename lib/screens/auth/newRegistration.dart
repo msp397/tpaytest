@@ -2,9 +2,11 @@ import 'dart:math';
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:tpay/providers/languageProvider.dart';
 import 'package:tpay/screens/auth/accountSelection.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:tpay/utils/extensions/extension.dart';
+import 'package:tpay/screens/spalash/spalashScreen.dart';
 
 class Newregistration extends StatefulWidget {
   const Newregistration({super.key});
@@ -24,6 +26,13 @@ class _NewregistrationState extends State<Newregistration> {
   void initState() {
     super.initState();
     _hintText = _getHintTextForCountry(_selectedCountryCode);
+  }
+
+  void _restartApp() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const Spalashscreen()),
+      (route) => false,
+    );
   }
 
   @override
@@ -64,7 +73,6 @@ class _NewregistrationState extends State<Newregistration> {
     }
 
     final length = _getPhoneNumberLengthForCountry(countryCode);
-    setState(() {});
     return localNumber.length == length;
   }
 
@@ -87,7 +95,7 @@ class _NewregistrationState extends State<Newregistration> {
           ),
         ),
       );
-      _phoneController.text = "";
+      _phoneController.clear();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -110,7 +118,34 @@ class _NewregistrationState extends State<Newregistration> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: AppBar(),
+        appBar: AppBar(
+          actions: [
+            Consumer<LanguageProvider>(
+              builder: (context, languageProvider, child) {
+                return DropdownButton<String>(
+                  value: languageProvider.locale.languageCode,
+                  onChanged: (String? newValue) {
+                    if (newValue != null) {
+                      languageProvider.setLocale(Locale(newValue));
+                      _restartApp();
+                    }
+                  },
+                  items: <String>['en', 'es', 'ar']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value == 'en'
+                            ? 'English'
+                            : (value == 'es' ? 'Spanish' : 'Arabic'),
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+          ],
+        ),
         body: Column(
           children: [
             Expanded(
@@ -172,7 +207,7 @@ class _NewregistrationState extends State<Newregistration> {
                                           height: 20,
                                           width: 30,
                                         ),
-                                        10.width,
+                                        const SizedBox(width: 10),
                                         Text(
                                           value,
                                           style: Theme.of(context)
